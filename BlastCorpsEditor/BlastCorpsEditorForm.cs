@@ -98,14 +98,6 @@ namespace BlastCorpsEditor
             levelData = System.IO.File.ReadAllBytes(filePath);
             level = BlastCorpsLevel.decodeLevel(levelData);
 
-            rduSource.DataSource = level.rdus;
-            listBoxAmmo.DataSource = level.ammoBoxes;
-            listBoxCommPt.DataSource = level.commPoints;
-            listBoxRdu.DataSource = rduSource;
-            listBoxTnt.DataSource = level.tntCrates;
-            listBoxBlocks.DataSource = level.squareBlocks;
-            listBoxVehicles.DataSource = level.vehicles;
-
             listBoxHeader.Items.Clear();
             for (int i = 0; i < level.header.u16s.Length; i++)
             {
@@ -121,35 +113,33 @@ namespace BlastCorpsEditor
                int offset = 2 * level.header.u16s.Length + 4 * level.header.twoVals.Length + 4 * i;
                listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.offsets[i].ToString("X8"));
             }
+
+            rduSource.DataSource = level.rdus;
+            listBoxAmmo.DataSource = level.ammoBoxes;
+            listBoxCommPt.DataSource = level.commPoints;
+            listBoxRdu.DataSource = rduSource;
+            listBoxTnt.DataSource = level.tntCrates;
+            listBoxBlocks.DataSource = level.squareBlocks;
+            listBoxVehicles.DataSource = level.vehicles;
+            listBoxBuildings.DataSource = level.buildings;
+            numericCarrierX.Value = level.carrier.x;
+            numericCarrierY.Value = level.carrier.y;
+            numericCarrierZ.Value = level.carrier.z;
+            numericCarrierBearing.Value = level.carrier.heading;
+            numericCarrierSpeed.Value = level.carrier.speed;
+            numericCarrierDistance.Value = level.carrier.distance;
+
             statusStripMessage.Text = level.bounds.ToString();
 
-            blastCorpsViewer.UseGridLines = gridLinesToolStripMenuItem.Checked;
+            blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
+            blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+            blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
             blastCorpsViewer.SetLevel(level);
          }
          else
          {
             statusStripFile.ForeColor = Color.Red;
             statusStripFile.Text = "Error opening " + filePath;
-         }
-      }
-
-      private void openToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         // Create an instance of the open file dialog box.
-         OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-         // Set filter options and filter index.
-         openFileDialog1.Filter = "Blast Corps Levels (.raw)|*.raw|All Files (*.*)|*.*";
-         openFileDialog1.FilterIndex = 1;
-
-         // Call the ShowDialog method to show the dialog box.
-         DialogResult dresult = openFileDialog1.ShowDialog();
-
-         // Process input if the user clicked OK.
-         if (dresult == DialogResult.OK)
-         {
-            readData(openFileDialog1.FileName);
-            levelPath = Path.GetDirectoryName(openFileDialog1.FileName);
          }
       }
 
@@ -176,19 +166,14 @@ namespace BlastCorpsEditor
          TNTCrate tnt = (TNTCrate)listBoxTnt.SelectedItem;
          if (tnt != null)
          {
-            textBoxTntX.Text  = tnt.x.ToString();
-            textBoxTntY.Text  = tnt.y.ToString();
-            textBoxTntZ.Text  = tnt.z.ToString();
-            textBoxTntB6.Text = tnt.b6.ToString();
-            textBoxTntT.Text  = tnt.timer.ToString();
-            textBoxTntH8.Text = tnt.h8.ToString();
-            textBoxTntHA.Text = tnt.hA.ToString();
+            numericTntX.Value  = tnt.x;
+            numericTntY.Value  = tnt.y;
+            numericTntZ.Value  = tnt.z;
+            numericTntB6.Value = tnt.b6;
+            numericTntTimer.Value  = tnt.timer;
+            numericTntH8.Value = tnt.h8;
+            numericTntHA.Value = tnt.hA;
          }
-      }
-
-      private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         this.Close();
       }
 
       private void numericRduX_ValueChanged(object sender, EventArgs e)
@@ -223,12 +208,7 @@ namespace BlastCorpsEditor
 
       private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         MessageBox.Show("Blast Corps Editor v0.1 by queueRAM\nCopyright 2016", "Blast Corps Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
-      }
-
-      private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         blastCorpsViewer.UseGridLines = gridLinesToolStripMenuItem.Checked;
+         MessageBox.Show("Blast Corps Editor v0.1\nCopyright 2016 queueRAM", "Blast Corps Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
 
       private void comboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)
@@ -251,6 +231,131 @@ namespace BlastCorpsEditor
             numericAmmoZ.Value = ammo.z;
             comboBoxAmmo.SelectedIndex = ammo.type;
             blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void listBoxCommPt_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         CommPoint comm = (CommPoint)listBoxCommPt.SelectedItem;
+         if (comm != null)
+         {
+            numericCommPtX.Value = comm.x;
+            numericCommPtY.Value = comm.y;
+            numericCommPtZ.Value = comm.z;
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void listBoxBlocks_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         SquareBlock block = (SquareBlock)listBoxBlocks.SelectedItem;
+         if (block != null)
+         {
+            numericBlockX.Value = block.x;
+            numericBlockY.Value = block.y;
+            numericBlockZ.Value = block.z;
+            numericBlockT3.Value = block.extra;
+            switch (block.hole)
+            {
+               case 0:
+               case 1:
+               case 2:
+                  comboBoxBlockT1.SelectedIndex = 0;
+                  comboBoxBlockT2.SelectedIndex = block.hole;
+                  numericBlockT3.Enabled = false;
+                  break;
+               case 8:
+                  comboBoxBlockT1.SelectedIndex = block.type;
+                  comboBoxBlockT2.SelectedIndex = 3;
+                  numericBlockT3.Enabled = true;
+                  break;
+            }
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void listBoxVehicles_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         Vehicle veh = (Vehicle)listBoxVehicles.SelectedItem;
+         if (veh != null)
+         {
+            if (veh.type < comboBoxVehicle.Items.Count)
+            {
+               comboBoxVehicle.SelectedIndex = veh.type;
+            }
+            numericVehicleX.Value = veh.x;
+            numericVehicleY.Value = veh.y;
+            numericVehicleZ.Value = veh.z;
+            numericVehicleH.Value = veh.heading;
+         }
+      }
+
+      private void listBoxBuildings_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         Building building = (Building)listBoxBuildings.SelectedItem;
+         if (building != null)
+         {
+            numericBuildingX.Value = building.x;
+            numericBuildingY.Value = building.y;
+            numericBuildingZ.Value = building.z;
+            numericBuildingT.Value = building.type;
+            numericBuildingB8.Value = building.b8;
+            numericBuildingB9.Value = building.b9;
+            numericBuildingHA.Value = building.hA;
+            numericBuildingHC.Value = building.hC;
+         }
+      }
+
+      // Menu items
+      private void openToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+         openFileDialog1.Filter = "Blast Corps Levels (.raw)|*.raw|All Files (*.*)|*.*";
+         openFileDialog1.FilterIndex = 1;
+
+         DialogResult dresult = openFileDialog1.ShowDialog();
+
+         if (dresult == DialogResult.OK)
+         {
+            readData(openFileDialog1.FileName);
+            levelPath = Path.GetDirectoryName(openFileDialog1.FileName);
+         }
+      }
+
+      private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         this.Close();
+      }
+
+      private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
+      }
+
+      private void boundingBoxes0x40ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+      }
+
+      private void boundingBoxes0x44ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+      }
+
+      private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         SaveFileDialog saveFileDialog = new SaveFileDialog();
+         saveFileDialog.Filter = "Blast Corps RAW Level|*.raw";
+         saveFileDialog.Title = "Export Blast Corps Level";
+         saveFileDialog.ShowDialog();
+
+         if (saveFileDialog.FileName != "")
+         {
+            System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog.OpenFile();
+            byte[] data = level.ToBytes();
+            fs.Write(data, 0, data.Length);
+            fs.Close();
          }
       }
    }
