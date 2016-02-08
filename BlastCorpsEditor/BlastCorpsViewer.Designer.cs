@@ -36,7 +36,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "BlastCorpsViewer";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.BlastCorpsViewer_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseUp);
             this.Resize += new System.EventHandler(this.BlastCorpsViewer_Resize);
             this.ResumeLayout(false);
 

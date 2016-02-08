@@ -105,7 +105,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return id + ": " + name + " / " + filename;
+         return id + ": " + name + " [" + filename + "]";
       }
    }
 
@@ -245,7 +245,7 @@ namespace BlastCorpsEditor
          public Int16[] x;
          public Int16[] y;
          public Int16[] z;
-         public byte[] other = new byte[4]; // TODO
+         public byte[] other = new byte[4];
       }
       public List<Node> nodes = new List<Node>();
 
@@ -258,12 +258,13 @@ namespace BlastCorpsEditor
          this.hole = hole;
       }
 
-      public void addNode(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3)
+      public void addNode(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte[] data, int index)
       {
          Node n = new Node();
          n.x = new Int16[] { x1, x2, x3 };
          n.y = new Int16[] { y1, y2, y3 };
          n.z = new Int16[] { z1, z2, z3 };
+         Array.Copy(data, index, n.other, 0, 4);
          nodes.Add(n);
       }
 
@@ -318,11 +319,10 @@ namespace BlastCorpsEditor
       public byte speed;
       public Int16 x, y, z;
       public UInt16 heading, distance;
-      public byte todo;
 
       public override string ToString()
       {
-         return speed + ", " + x + ", " + y + ", " + z + ", " + heading + ", " + todo;
+         return speed + ", " + x + ", " + y + ", " + z + ", " + heading;
       }
    }
 
@@ -557,8 +557,7 @@ namespace BlastCorpsEditor
                      x3 = BE.I16(data, idx + 0xC);
                      y3 = BE.I16(data, idx + 0xE);
                      z3 = BE.I16(data, idx + 0x10);
-                     // TODO skipping 4 bytes
-                     block.addNode(x, y, z, x2, y2, z2, x3, y3, z3);
+                     block.addNode(x, y, z, x2, y2, z2, x3, y3, z3, data, (int)(idx + 0x12));
                      idx += 22;
                   }
                }
@@ -651,7 +650,6 @@ namespace BlastCorpsEditor
          carrier.z = BE.I16(data, start + 3);
          carrier.heading = BE.U16(data, start + 5);
          carrier.distance = BE.U16(data, start + 7);
-         carrier.todo = data[start + 9];
       }
 
       // 0x58 TODO
@@ -841,15 +839,18 @@ namespace BlastCorpsEditor
          }
 
          BE.ToBytes(offset, data, 0x3C);
-         // TODO: assuming blocks match holes and are in order
          if (squareBlocks.Count > 1)
          {
+            bool first8 = false;
+            // TODO: assuming blocks match holes and are in order
+            // it might be better to store them in two separate lists
             offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
             foreach (SquareBlock block in squareBlocks)
             {
-               if (block.hole == 8)
+               if (block.hole == 8  && !first8)
                {
                   offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
+                  first8 = true;
                }
                offset += BE.ToBytes(block.x, data, offset);
                offset += BE.ToBytes(block.y, data, offset);
@@ -920,7 +921,12 @@ namespace BlastCorpsEditor
          offset += BE.ToBytes(carrier.z, data, offset);
          offset += BE.ToBytes(carrier.heading, data, offset);
          offset += BE.ToBytes(carrier.distance, data, offset);
-         data[offset++] = carrier.todo;
+
+         // 0x58 starts at half-word boundary, so pad as necessary
+         if ((offset & 0x1) > 0)
+         {
+            data[offset++] = 0x0;
+         }
 
          // TODO: 0x58 real data
          BE.ToBytes(offset, data, 0x58);
