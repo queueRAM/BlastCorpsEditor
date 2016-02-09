@@ -358,5 +358,22 @@ namespace BlastCorpsEditor
             fs.Close();
          }
       }
+
+      private void openROMToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+         openFileDialog1.Filter = "N64 ROM (.z64)|*.z64|All Files (*.*)|*.*";
+         openFileDialog1.FilterIndex = 1;
+
+         DialogResult dresult = openFileDialog1.ShowDialog();
+
+         if (dresult == DialogResult.OK)
+         {
+            BlastCorpsRom rom = new BlastCorpsRom();
+            rom.LoadRom(openFileDialog1.FileName);
+            rom.ExtendRom(Path.Combine(Path.GetTempPath(), "BC.ext.z64"));
+         }
+      }
    }
 }

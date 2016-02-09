@@ -37,6 +37,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -163,7 +164,7 @@
             this.listBoxBuildings = new System.Windows.Forms.ListBox();
             this.comboBoxLevel = new System.Windows.Forms.ComboBox();
             this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -265,7 +266,8 @@
             this.saveToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.openROMToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -284,6 +286,13 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -1848,12 +1857,12 @@
             this.blastCorpsViewer.Size = new System.Drawing.Size(580, 547);
             this.blastCorpsViewer.TabIndex = 7;
             // 
-            // exportToolStripMenuItem
+            // openROMToolStripMenuItem
             // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportToolStripMenuItem.Text = "Export...";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            this.openROMToolStripMenuItem.Name = "openROMToolStripMenuItem";
+            this.openROMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openROMToolStripMenuItem.Text = "Open ROM";
+            this.openROMToolStripMenuItem.Click += new System.EventHandler(this.openROMToolStripMenuItem_Click);
             // 
             // BlastCorpsEditorForm
             // 
@@ -2071,6 +2080,7 @@
         private System.Windows.Forms.NumericUpDown numericTntY;
         private System.Windows.Forms.NumericUpDown numericTntX;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openROMToolStripMenuItem;
     }
 }
 

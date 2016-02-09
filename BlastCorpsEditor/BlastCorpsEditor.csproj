@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils.cs" />
     <Compile Include="BlastCorpsEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +55,7 @@
       <DependentUpon>BlastCorpsEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="BlastCorpsLevel.cs" />
+    <Compile Include="BlastCorpsRom.cs" />
     <Compile Include="BlastCorpsViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
