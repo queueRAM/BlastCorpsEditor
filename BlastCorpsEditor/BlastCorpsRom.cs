@@ -244,47 +244,16 @@ namespace BlastCorpsEditor
          }
       }
 
-      /* TODO: there are no options to save filename and timestamp using GZipStream
-         public static byte[] GzipDeflate(byte[] data)
-         {
-         using (MemoryStream memory = new MemoryStream())
-         {
-         using (GZipStream gzip = new GZipStream(memory, CompressionMode.Compress, true))
-         {
-         gzip.Write(data, 0, data.Length);
-         }
-         return memory.ToArray();
-         }
-         }
-       */
-
       public static byte[] GzipDeflate(byte[] data, string embedFilename)
       {
-         string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-         FileInfo info = new FileInfo(path);
-         string gzipExe = Path.Combine(info.DirectoryName, "tools", "gzip.exe");
-         string rawFilePath = Path.Combine(Path.GetTempPath(), embedFilename);
-         byte[] gzipData = null;
-         bool success = SaveBinFile(rawFilePath, data, 0, data.Length);
-         if (success)
+         using (MemoryStream memory = new MemoryStream())
          {
-            int returnVal = RunProcess(gzipExe, "-f " + rawFilePath);
-            if (returnVal == 0)
+            using (GZipStream gzip = new GZipStream(memory, CompressionMode.Compress, true))
             {
-               string gzipFilePath = rawFilePath + ".gz";
-               gzipData = System.IO.File.ReadAllBytes(gzipFilePath);
-               File.Delete(gzipFilePath);
+               gzip.Write(data, 0, data.Length);
             }
-            else
-            {
-               System.Console.WriteLine("Error: " + returnVal);
-            }
+            return memory.ToArray();
          }
-         else
-         {
-            System.Console.WriteLine("Error writing temporary file: " + rawFilePath);
-         }
-         return gzipData;
       }
 
       private static byte[] GzipInflate(byte[] gzip)
