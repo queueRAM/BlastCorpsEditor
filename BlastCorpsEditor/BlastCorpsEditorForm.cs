@@ -1,244 +1,176 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace BlastCorpsEditor
 {
    public partial class BlastCorpsEditorForm : Form
    {
-      private List<BlastCorpsLevelMeta> levels;
-      private byte[] levelData;
+      private BlastCorpsRom rom = null;
+      private int levelId = -1;
       private BlastCorpsLevel level;
-      BindingSource rduSource = new BindingSource();
-      private string levelPath = @"C:\tools\blast_corps\levels";
+      private BindingSource ammoSource = new BindingSource();
+      private BindingSource commSource = new BindingSource();
+      private BindingSource tntSource = new BindingSource();
+      private BindingSource rduSource = new BindingSource();
+      private BindingSource blockSource = new BindingSource();
+      private BindingSource vehicleSource = new BindingSource();
+      private BindingSource buildingSource = new BindingSource();
 
-      private RDU rduSel;
+      private BlastCorpsItem itemSel;
 
       public BlastCorpsEditorForm()
       {
          InitializeComponent();
-         InitializeLevelMeta();
-         comboBoxLevel.DataSource = levels;
+         comboBoxLevel.DataSource = BlastCorpsRom.levelMeta;
          blastCorpsViewer.SetStatusLabel(statusStripMessage);
       }
 
-      private void InitializeLevelMeta()
+      private void readData(byte[] levelData, byte[] displayList)
       {
-         levels = new List<BlastCorpsLevelMeta>()
+         level = BlastCorpsLevel.decodeLevel(levelData, displayList);
+
+         listBoxHeader.Items.Clear();
+         for (int i = 0; i < level.header.u16s.Length; i++)
          {
-            new BlastCorpsLevelMeta{ id =  0, start = 0x4ACC10, end = 0x4B8960, filename = "chimp.raw",   name = "Simian Acres" },
-                new BlastCorpsLevelMeta{ id =  1, start = 0x4A5660, end = 0x4ACC10, filename = "lagp.raw",    name = "Angel City" },
-                new BlastCorpsLevelMeta{ id =  2, start = 0x4B8960, end = 0x4BFD60, filename = "valley.raw",  name = "Outland Farm" },
-                new BlastCorpsLevelMeta{ id =  3, start = 0x4BFD60, end = 0x4C3AC0, filename = "fact.raw",    name = "Blackridge Works" },
-                new BlastCorpsLevelMeta{ id =  4, start = 0x4C3AC0, end = 0x4D5F90, filename = "dip.raw",     name = "Glory Crossing" },
-                new BlastCorpsLevelMeta{ id =  5, start = 0x4D5F90, end = 0x4E2F70, filename = "beetle.raw",  name = "Shuttle Gully" },
-                new BlastCorpsLevelMeta{ id =  6, start = 0x4E2F70, end = 0x4E4E80, filename = "bonus1.raw",  name = "Salvage Wharf" },
-                new BlastCorpsLevelMeta{ id =  7, start = 0x4E4E80, end = 0x4E7C00, filename = "bonus2.raw",  name = "Skyfall" },
-                new BlastCorpsLevelMeta{ id =  8, start = 0x4E7C00, end = 0x4E8F70, filename = "bonus3.raw",  name = "Twilight Foundry" },
-                new BlastCorpsLevelMeta{ id =  9, start = 0x4E8F70, end = 0x4F5C10, filename = "level9.raw",  name = "Crystal Rift" },
-                new BlastCorpsLevelMeta{ id = 10, start = 0x4F5C10, end = 0x500520, filename = "level10.raw", name = "Argent Towers" },
-                new BlastCorpsLevelMeta{ id = 11, start = 0x500520, end = 0x507E80, filename = "level11.raw", name = "Skerries" },
-                new BlastCorpsLevelMeta{ id = 12, start = 0x507E80, end = 0x511340, filename = "level12.raw", name = "Diamond Sands" },
-                new BlastCorpsLevelMeta{ id = 13, start = 0x511340, end = 0x523080, filename = "level13.raw", name = "Ebony Coast" },
-                new BlastCorpsLevelMeta{ id = 14, start = 0x523080, end = 0x52CD00, filename = "level14.raw", name = "Oyster Harbor" },
-                new BlastCorpsLevelMeta{ id = 15, start = 0x52CD00, end = 0x532700, filename = "level15.raw", name = "Carrick Point" },
-                new BlastCorpsLevelMeta{ id = 16, start = 0x532700, end = 0x53E9B0, filename = "level16.raw", name = "Havoc District" },
-                new BlastCorpsLevelMeta{ id = 17, start = 0x53E9B0, end = 0x54A820, filename = "level17.raw", name = "Ironstone Mine" },
-                new BlastCorpsLevelMeta{ id = 18, start = 0x54A820, end = 0x552DE0, filename = "level18.raw", name = "Beeton Tracks" },
-                new BlastCorpsLevelMeta{ id = 19, start = 0x552DE0, end = 0x555000, filename = "level19.raw", name = "J-Bomb" },
-                new BlastCorpsLevelMeta{ id = 20, start = 0x555000, end = 0x560E90, filename = "level20.raw", name = "Jade Plateau" },
-                new BlastCorpsLevelMeta{ id = 21, start = 0x560E90, end = 0x5652D0, filename = "level21.raw", name = "Marine Quarter" },
-                new BlastCorpsLevelMeta{ id = 22, start = 0x5652D0, end = 0x56F3F0, filename = "level22.raw", name = "Cooter Creek" },
-                new BlastCorpsLevelMeta{ id = 23, start = 0x56F3F0, end = 0x5721E0, filename = "level23.raw", name = "Gibbon's Gate" },
-                new BlastCorpsLevelMeta{ id = 24, start = 0x5721E0, end = 0x5736E0, filename = "level24.raw", name = "Baboon Catacomb" },
-                new BlastCorpsLevelMeta{ id = 25, start = 0x5736E0, end = 0x57A2C0, filename = "level25.raw", name = "Sleek Streets" },
-                new BlastCorpsLevelMeta{ id = 26, start = 0x57A2C0, end = 0x580B60, filename = "level26.raw", name = "Obsidian Mile" },
-                new BlastCorpsLevelMeta{ id = 27, start = 0x580B60, end = 0x588CE0, filename = "level27.raw", name = "Corvine Bluff" },
-                new BlastCorpsLevelMeta{ id = 28, start = 0x588CE0, end = 0x58BE80, filename = "level28.raw", name = "Sideswipe" },
-                new BlastCorpsLevelMeta{ id = 29, start = 0x58BE80, end = 0x597B80, filename = "level29.raw", name = "Echo Marches" },
-                new BlastCorpsLevelMeta{ id = 30, start = 0x597B80, end = 0x59B7D0, filename = "level30.raw", name = "Kipling Plant" },
-                new BlastCorpsLevelMeta{ id = 31, start = 0x59B7D0, end = 0x5A5840, filename = "level31.raw", name = "Falchion Field" },
-                new BlastCorpsLevelMeta{ id = 32, start = 0x5A5840, end = 0x5B0B10, filename = "level32.raw", name = "Morgan Hall" },
-                new BlastCorpsLevelMeta{ id = 33, start = 0x5B0B10, end = 0x5B5A30, filename = "level33.raw", name = "Tempest City" },
-                new BlastCorpsLevelMeta{ id = 34, start = 0x5B5A30, end = 0x5B8BB0, filename = "level34.raw", name = "Orion Plaza" },
-                new BlastCorpsLevelMeta{ id = 35, start = 0x5B8BB0, end = 0x5C4C80, filename = "level35.raw", name = "Glander's Ranch" },
-                new BlastCorpsLevelMeta{ id = 36, start = 0x5C4C80, end = 0x5CA9C0, filename = "level36.raw", name = "Dagger Pass" },
-                new BlastCorpsLevelMeta{ id = 37, start = 0x5CA9C0, end = 0x5CCF50, filename = "level37.raw", name = "Geode Square" },
-                new BlastCorpsLevelMeta{ id = 38, start = 0x5CCF50, end = 0x5D1060, filename = "level38.raw", name = "Shuttle Island" },
-                new BlastCorpsLevelMeta{ id = 39, start = 0x5D1060, end = 0x5DC830, filename = "level39.raw", name = "Mica Park" },
-                new BlastCorpsLevelMeta{ id = 40, start = 0x5DC830, end = 0x5E6EE0, filename = "level40.raw", name = "Moon" },
-                new BlastCorpsLevelMeta{ id = 41, start = 0x5E6EE0, end = 0x5EC800, filename = "level41.raw", name = "Cobalt Quarry" },
-                new BlastCorpsLevelMeta{ id = 42, start = 0x5EC800, end = 0x5F3A80, filename = "level42.raw", name = "Moraine Chase" },
-                new BlastCorpsLevelMeta{ id = 43, start = 0x5F3A80, end = 0x6014B0, filename = "level43.raw", name = "Mercury" },
-                new BlastCorpsLevelMeta{ id = 44, start = 0x6014B0, end = 0x60A710, filename = "level44.raw", name = "Venus" },
-                new BlastCorpsLevelMeta{ id = 45, start = 0x60A710, end = 0x613AA0, filename = "level45.raw", name = "Mars" },
-                new BlastCorpsLevelMeta{ id = 46, start = 0x613AA0, end = 0x61DD70, filename = "level46.raw", name = "Neptune" },
-                new BlastCorpsLevelMeta{ id = 47, start = 0x61DD70, end = 0x621AF0, filename = "level47.raw", name = "CMO Intro" },
-                new BlastCorpsLevelMeta{ id = 48, start = 0x621AF0, end = 0x6269E0, filename = "level48.raw", name = "Silver Junction" },
-                new BlastCorpsLevelMeta{ id = 49, start = 0x6269E0, end = 0x630C30, filename = "level49.raw", name = "End Sequence" },
-                new BlastCorpsLevelMeta{ id = 50, start = 0x630C30, end = 0x635700, filename = "level50.raw", name = "Shuttle Clear" },
-                new BlastCorpsLevelMeta{ id = 51, start = 0x635700, end = 0x63CA10, filename = "level51.raw", name = "Dark Heartland" },
-                new BlastCorpsLevelMeta{ id = 52, start = 0x63CA10, end = 0x641F30, filename = "level52.raw", name = "Magma Peak" },
-                new BlastCorpsLevelMeta{ id = 53, start = 0x641F30, end = 0x644810, filename = "level53.raw", name = "Thunderfist" },
-                new BlastCorpsLevelMeta{ id = 54, start = 0x644810, end = 0x646080, filename = "level54.raw", name = "Saline Watch" },
-                new BlastCorpsLevelMeta{ id = 55, start = 0x646080, end = 0x647550, filename = "level55.raw", name = "Backlash" },
-                new BlastCorpsLevelMeta{ id = 56, start = 0x647550, end = 0x654FC0, filename = "level56.raw", name = "Bison Ridge" },
-                new BlastCorpsLevelMeta{ id = 57, start = 0x654FC0, end = 0x660950, filename = "level57.raw", name = "Ember Hamlet" },
-                new BlastCorpsLevelMeta{ id = 58, start = 0x660950, end = 0x665F80, filename = "level58.raw", name = "Cromlech Court" },
-                new BlastCorpsLevelMeta{ id = 59, start = 0x665F80, end = 0x66C900, filename = "level59.raw", name = "Lizard Island" },
-         };
+            listBoxHeader.Items.Add((2 * i).ToString("X2") + ": " + level.header.u16s[i].ToString("X4"));
+         }
+         for (int i = 0; i < level.header.twoVals.Length; i++)
+         {
+            int offset = 2 * level.header.u16s.Length + 4 * i;
+            listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.twoVals[i]);
+         }
+         for (int i = 0; i < level.header.offsets.Length; i++)
+         {
+            int offset = 2 * level.header.u16s.Length + 4 * level.header.twoVals.Length + 4 * i;
+            listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.offsets[i].ToString("X8"));
+         }
+
+         ammoSource.DataSource = level.ammoBoxes;
+         commSource.DataSource = level.commPoints;
+         rduSource.DataSource = level.rdus;
+         tntSource.DataSource = level.tntCrates;
+         blockSource.DataSource = level.squareBlocks;
+         vehicleSource.DataSource = level.vehicles;
+         buildingSource.DataSource = level.buildings;
+         listBoxAmmo.DataSource = ammoSource;
+         listBoxCommPt.DataSource = commSource;
+         listBoxRdu.DataSource = rduSource;
+         listBoxTnt.DataSource = tntSource;
+         listBoxBlocks.DataSource = blockSource;
+         listBoxVehicles.DataSource = vehicleSource;
+         listBoxBuildings.DataSource = buildingSource;
+         numericCarrierX.Value = level.carrier.x;
+         numericCarrierY.Value = level.carrier.y;
+         numericCarrierZ.Value = level.carrier.z;
+         numericCarrierBearing.Value = level.carrier.heading;
+         numericCarrierSpeed.Value = level.carrier.speed;
+         numericCarrierDistance.Value = level.carrier.distance;
+
+         statusStripMessage.Text = level.bounds.ToString();
+
+         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
+         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+         blastCorpsViewer.SetLevel(level);
+
+         comboBoxLevel.Enabled = true;
+         saveToolStripMenuItem.Enabled = true;
+         exportToolStripMenuItem.Enabled = true;
       }
 
-      private void readData(String filePath)
+      private void SetSelectedItem(BlastCorpsItem item)
       {
-         if (File.Exists(filePath))
+         if (itemSel != null)
          {
-            statusStripFile.ForeColor = Color.Black;
-            statusStripFile.Text = filePath;
-            levelData = System.IO.File.ReadAllBytes(filePath);
-            level = BlastCorpsLevel.decodeLevel(levelData);
-
-            listBoxHeader.Items.Clear();
-            for (int i = 0; i < level.header.u16s.Length; i++)
-            {
-               listBoxHeader.Items.Add((2 * i).ToString("X2") + ": " + level.header.u16s[i].ToString("X4"));
-            }
-            for (int i = 0; i < level.header.twoVals.Length; i++)
-            {
-               int offset = 2 * level.header.u16s.Length + 4 * i;
-               listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.twoVals[i]);
-            }
-            for (int i = 0; i < level.header.offsets.Length; i++)
-            {
-               int offset = 2 * level.header.u16s.Length + 4 * level.header.twoVals.Length + 4 * i;
-               listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.offsets[i].ToString("X8"));
-            }
-
-            rduSource.DataSource = level.rdus;
-            listBoxAmmo.DataSource = level.ammoBoxes;
-            listBoxCommPt.DataSource = level.commPoints;
-            listBoxRdu.DataSource = rduSource;
-            listBoxTnt.DataSource = level.tntCrates;
-            listBoxBlocks.DataSource = level.squareBlocks;
-            listBoxVehicles.DataSource = level.vehicles;
-            listBoxBuildings.DataSource = level.buildings;
-            numericCarrierX.Value = level.carrier.x;
-            numericCarrierY.Value = level.carrier.y;
-            numericCarrierZ.Value = level.carrier.z;
-            numericCarrierBearing.Value = level.carrier.heading;
-            numericCarrierSpeed.Value = level.carrier.speed;
-            numericCarrierDistance.Value = level.carrier.distance;
-
-            statusStripMessage.Text = level.bounds.ToString();
-
-            blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
-            blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
-            blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
-            blastCorpsViewer.SetLevel(level);
+            itemSel.selected = false;
          }
-         else
-         {
-            statusStripFile.ForeColor = Color.Red;
-            statusStripFile.Text = "Error opening " + filePath;
-         }
-      }
-
-      private void listBoxRdu_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         RDU rdu = (RDU)listBoxRdu.SelectedItem;
-         if (rduSel != null)
-         {
-            rduSel.selected = false;
-         }
-         if (rdu != null)
-         {
-            rdu.selected = true;
-            rduSel = rdu;
-            numericRduX.Value = rdu.x;
-            numericRduY.Value = rdu.y;
-            numericRduZ.Value = rdu.z;
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void listBoxTnt_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         TNTCrate tnt = (TNTCrate)listBoxTnt.SelectedItem;
-         if (tnt != null)
-         {
-            numericTntX.Value  = tnt.x;
-            numericTntY.Value  = tnt.y;
-            numericTntZ.Value  = tnt.z;
-            numericTntB6.Value = tnt.b6;
-            numericTntTimer.Value  = tnt.timer;
-            numericTntH8.Value = tnt.h8;
-            numericTntHA.Value = tnt.hA;
-         }
-      }
-
-      private void numericRduX_ValueChanged(object sender, EventArgs e)
-      {
-         if (rduSel != null)
-         {
-            rduSel.x = (Int16)numericRduX.Value;
-            rduSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericRduY_ValueChanged(object sender, EventArgs e)
-      {
-         if (rduSel != null)
-         {
-            rduSel.y = (Int16)numericRduY.Value;
-            rduSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericRduZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (rduSel != null)
-         {
-            rduSel.z = (Int16)numericRduZ.Value;
-            rduSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         MessageBox.Show("Blast Corps Editor v0.1\nCopyright 2016 queueRAM", "Blast Corps Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+         item.selected = true;
+         itemSel = item;
+         blastCorpsViewer.Invalidate();
       }
 
       private void comboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)
       {
-         BlastCorpsLevelMeta level = (BlastCorpsLevelMeta)comboBoxLevel.SelectedItem;
-         if (level != null)
+         BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)comboBoxLevel.SelectedItem;
+         if (rom != null && levelMeta != null)
          {
-            var filePath = Path.Combine(levelPath, level.filename);
-            readData(filePath);
+            // write current level out to rom structure first
+            if (level != null)
+            {
+               rom.UpdateLevel(levelId, level.ToBytes(), level.displayList);
+            }
+            levelId = levelMeta.id;
+            byte[] levelData = rom.GetLevelData(levelId);
+            byte[] displayList = rom.GetDisplayList(levelId);
+            readData(levelData, displayList);
          }
       }
 
+      // Ammo boxes
       private void listBoxAmmo_SelectedIndexChanged(object sender, EventArgs e)
       {
          AmmoBox ammo = (AmmoBox)listBoxAmmo.SelectedItem;
          if (ammo != null)
          {
+            SetSelectedItem(ammo);
             numericAmmoX.Value = ammo.x;
             numericAmmoY.Value = ammo.y;
             numericAmmoZ.Value = ammo.z;
             comboBoxAmmo.SelectedIndex = ammo.type;
+         }
+      }
+
+      private void numericAmmoX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is AmmoBox)
+         {
+            itemSel.x = (Int16)numericAmmoX.Value;
+            ammoSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
+      private void numericAmmoY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is AmmoBox)
+         {
+            itemSel.y = (Int16)numericAmmoY.Value;
+            ammoSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericAmmoZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is AmmoBox)
+         {
+            itemSel.z = (Int16)numericAmmoZ.Value;
+            ammoSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void comboBoxAmmo_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is AmmoBox)
+         {
+            AmmoBox ammo = (AmmoBox)itemSel;
+            ammo.type = (UInt16)comboBoxAmmo.SelectedIndex;
+            ammoSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // Communication point
       private void listBoxCommPt_SelectedIndexChanged(object sender, EventArgs e)
       {
          CommPoint comm = (CommPoint)listBoxCommPt.SelectedItem;
          if (comm != null)
          {
+            SetSelectedItem(comm);
             numericCommPtX.Value = comm.x;
             numericCommPtY.Value = comm.y;
             numericCommPtZ.Value = comm.z;
@@ -246,11 +178,177 @@ namespace BlastCorpsEditor
          }
       }
 
+      private void numericCommPtX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is CommPoint)
+         {
+            itemSel.x = (Int16)numericCommPtX.Value;
+            commSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericCommPtY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is CommPoint)
+         {
+            itemSel.y = (Int16)numericCommPtY.Value;
+            commSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericCommPtZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is CommPoint)
+         {
+            itemSel.z = (Int16)numericCommPtZ.Value;
+            commSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // RDUs
+      private void listBoxRdu_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         RDU rdu = (RDU)listBoxRdu.SelectedItem;
+         if (rdu != null)
+         {
+            SetSelectedItem(rdu);
+            numericRduX.Value = rdu.x;
+            numericRduY.Value = rdu.y;
+            numericRduZ.Value = rdu.z;
+         }
+      }
+
+      private void numericRduX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is RDU)
+         {
+            itemSel.x = (Int16)numericRduX.Value;
+            rduSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericRduY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is RDU)
+         {
+            itemSel.y = (Int16)numericRduY.Value;
+            rduSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericRduZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is RDU)
+         {
+            itemSel.z = (Int16)numericRduZ.Value;
+            rduSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // TNT crates
+      private void listBoxTnt_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         TNTCrate tnt = (TNTCrate)listBoxTnt.SelectedItem;
+         if (tnt != null)
+         {
+            SetSelectedItem(tnt);
+            numericTntX.Value = tnt.x;
+            numericTntY.Value = tnt.y;
+            numericTntZ.Value = tnt.z;
+            numericTntB6.Value = tnt.b6;
+            numericTntTimer.Value = tnt.timer;
+            numericTntH8.Value = tnt.h8;
+            numericTntHA.Value = tnt.hA;
+         }
+      }
+
+      private void numericTntX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            itemSel.x = (Int16)numericTntX.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            itemSel.y = (Int16)numericTntY.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            itemSel.z = (Int16)numericTntZ.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntB6_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            TNTCrate tnt = (TNTCrate)itemSel;
+            tnt.b6 = (byte)numericTntB6.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntTimer_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            TNTCrate tnt = (TNTCrate)itemSel;
+            tnt.timer = (byte)numericTntTimer.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntH8_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            TNTCrate tnt = (TNTCrate)itemSel;
+            tnt.h8 = (Int16)numericTntH8.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericTntHA_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is TNTCrate)
+         {
+            TNTCrate tnt = (TNTCrate)itemSel;
+            tnt.hA = (Int16)numericTntHA.Value;
+            tntSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // Blocks
       private void listBoxBlocks_SelectedIndexChanged(object sender, EventArgs e)
       {
          SquareBlock block = (SquareBlock)listBoxBlocks.SelectedItem;
          if (block != null)
          {
+            SetSelectedItem(block);
             numericBlockX.Value = block.x;
             numericBlockY.Value = block.y;
             numericBlockZ.Value = block.z;
@@ -274,11 +372,83 @@ namespace BlastCorpsEditor
          }
       }
 
+      private void numericBlockX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            itemSel.x = (Int16)numericBlockX.Value;
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBlockY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            itemSel.y = (Int16)numericBlockY.Value;
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBlockZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            itemSel.z = (Int16)numericBlockZ.Value;
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void comboBoxBlockT1_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            SquareBlock block = (SquareBlock)itemSel;
+            block.type = (byte)comboBoxBlockT1.SelectedIndex;
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void comboBoxBlockT2_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            SquareBlock block = (SquareBlock)itemSel;
+            switch (comboBoxBlockT2.SelectedIndex)
+            {
+               case 0: block.hole = 0; break;
+               case 1: block.hole = 1; break;
+               case 2: block.hole = 2; break;
+               case 3: block.hole = 8; break;
+                       // TODO: toggle T3 based on this value
+            }
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBlockT3_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            SquareBlock block = (SquareBlock)itemSel;
+            block.extra = (UInt16)numericBlockT3.Value;
+            blockSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // Vehicles
       private void listBoxVehicles_SelectedIndexChanged(object sender, EventArgs e)
       {
          Vehicle veh = (Vehicle)listBoxVehicles.SelectedItem;
          if (veh != null)
          {
+            SetSelectedItem(veh);
             if (veh.type < comboBoxVehicle.Items.Count)
             {
                comboBoxVehicle.SelectedIndex = veh.type;
@@ -290,11 +460,66 @@ namespace BlastCorpsEditor
          }
       }
 
+
+      private void comboBoxVehicle_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Vehicle)
+         {
+            Vehicle veh = (Vehicle)itemSel;
+            veh.type = (byte)comboBoxVehicle.SelectedIndex;
+            vehicleSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericVehicleX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Vehicle)
+         {
+            itemSel.x = (Int16)numericVehicleX.Value;
+            vehicleSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericVehicleY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Vehicle)
+         {
+            itemSel.y = (Int16)numericVehicleY.Value;
+            vehicleSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericVehicleZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Vehicle)
+         {
+            itemSel.z = (Int16)numericVehicleZ.Value;
+            vehicleSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericVehicleH_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Vehicle)
+         {
+            Vehicle veh = (Vehicle)itemSel;
+            veh.heading = (Int16)numericVehicleH.Value;
+            vehicleSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // Buildings
       private void listBoxBuildings_SelectedIndexChanged(object sender, EventArgs e)
       {
          Building building = (Building)listBoxBuildings.SelectedItem;
          if (building != null)
          {
+            SetSelectedItem(building);
             numericBuildingX.Value = building.x;
             numericBuildingY.Value = building.y;
             numericBuildingZ.Value = building.z;
@@ -306,41 +531,169 @@ namespace BlastCorpsEditor
          }
       }
 
-      // Menu items
+      private void numericBuildingX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            itemSel.x = (Int16)numericBuildingX.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            itemSel.y = (Int16)numericBuildingY.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            itemSel.z = (Int16)numericBuildingZ.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingT_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            Building b = (Building)itemSel;
+            b.type = (UInt16)numericBuildingT.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingB8_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            Building b = (Building)itemSel;
+            b.b8 = (byte)numericBuildingB8.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingB9_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            Building b = (Building)itemSel;
+            b.b9 = (byte)numericBuildingB9.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingHA_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            Building b = (Building)itemSel;
+            b.hA = (UInt16)numericBuildingHA.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericBuildingHC_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Building)
+         {
+            Building b = (Building)itemSel;
+            b.hC = (UInt16)numericBuildingHC.Value;
+            buildingSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      // File menu
       private void openToolStripMenuItem_Click(object sender, EventArgs e)
       {
          OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-         openFileDialog1.Filter = "Blast Corps Levels (.raw)|*.raw|All Files (*.*)|*.*";
+         openFileDialog1.Filter = "N64 ROM (.z64)|*.z64|All Files (*.*)|*.*";
          openFileDialog1.FilterIndex = 1;
 
          DialogResult dresult = openFileDialog1.ShowDialog();
 
          if (dresult == DialogResult.OK)
          {
-            readData(openFileDialog1.FileName);
-            levelPath = Path.GetDirectoryName(openFileDialog1.FileName);
+            rom = new BlastCorpsRom();
+            if (rom.LoadRom(openFileDialog1.FileName))
+            {
+               if (rom.type == BlastCorpsRom.RomType.Vanilla && (rom.region != BlastCorpsRom.Region.US || rom.version != BlastCorpsRom.Version.Ver1p1))
+               {
+                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.1) ROMs currently.");
+               }
+               else
+               {
+                  if (rom.type == BlastCorpsRom.RomType.Vanilla)
+                  {
+                     MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.");
+                     rom.ExtendRom();
+                     statusStripFile.ForeColor = Color.Blue;
+                     statusStripFile.Text = "Vanilla ROM";
+                  }
+                  else
+                  {
+                     statusStripFile.ForeColor = Color.Black;
+                     statusStripFile.Text = openFileDialog1.FileName;
+                  }
+                  BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)comboBoxLevel.SelectedItem;
+                  if (levelMeta != null)
+                  {
+                     levelId = levelMeta.id;
+                     byte[] levelData = rom.GetLevelData(levelId);
+                     byte[] displayList = rom.GetDisplayList(levelId);
+                     readData(levelData, displayList);
+                  }
+               }
+            }
+            else
+            {
+               statusStripFile.ForeColor = Color.Red;
+               statusStripFile.Text = "Error loading " + openFileDialog1.FileName;
+            }
          }
       }
 
-      private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+      private void saveToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         this.Close();
-      }
+         if (rom != null)
+         {
+            // opening a vanilla ROM will not record the path, forcing a save as... dialog here
+            if (rom.savePath == null)
+            {
+               SaveFileDialog saveFileDialog = new SaveFileDialog();
+               saveFileDialog.Filter = "N64 ROM (.z64)|*.z64";
+               saveFileDialog.ShowDialog();
 
-      private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
-      }
-
-      private void boundingBoxes0x40ToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
-      }
-
-      private void boundingBoxes0x44ToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+               if (saveFileDialog.FileName != "")
+               {
+                  rom.savePath = saveFileDialog.FileName;
+                  statusStripFile.Text = saveFileDialog.FileName;
+                  statusStripFile.ForeColor = Color.Black;
+               }
+            }
+            if (rom.savePath != null)
+            {
+               if (level != null)
+               {
+                  rom.UpdateLevel(levelId, level.ToBytes(), level.displayList);
+               }
+               rom.SaveRom(rom.savePath);
+            }
+         }
       }
 
       private void exportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -359,21 +712,37 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void openROMToolStripMenuItem_Click(object sender, EventArgs e)
+      private void exitToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         OpenFileDialog openFileDialog1 = new OpenFileDialog();
+         // TODO: confirm save
+         this.Close();
+      }
 
-         openFileDialog1.Filter = "N64 ROM (.z64)|*.z64|All Files (*.*)|*.*";
-         openFileDialog1.FilterIndex = 1;
+      // View menu
+      private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
+      }
 
-         DialogResult dresult = openFileDialog1.ShowDialog();
+      private void boundingBoxes0x40ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+      }
 
-         if (dresult == DialogResult.OK)
-         {
-            BlastCorpsRom rom = new BlastCorpsRom();
-            rom.LoadRom(openFileDialog1.FileName);
-            rom.ExtendRom(Path.Combine(Path.GetTempPath(), "BC.ext.z64"));
-         }
+      private void boundingBoxes0x44ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+      }
+
+      // Help menu
+      private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+         var version = versionInfo.ProductVersion;
+         var copyright = versionInfo.LegalCopyright;
+         var assembly = Assembly.GetExecutingAssembly();
+         var appName = "Blast Corps Editor";
+         MessageBox.Show(appName + " v" + version + "\n" + copyright, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
    }
 }

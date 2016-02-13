@@ -3,20 +3,6 @@ using System.Collections.Generic;
 
 namespace BlastCorpsEditor
 {
-   public class BlastCorpsLevelMeta
-   {
-      public uint id { get; set; }
-      public string name { get; set; }
-      public string filename { get; set; }
-      public uint start { get; set; }
-      public uint end { get; set; }
-
-      public override string ToString()
-      {
-         return id + ": " + name + " [" + filename + "]";
-      }
-   }
-
    public class LevelHeader
    {
       public UInt16[] u16s = new UInt16[12];
@@ -24,9 +10,14 @@ namespace BlastCorpsEditor
       public UInt32[] offsets = new UInt32[42];
    }
 
-   public class AmmoBox
+   public class BlastCorpsItem
    {
       public Int16 x, y, z;
+      public bool selected;
+   }
+
+   public class AmmoBox : BlastCorpsItem
+   {
       public UInt16 type;
 
       public AmmoBox(Int16 x, Int16 y, Int16 z, UInt16 type)
@@ -70,9 +61,8 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class CommPoint
+   public class CommPoint : BlastCorpsItem
    {
-      public Int16 x, y, z;
       public UInt16 todo;
 
       public CommPoint(Int16 x, Int16 y, Int16 z, UInt16 todo)
@@ -99,17 +89,13 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class RDU
+   public class RDU : BlastCorpsItem
    {
-      public Int16 x, y, z;
-      public bool selected;
-
       public RDU(Int16 x, Int16 y, Int16 z)
       {
          this.x = x;
          this.y = y;
          this.z = z;
-         this.selected = false;
       }
 
       public override string ToString()
@@ -118,9 +104,8 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class TNTCrate
+   public class TNTCrate : BlastCorpsItem
    {
-      public Int16 x, y, z;
       public byte b6; // TODO
       public byte timer;
       public Int16 h8, hA; // TODO
@@ -142,9 +127,8 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class SquareBlock
+   public class SquareBlock : BlastCorpsItem
    {
-      public Int16 x, y, z;
       public byte type;
       public byte hole;
       public UInt16 extra;
@@ -202,10 +186,10 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Vehicle
+   public class Vehicle : BlastCorpsItem
    {
       public byte type;
-      public Int16 x, y, z, heading;
+      public Int16 heading;
 
       public Vehicle(byte type, Int16 x, Int16 y, Int16 z, Int16 heading)
       {
@@ -222,10 +206,9 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Carrier
+   public class Carrier : BlastCorpsItem
    {
       public byte speed;
-      public Int16 x, y, z;
       public UInt16 heading, distance;
 
       public override string ToString()
@@ -234,9 +217,8 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Building
+   public class Building : BlastCorpsItem
    {
-      public Int16 x, y, z;
       public UInt16 type;
       // TODO: what are these?
       public byte b8, b9;
@@ -286,6 +268,7 @@ namespace BlastCorpsEditor
       private byte[] copy70;
       private byte[] copy74;
       private byte[] vertData;
+      public byte[] displayList;
 
       // 0x00-0x20: Header
       private void decodeHeader(byte[] data)
@@ -884,7 +867,7 @@ namespace BlastCorpsEditor
       }
 
 
-      static public BlastCorpsLevel decodeLevel(byte[] levelData)
+      static public BlastCorpsLevel decodeLevel(byte[] levelData, byte[] displayListData)
       {
          BlastCorpsLevel level = new BlastCorpsLevel();
          level.decodeHeader(levelData);          // 0x00-0x1F
@@ -911,7 +894,8 @@ namespace BlastCorpsEditor
          level.decode6C(levelData);              // 0x6C TODO
          level.decode70(levelData);              // 0x70 TODO
          level.decode74(levelData);              // 0x74 TODO
-         // TODO: 0x78-0x9C are beyond level length
+         // TODO: 0x78-0x9C are beyond level length and may be in display list
+         level.displayList = displayListData;
          return level;
       }
    }

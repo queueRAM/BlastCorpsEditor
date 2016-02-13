@@ -16,15 +16,7 @@ namespace BlastCorpsEditor
       private int offX, offY;
 
       // click and drag related
-      enum DragType { None, Ammo, Comm, RDU, TNT, Block, Building, Vehicle, Carrier };
-      DragType dragType = DragType.None;
-      private AmmoBox dragAmmo;
-      private CommPoint dragComm;
-      private RDU dragRdu;
-      private TNTCrate dragTnt;
-      private SquareBlock dragBlock;
-      private Vehicle dragVehicle;
-      private Building dragBuilding;
+      private BlastCorpsItem dragItem = null;
 
       public BlastCorpsViewer()
       {
@@ -115,7 +107,7 @@ namespace BlastCorpsEditor
          Brush bounds44Brush = new HatchBrush(HatchStyle.DiagonalCross, Color.Aqua, Color.Transparent);
          Pen blockPen = new Pen(Color.DarkGray);
          Pen buildingPen = new Pen(Color.Brown, 2);
-         Brush selectedBrush = new SolidBrush(Color.Red);
+         Brush selectedBrush = new SolidBrush(Color.Magenta);
          Pen vehPen = new Pen(Color.Blue);
          vehPen.StartCap = LineCap.SquareAnchor;
          vehPen.EndCap = LineCap.ArrowAnchor;
@@ -128,6 +120,7 @@ namespace BlastCorpsEditor
          carrierPen.EndCap = LineCap.ArrowAnchor;
          Pen zonePen = new Pen(Color.Plum);
          Pen blackPen = new Pen(Color.Black);
+         Pen selectedPen = new Pen(Color.Magenta);
          double angle;
          int x, y, dx, dy;
          if (level != null)
@@ -135,7 +128,7 @@ namespace BlastCorpsEditor
             e.Graphics.FillRectangle(new SolidBrush(Color.White), offX, offY, Width - 2*offX, Height - 2*offY);
             if (showGridLines)
             {
-               // something like every 500
+               // every 500 level units
                Pen linePen = new Pen(Color.Black);
                linePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                const int every = 500;
@@ -190,11 +183,11 @@ namespace BlastCorpsEditor
             int length = pixelY(0) - pixelY(level.carrier.distance);
             dx = (int)(length * Math.Sin(angle));
             dy = (int)(length * Math.Cos(angle));
-            e.Graphics.DrawLine(carrierPen, x, y, x - dx, y - dy);
+            e.Graphics.DrawLine(level.carrier.selected ? selectedPen : carrierPen, x, y, x - dx, y - dy);
 
             foreach (AmmoBox ammo in level.ammoBoxes)
             {
-               e.Graphics.FillRectangle(ammoBrush, pixelX(ammo.x)-4, pixelY(ammo.z)-4, 7, 7);
+               e.Graphics.FillRectangle(ammo.selected ? selectedBrush : ammoBrush, pixelX(ammo.x) - 4, pixelY(ammo.z) - 4, 7, 7);
             }
             Point[] points = new Point[4];
             foreach (Collision24 zone in level.collisions)
@@ -211,7 +204,7 @@ namespace BlastCorpsEditor
             }
             foreach (CommPoint comm in level.commPoints)
             {
-               e.Graphics.FillRectangle(commBrush, pixelX(comm.x)-5, pixelY(comm.z)-5, 9, 9);
+               e.Graphics.FillRectangle(comm.selected ? selectedBrush : commBrush, pixelX(comm.x) - 5, pixelY(comm.z) - 5, 9, 9);
             }
             foreach (RDU rdu in level.rdus)
             {
@@ -219,7 +212,7 @@ namespace BlastCorpsEditor
             }
             foreach (TNTCrate tnt in level.tntCrates)
             {
-               e.Graphics.FillRectangle(tntBrush, pixelX(tnt.x), pixelY(tnt.z), 7, 7);
+               e.Graphics.FillRectangle(tnt.selected ? selectedBrush : tntBrush, pixelX(tnt.x), pixelY(tnt.z), 7, 7);
             }
             foreach (SquareBlock block in level.squareBlocks)
             {
@@ -234,11 +227,11 @@ namespace BlastCorpsEditor
                }
                if (block.hole == 8)
                {
-                  e.Graphics.DrawRectangle(blockPen, 0, 0, 9, 9);
+                  e.Graphics.DrawRectangle(block.selected ? selectedPen : blockPen, 0, 0, 9, 9);
                }
                else
                {
-                  e.Graphics.FillRectangle(blockBrush, 0, 0, 7, 7);
+                  e.Graphics.FillRectangle(block.selected ? selectedBrush : blockBrush, 0, 0, 7, 7);
                }
                e.Graphics.ResetTransform();
             }
@@ -252,16 +245,16 @@ namespace BlastCorpsEditor
                dy = (int)(12 * Math.Cos(angle));
                if (veh.type == 0x00)
                {
-                  e.Graphics.DrawLine(playerPen, x, y, x - dx, y - dy);
+                  e.Graphics.DrawLine(veh.selected ? selectedPen : playerPen, x, y, x - dx, y - dy);
                }
                else
                {
-                  e.Graphics.DrawLine(vehPen, x, y, x - dx, y - dy);
+                  e.Graphics.DrawLine(veh.selected ? selectedPen : vehPen, x, y, x - dx, y - dy);
                }
             }
             foreach (Building b in level.buildings)
             {
-               e.Graphics.DrawRectangle(buildingPen, pixelX(b.x)-5, pixelY(b.z)-5, 9, 9);
+               e.Graphics.DrawRectangle(b.selected ? selectedPen : buildingPen, pixelX(b.x) - 5, pixelY(b.z) - 5, 9, 9);
             }
          }
          e.Graphics.DrawRectangle(blackPen, 0, 0, Width - 1, Height - 1);
@@ -277,51 +270,19 @@ namespace BlastCorpsEditor
 
       private void BlastCorpsViewer_MouseMove(object sender, MouseEventArgs e)
       {
-         if (mouseStatus != null)
+         if (level != null)
          {
-            mouseStatus.Text = levelX(e.X) + "," + levelZ(e.Y);
-         }
-
-         if (dragType != DragType.None)
-         {
-            int x = levelX(e.X);
-            int z = levelZ(e.Y);
-            switch (dragType)
+            if (mouseStatus != null)
             {
-               case DragType.Ammo:
-                  dragAmmo.x = (Int16)x;
-                  dragAmmo.z = (Int16)z;
-                  break;
-               case DragType.Comm:
-                  dragComm.x = (Int16)x;
-                  dragComm.z = (Int16)z;
-                  break;
-               case DragType.RDU:
-                  dragRdu.x = (Int16)x;
-                  dragRdu.z = (Int16)z;
-                  break;
-               case DragType.TNT:
-                  dragTnt.x = (Int16)x;
-                  dragTnt.z = (Int16)z;
-                  break;
-               case DragType.Block:
-                  dragBlock.x = (Int16)x;
-                  dragBlock.z = (Int16)z;
-                  break;
-               case DragType.Vehicle:
-                  dragVehicle.x = (Int16)x;
-                  dragVehicle.z = (Int16)z;
-                  break;
-               case DragType.Carrier:
-                  level.carrier.x = (Int16)x;
-                  level.carrier.z = (Int16)z;
-                  break;
-               case DragType.Building:
-                  dragBuilding.x = (Int16)x;
-                  dragBuilding.z = (Int16)z;
-                  break;
+               mouseStatus.Text = levelX(e.X) + "," + levelZ(e.Y);
             }
-            Invalidate();
+
+            if (dragItem != null)
+            {
+               dragItem.x = (Int16)levelX(e.X);
+               dragItem.z = (Int16)levelZ(e.Y);
+               Invalidate();
+            }
          }
       }
 
@@ -338,8 +299,7 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - ammo.x) < diff && Math.Abs(z - ammo.z) < diff)
                {
-                  dragType = DragType.Ammo;
-                  dragAmmo = ammo;
+                  dragItem = ammo;
                   break;
                }
             }
@@ -348,8 +308,7 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - comm.x) < diff && Math.Abs(z - comm.z) < diff)
                {
-                  dragType = DragType.Comm;
-                  dragComm = comm;
+                  dragItem = comm;
                   break;
                }
             }
@@ -358,8 +317,7 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - rdu.x) < diff && Math.Abs(z - rdu.z) < diff)
                {
-                  dragType = DragType.RDU;
-                  dragRdu = rdu;
+                  dragItem = rdu;
                   break;
                }
             }
@@ -368,8 +326,7 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - tnt.x) < diff && Math.Abs(z - tnt.z) < diff)
                {
-                  dragType = DragType.TNT;
-                  dragTnt = tnt;
+                  dragItem = tnt;
                   break;
                }
             }
@@ -378,8 +335,7 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - block.x) < diff && Math.Abs(z - block.z) < diff)
                {
-                  dragType = DragType.Block;
-                  dragBlock = block;
+                  dragItem = block;
                   break;
                }
             }
@@ -388,32 +344,41 @@ namespace BlastCorpsEditor
             {
                if (Math.Abs(x - veh.x) < diff && Math.Abs(z - veh.z) < diff)
                {
-                  dragType = DragType.Vehicle;
-                  dragVehicle = veh;
+                  dragItem = veh;
                   break;
                }
             }
 
             if (Math.Abs(x - level.carrier.x) < diff && Math.Abs(z - level.carrier.z) < diff)
             {
-               dragType = DragType.Carrier;
+               dragItem = level.carrier;
             }
 
             foreach (Building b in level.buildings)
             {
                if (Math.Abs(x - b.x) < diff && Math.Abs(z - b.z) < diff)
                {
-                  dragType = DragType.Building;
-                  dragBuilding = b;
+                  dragItem = b;
                   break;
                }
+            }
+
+            if (dragItem != null)
+            {
+               dragItem.selected = true;
+               Invalidate();
             }
          }
       }
 
       private void BlastCorpsViewer_MouseUp(object sender, MouseEventArgs e)
       {
-         dragType = DragType.None;
+         if (dragItem != null)
+         {
+            dragItem.selected = false;
+            dragItem = null;
+            Invalidate();
+         }
       }
    }
 }

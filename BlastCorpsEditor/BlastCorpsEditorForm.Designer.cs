@@ -164,7 +164,6 @@
             this.listBoxBuildings = new System.Windows.Forms.ListBox();
             this.comboBoxLevel = new System.Windows.Forms.ComboBox();
             this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
-            this.openROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -266,8 +265,7 @@
             this.saveToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.exitToolStripMenuItem,
-            this.openROMToolStripMenuItem});
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -276,33 +274,36 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
+            this.exportToolStripMenuItem.Enabled = false;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exportToolStripMenuItem.Text = "Export...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -429,6 +430,7 @@
             this.comboBoxAmmo.Name = "comboBoxAmmo";
             this.comboBoxAmmo.Size = new System.Drawing.Size(100, 21);
             this.comboBoxAmmo.TabIndex = 22;
+            this.comboBoxAmmo.SelectedIndexChanged += new System.EventHandler(this.comboBoxAmmo_SelectedIndexChanged);
             // 
             // label19
             // 
@@ -455,6 +457,7 @@
             this.numericAmmoZ.Name = "numericAmmoZ";
             this.numericAmmoZ.Size = new System.Drawing.Size(100, 20);
             this.numericAmmoZ.TabIndex = 20;
+            this.numericAmmoZ.ValueChanged += new System.EventHandler(this.numericAmmoZ_ValueChanged);
             // 
             // numericAmmoY
             // 
@@ -472,6 +475,7 @@
             this.numericAmmoY.Name = "numericAmmoY";
             this.numericAmmoY.Size = new System.Drawing.Size(100, 20);
             this.numericAmmoY.TabIndex = 19;
+            this.numericAmmoY.ValueChanged += new System.EventHandler(this.numericAmmoY_ValueChanged);
             // 
             // numericAmmoX
             // 
@@ -489,6 +493,7 @@
             this.numericAmmoX.Name = "numericAmmoX";
             this.numericAmmoX.Size = new System.Drawing.Size(100, 20);
             this.numericAmmoX.TabIndex = 18;
+            this.numericAmmoX.ValueChanged += new System.EventHandler(this.numericAmmoX_ValueChanged);
             // 
             // buttonDelAmmo
             // 
@@ -584,6 +589,7 @@
             this.numericCommPtZ.Name = "numericCommPtZ";
             this.numericCommPtZ.Size = new System.Drawing.Size(100, 20);
             this.numericCommPtZ.TabIndex = 29;
+            this.numericCommPtZ.ValueChanged += new System.EventHandler(this.numericCommPtZ_ValueChanged);
             // 
             // numericCommPtY
             // 
@@ -601,6 +607,7 @@
             this.numericCommPtY.Name = "numericCommPtY";
             this.numericCommPtY.Size = new System.Drawing.Size(100, 20);
             this.numericCommPtY.TabIndex = 28;
+            this.numericCommPtY.ValueChanged += new System.EventHandler(this.numericCommPtY_ValueChanged);
             // 
             // numericCommPtX
             // 
@@ -618,6 +625,7 @@
             this.numericCommPtX.Name = "numericCommPtX";
             this.numericCommPtX.Size = new System.Drawing.Size(100, 20);
             this.numericCommPtX.TabIndex = 27;
+            this.numericCommPtX.ValueChanged += new System.EventHandler(this.numericCommPtX_ValueChanged);
             // 
             // buttonDelCommPt
             // 
@@ -849,6 +857,7 @@
             this.numericTntHA.Name = "numericTntHA";
             this.numericTntHA.Size = new System.Drawing.Size(100, 20);
             this.numericTntHA.TabIndex = 71;
+            this.numericTntHA.ValueChanged += new System.EventHandler(this.numericTntHA_ValueChanged);
             // 
             // numericTntTimer
             // 
@@ -861,6 +870,7 @@
             this.numericTntTimer.Name = "numericTntTimer";
             this.numericTntTimer.Size = new System.Drawing.Size(100, 20);
             this.numericTntTimer.TabIndex = 70;
+            this.numericTntTimer.ValueChanged += new System.EventHandler(this.numericTntTimer_ValueChanged);
             // 
             // numericTntB6
             // 
@@ -873,6 +883,7 @@
             this.numericTntB6.Name = "numericTntB6";
             this.numericTntB6.Size = new System.Drawing.Size(100, 20);
             this.numericTntB6.TabIndex = 69;
+            this.numericTntB6.ValueChanged += new System.EventHandler(this.numericTntB6_ValueChanged);
             // 
             // numericTntH8
             // 
@@ -885,6 +896,7 @@
             this.numericTntH8.Name = "numericTntH8";
             this.numericTntH8.Size = new System.Drawing.Size(100, 20);
             this.numericTntH8.TabIndex = 68;
+            this.numericTntH8.ValueChanged += new System.EventHandler(this.numericTntH8_ValueChanged);
             // 
             // numericTntZ
             // 
@@ -902,6 +914,7 @@
             this.numericTntZ.Name = "numericTntZ";
             this.numericTntZ.Size = new System.Drawing.Size(100, 20);
             this.numericTntZ.TabIndex = 67;
+            this.numericTntZ.ValueChanged += new System.EventHandler(this.numericTntZ_ValueChanged);
             // 
             // numericTntY
             // 
@@ -919,6 +932,7 @@
             this.numericTntY.Name = "numericTntY";
             this.numericTntY.Size = new System.Drawing.Size(100, 20);
             this.numericTntY.TabIndex = 66;
+            this.numericTntY.ValueChanged += new System.EventHandler(this.numericTntY_ValueChanged);
             // 
             // numericTntX
             // 
@@ -936,6 +950,7 @@
             this.numericTntX.Name = "numericTntX";
             this.numericTntX.Size = new System.Drawing.Size(100, 20);
             this.numericTntX.TabIndex = 65;
+            this.numericTntX.ValueChanged += new System.EventHandler(this.numericTntX_ValueChanged);
             // 
             // label12
             // 
@@ -1068,6 +1083,7 @@
             this.numericBlockT3.Name = "numericBlockT3";
             this.numericBlockT3.Size = new System.Drawing.Size(100, 20);
             this.numericBlockT3.TabIndex = 43;
+            this.numericBlockT3.ValueChanged += new System.EventHandler(this.numericBlockT3_ValueChanged);
             // 
             // label28
             // 
@@ -1108,6 +1124,7 @@
             this.comboBoxBlockT2.Name = "comboBoxBlockT2";
             this.comboBoxBlockT2.Size = new System.Drawing.Size(100, 21);
             this.comboBoxBlockT2.TabIndex = 39;
+            this.comboBoxBlockT2.SelectedIndexChanged += new System.EventHandler(this.comboBoxBlockT2_SelectedIndexChanged);
             // 
             // comboBoxBlockT1
             // 
@@ -1120,6 +1137,7 @@
             this.comboBoxBlockT1.Name = "comboBoxBlockT1";
             this.comboBoxBlockT1.Size = new System.Drawing.Size(100, 21);
             this.comboBoxBlockT1.TabIndex = 38;
+            this.comboBoxBlockT1.SelectedIndexChanged += new System.EventHandler(this.comboBoxBlockT1_SelectedIndexChanged);
             // 
             // numericBlockZ
             // 
@@ -1137,6 +1155,7 @@
             this.numericBlockZ.Name = "numericBlockZ";
             this.numericBlockZ.Size = new System.Drawing.Size(100, 20);
             this.numericBlockZ.TabIndex = 37;
+            this.numericBlockZ.ValueChanged += new System.EventHandler(this.numericBlockZ_ValueChanged);
             // 
             // numericBlockY
             // 
@@ -1154,6 +1173,7 @@
             this.numericBlockY.Name = "numericBlockY";
             this.numericBlockY.Size = new System.Drawing.Size(100, 20);
             this.numericBlockY.TabIndex = 36;
+            this.numericBlockY.ValueChanged += new System.EventHandler(this.numericBlockY_ValueChanged);
             // 
             // numericBlockX
             // 
@@ -1171,6 +1191,7 @@
             this.numericBlockX.Name = "numericBlockX";
             this.numericBlockX.Size = new System.Drawing.Size(100, 20);
             this.numericBlockX.TabIndex = 35;
+            this.numericBlockX.ValueChanged += new System.EventHandler(this.numericBlockX_ValueChanged);
             // 
             // label23
             // 
@@ -1429,6 +1450,7 @@
             this.numericVehicleH.Name = "numericVehicleH";
             this.numericVehicleH.Size = new System.Drawing.Size(100, 20);
             this.numericVehicleH.TabIndex = 24;
+            this.numericVehicleH.ValueChanged += new System.EventHandler(this.numericVehicleH_ValueChanged);
             // 
             // label15
             // 
@@ -1457,6 +1479,7 @@
             "09: J-Bomb",
             "10: Ballista",
             "11: barge 0",
+            "12: INVALID",
             "13: police",
             "14: A-Team Van",
             "15: Hotrod",
@@ -1467,6 +1490,7 @@
             this.comboBoxVehicle.Name = "comboBoxVehicle";
             this.comboBoxVehicle.Size = new System.Drawing.Size(100, 21);
             this.comboBoxVehicle.TabIndex = 22;
+            this.comboBoxVehicle.SelectedIndexChanged += new System.EventHandler(this.comboBoxVehicle_SelectedIndexChanged);
             // 
             // label14
             // 
@@ -1493,6 +1517,7 @@
             this.numericVehicleZ.Name = "numericVehicleZ";
             this.numericVehicleZ.Size = new System.Drawing.Size(100, 20);
             this.numericVehicleZ.TabIndex = 20;
+            this.numericVehicleZ.ValueChanged += new System.EventHandler(this.numericVehicleZ_ValueChanged);
             // 
             // numericVehicleY
             // 
@@ -1510,6 +1535,7 @@
             this.numericVehicleY.Name = "numericVehicleY";
             this.numericVehicleY.Size = new System.Drawing.Size(100, 20);
             this.numericVehicleY.TabIndex = 19;
+            this.numericVehicleY.ValueChanged += new System.EventHandler(this.numericVehicleY_ValueChanged);
             // 
             // numericVehicleX
             // 
@@ -1527,6 +1553,7 @@
             this.numericVehicleX.Name = "numericVehicleX";
             this.numericVehicleX.Size = new System.Drawing.Size(100, 20);
             this.numericVehicleX.TabIndex = 18;
+            this.numericVehicleX.ValueChanged += new System.EventHandler(this.numericVehicleX_ValueChanged);
             // 
             // buttonDelVehicle
             // 
@@ -1627,6 +1654,7 @@
             this.numericBuildingHC.Name = "numericBuildingHC";
             this.numericBuildingHC.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingHC.TabIndex = 64;
+            this.numericBuildingHC.ValueChanged += new System.EventHandler(this.numericBuildingHC_ValueChanged);
             // 
             // label42
             // 
@@ -1648,6 +1676,7 @@
             this.numericBuildingHA.Name = "numericBuildingHA";
             this.numericBuildingHA.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingHA.TabIndex = 62;
+            this.numericBuildingHA.ValueChanged += new System.EventHandler(this.numericBuildingHA_ValueChanged);
             // 
             // label41
             // 
@@ -1669,6 +1698,7 @@
             this.numericBuildingB8.Name = "numericBuildingB8";
             this.numericBuildingB8.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingB8.TabIndex = 60;
+            this.numericBuildingB8.ValueChanged += new System.EventHandler(this.numericBuildingB8_ValueChanged);
             // 
             // numericBuildingT
             // 
@@ -1681,6 +1711,7 @@
             this.numericBuildingT.Name = "numericBuildingT";
             this.numericBuildingT.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingT.TabIndex = 59;
+            this.numericBuildingT.ValueChanged += new System.EventHandler(this.numericBuildingT_ValueChanged);
             // 
             // numericBuildingB9
             // 
@@ -1693,6 +1724,7 @@
             this.numericBuildingB9.Name = "numericBuildingB9";
             this.numericBuildingB9.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingB9.TabIndex = 58;
+            this.numericBuildingB9.ValueChanged += new System.EventHandler(this.numericBuildingB9_ValueChanged);
             // 
             // label35
             // 
@@ -1737,6 +1769,7 @@
             this.numericBuildingZ.Name = "numericBuildingZ";
             this.numericBuildingZ.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingZ.TabIndex = 52;
+            this.numericBuildingZ.ValueChanged += new System.EventHandler(this.numericBuildingZ_ValueChanged);
             // 
             // numericBuildingY
             // 
@@ -1754,6 +1787,7 @@
             this.numericBuildingY.Name = "numericBuildingY";
             this.numericBuildingY.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingY.TabIndex = 51;
+            this.numericBuildingY.ValueChanged += new System.EventHandler(this.numericBuildingY_ValueChanged);
             // 
             // numericBuildingX
             // 
@@ -1771,6 +1805,7 @@
             this.numericBuildingX.Name = "numericBuildingX";
             this.numericBuildingX.Size = new System.Drawing.Size(100, 20);
             this.numericBuildingX.TabIndex = 50;
+            this.numericBuildingX.ValueChanged += new System.EventHandler(this.numericBuildingX_ValueChanged);
             // 
             // label38
             // 
@@ -1836,11 +1871,12 @@
             // 
             this.comboBoxLevel.DropDownHeight = 500;
             this.comboBoxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLevel.Enabled = false;
             this.comboBoxLevel.FormattingEnabled = true;
             this.comboBoxLevel.IntegralHeight = false;
             this.comboBoxLevel.Location = new System.Drawing.Point(8, 27);
             this.comboBoxLevel.Name = "comboBoxLevel";
-            this.comboBoxLevel.Size = new System.Drawing.Size(360, 21);
+            this.comboBoxLevel.Size = new System.Drawing.Size(377, 21);
             this.comboBoxLevel.TabIndex = 8;
             this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
             // 
@@ -1856,13 +1892,6 @@
             this.blastCorpsViewer.ShowGridLines = false;
             this.blastCorpsViewer.Size = new System.Drawing.Size(580, 547);
             this.blastCorpsViewer.TabIndex = 7;
-            // 
-            // openROMToolStripMenuItem
-            // 
-            this.openROMToolStripMenuItem.Name = "openROMToolStripMenuItem";
-            this.openROMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openROMToolStripMenuItem.Text = "Open ROM";
-            this.openROMToolStripMenuItem.Click += new System.EventHandler(this.openROMToolStripMenuItem_Click);
             // 
             // BlastCorpsEditorForm
             // 
@@ -2080,7 +2109,6 @@
         private System.Windows.Forms.NumericUpDown numericTntY;
         private System.Windows.Forms.NumericUpDown numericTntX;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openROMToolStripMenuItem;
     }
 }
 
