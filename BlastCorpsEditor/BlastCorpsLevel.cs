@@ -79,6 +79,27 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class Object2C
+   {
+      // TODO: details on data members
+      public UInt32 w0;
+      public byte b5, b6, b7, b8, b9, bA, bB;
+      public UInt32[] words;
+
+      public Object2C(UInt32 w0, byte b5, byte b6, byte b7, byte b8, byte b9, byte bA, byte bB, UInt32[] words)
+      {
+         this.w0 = w0;
+         this.b5 = b5;
+         this.b6 = b6;
+         this.b7 = b7;
+         this.b8 = b8;
+         this.b9 = b9;
+         this.bA = bA;
+         this.bB = bB;
+         this.words = words;
+      }
+   }
+
    public class LevelBounds
    {
       public Int16 x1, z1, x2, z2;
@@ -268,6 +289,7 @@ namespace BlastCorpsEditor
       public List<AmmoBox> ammoBoxes = new List<AmmoBox>();
       public List<Collision24> collisions = new List<Collision24>();
       public List<CommPoint> commPoints = new List<CommPoint>();
+      public List<Object2C> object2Cs = new List<Object2C>();
       public List<RDU> rdus = new List<RDU>();
       public List<TNTCrate> tntCrates = new List<TNTCrate>();
       public List<SquareBlock> squareBlocks = new List<SquareBlock>();
@@ -277,7 +299,6 @@ namespace BlastCorpsEditor
       public List<Vehicle> vehicles = new List<Vehicle>();
       public Carrier carrier = new Carrier();
       public List<Building> buildings = new List<Building>();
-      private byte[] copy2C;
       private byte[] copy30;
       private byte[] copy48;
       private byte[] copy58;
@@ -379,7 +400,31 @@ namespace BlastCorpsEditor
       // {[W0 W0 W0 W0] [CC] [B5] [B6] [??] [??] [??] [??] [??] {[WC WC WC WC]}}
       private void decode2C(byte[] data)
       {
-         copy2C = ArraySlice(data, BE.U32(data, 0x2C), BE.U32(data, 0x30));
+         uint start = BE.U32(data, 0x2C);
+         uint end = BE.U32(data, 0x30);
+         uint idx = start;
+         while (idx < end)
+         {
+            UInt32 w0;
+            byte count, b5, b6, b7, b8, b9, bA, bB;
+            w0 = BE.U32(data, idx);
+            count = data[idx+4];
+            b5 = data[idx+5];
+            b6 = data[idx+6];
+            b7 = data[idx+7];
+            b8 = data[idx+8];
+            b9 = data[idx+9];
+            bA = data[idx+0xA];
+            bB = data[idx+0xB];
+            UInt32[] words = new UInt32[count-1];
+            idx += 0xC;
+            for (int i = 0; i < count - 1; i++) {
+               words[i] = BE.U32(data, idx);
+               idx += 4;
+            }
+            Object2C obj = new Object2C(w0, b5, b6, b7, b8, b9, bA, bB, words);
+            object2Cs.Add(obj);
+         }
       }
 
       // 0x30: TODO
@@ -773,9 +818,23 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(comm.todo, data, offset);
          }
 
-         // TODO: 0x2C real data
          BE.ToBytes(offset, data, 0x2C);
-         offset += AppendArray(data, offset, copy2C);
+         foreach (Object2C obj in object2Cs)
+         {
+            offset += BE.ToBytes(obj.w0, data, offset);
+            data[offset++] = (byte)(obj.words.Length+1);
+            data[offset++] = obj.b5;
+            data[offset++] = obj.b6;
+            data[offset++] = obj.b7;
+            data[offset++] = obj.b8;
+            data[offset++] = obj.b9;
+            data[offset++] = obj.bA;
+            data[offset++] = obj.bB;
+            foreach (UInt32 word in obj.words)
+            {
+               offset += BE.ToBytes(word, data, offset);
+            }
+         }
 
          // TODO: 0x30 real data
          BE.ToBytes(offset, data, 0x30);
@@ -981,7 +1040,7 @@ namespace BlastCorpsEditor
          level.decodeAmmoBoxes(levelData);       // 0x20
          level.decodeCollision24(levelData);     // 0x24
          level.decodeCommPoints(levelData);      // 0x28
-         level.decode2C(levelData);              // 0x2C TODO
+         level.decode2C(levelData);              // 0x2C TODO: name
          level.decode30(levelData);              // 0x30 TODO
          level.decodeRDUs(levelData);            // 0x34
          level.decodeTNTCrates(levelData);       // 0x38
