@@ -242,6 +242,26 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class TrainPlatform
+   {
+      public struct StoppingTriangle
+      {
+         public Int16 x1, x2, x3, z1, z2, z3;
+      }
+      public struct PlatformCollision
+      {
+         public Int16 x1, x2, x3, y1, y2, y3, z1, z2, z3;
+         public UInt16 h12;
+         public byte b14;
+      }
+      public byte b0;
+      public byte b1;
+      public StoppingTriangle[] stoppingZone;
+      public UInt32 word;
+      public PlatformCollision[] collision;
+      public byte[] someList;
+   }
+
    public class BlastCorpsLevel
    {
       public LevelHeader header = new LevelHeader();
@@ -263,7 +283,7 @@ namespace BlastCorpsEditor
       private byte[] copy58;
       private byte[] copy60;
       private byte[] copy64;
-      private byte[] copy68;
+      public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
       private byte[] copy6C;
       private byte[] copy70;
       private byte[] copy74;
@@ -588,9 +608,61 @@ namespace BlastCorpsEditor
       // [WW WW WW WW]
       // [AA] {[H0 H0] [H2 H2] [H4 H4] [H6 H6] [H8 H8] [HA HA] [HC HC] [HE HE] [HG HG] [HI HI] [BK]}
       // [CC] {[BZ]}
-      private void decode68(byte[] data)
+      private void decodeTrainPlatform(byte[] data)
       {
-         copy68 = ArraySlice(data, BE.U32(data, 0x68), BE.U32(data, 0x6C));
+         uint start = BE.U32(data, 0x68);
+         uint end = BE.U32(data, 0x6C);
+         uint idx = start;
+         int count;
+         while (idx < end)
+         {
+            TrainPlatform platform = new TrainPlatform();
+            platform.b0 = data[idx++];
+            platform.b1 = data[idx++];
+            count = data[idx++];
+            platform.stoppingZone = new TrainPlatform.StoppingTriangle[count];
+            for (uint i = 0; i < count; i++)
+            {
+               TrainPlatform.StoppingTriangle triangle = new TrainPlatform.StoppingTriangle();
+               triangle.x1 = BE.I16(data, idx);
+               triangle.z1 = BE.I16(data, idx + 2);
+               triangle.x2 = BE.I16(data, idx + 4);
+               triangle.z2 = BE.I16(data, idx + 6);
+               triangle.x3 = BE.I16(data, idx + 8);
+               triangle.z3 = BE.I16(data, idx + 0xA);
+               idx += 0xC;
+               platform.stoppingZone[i] = triangle;
+            }
+            platform.word = BE.U32(data, idx);
+            idx += 4;
+            count = data[idx++];
+            platform.collision = new TrainPlatform.PlatformCollision[count];
+            for (uint i = 0; i < count; i++)
+            {
+               TrainPlatform.PlatformCollision collision = new TrainPlatform.PlatformCollision();
+               collision.x1 = BE.I16(data, idx);
+               collision.y1 = BE.I16(data, idx + 2);
+               collision.z1 = BE.I16(data, idx + 4);
+               collision.x2 = BE.I16(data, idx + 6);
+               collision.y2 = BE.I16(data, idx + 8);
+               collision.z2 = BE.I16(data, idx + 0xA);
+               collision.x3 = BE.I16(data, idx + 0xC);
+               collision.y3 = BE.I16(data, idx + 0xE);
+               collision.z3 = BE.I16(data, idx + 0x10);
+               collision.h12 = BE.U16(data, idx + 0x12);
+               collision.b14 = data[idx + 0x14];
+               idx += 0x15;
+               platform.collision[i] = collision;
+            }
+            count = data[idx++];
+            platform.someList = new byte[count];
+            for (uint i = 0; i < count; i++)
+            {
+               platform.someList[i] = data[idx];
+               idx++;
+            }
+            trainPlatforms.Add(platform);
+         }
       }
 
       // 0x6C TODO
@@ -844,9 +916,43 @@ namespace BlastCorpsEditor
          BE.ToBytes(offset, data, 0x64);
          offset += AppendArray(data, offset, copy64);
 
-         // TODO: 0x68 real data
          BE.ToBytes(offset, data, 0x68);
-         offset += AppendArray(data, offset, copy68);
+         foreach (TrainPlatform platform in trainPlatforms)
+         {
+            data[offset++] = platform.b0;
+            data[offset++] = platform.b1;
+            data[offset++] = (byte)platform.stoppingZone.Length;
+            foreach (TrainPlatform.StoppingTriangle triangle in platform.stoppingZone)
+            {
+               offset += BE.ToBytes(triangle.x1, data, offset);
+               offset += BE.ToBytes(triangle.z1, data, offset);
+               offset += BE.ToBytes(triangle.x2, data, offset);
+               offset += BE.ToBytes(triangle.z2, data, offset);
+               offset += BE.ToBytes(triangle.x3, data, offset);
+               offset += BE.ToBytes(triangle.z3, data, offset);
+            }
+            offset += BE.ToBytes(platform.word, data, offset);
+            data[offset++] = (byte)platform.collision.Length;
+            foreach (TrainPlatform.PlatformCollision collision in platform.collision)
+            {
+               offset += BE.ToBytes(collision.x1, data, offset);
+               offset += BE.ToBytes(collision.y1, data, offset);
+               offset += BE.ToBytes(collision.z1, data, offset);
+               offset += BE.ToBytes(collision.x2, data, offset);
+               offset += BE.ToBytes(collision.y2, data, offset);
+               offset += BE.ToBytes(collision.z2, data, offset);
+               offset += BE.ToBytes(collision.x3, data, offset);
+               offset += BE.ToBytes(collision.y3, data, offset);
+               offset += BE.ToBytes(collision.z3, data, offset);
+               offset += BE.ToBytes(collision.h12, data, offset);
+               data[offset++] = collision.b14;
+            }
+            data[offset++] = (byte)platform.someList.Length;
+            foreach (byte b in platform.someList)
+            {
+               data[offset++] = b;
+            }
+         }
 
          // TODO: 0x6C real data
          BE.ToBytes(offset, data, 0x6C);
@@ -890,7 +996,7 @@ namespace BlastCorpsEditor
          level.decodeBuildings(levelData);       // 0x5C
          level.decode60(levelData);              // 0x60 TODO
          level.decode64(levelData);              // 0x64 TODO
-         level.decode68(levelData);              // 0x68 TODO
+         level.decodeTrainPlatform(levelData);   // 0x68
          level.decode6C(levelData);              // 0x6C TODO
          level.decode70(levelData);              // 0x70 TODO
          level.decode74(levelData);              // 0x74 TODO

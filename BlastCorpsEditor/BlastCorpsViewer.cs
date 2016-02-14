@@ -119,6 +119,8 @@ namespace BlastCorpsEditor
          carrierPen.StartCap = LineCap.SquareAnchor;
          carrierPen.EndCap = LineCap.ArrowAnchor;
          Pen zonePen = new Pen(Color.Plum);
+         Pen stoppingPen = new Pen(Color.SaddleBrown, 2);
+         Pen platformPen = new Pen(Color.DarkKhaki, 2);
          Pen blackPen = new Pen(Color.Black);
          Pen selectedPen = new Pen(Color.Magenta);
          double angle;
@@ -201,6 +203,33 @@ namespace BlastCorpsEditor
                points[3].X = pixelX(zone.x1);
                points[3].Y = pixelY(zone.z1);
                e.Graphics.DrawLines(zonePen, points);
+            }
+            foreach (TrainPlatform platform in level.trainPlatforms)
+            {
+               foreach (TrainPlatform.StoppingTriangle zone in platform.stoppingZone)
+               {
+                  points[0].X = pixelX(zone.x1);
+                  points[0].Y = pixelY(zone.z1);
+                  points[1].X = pixelX(zone.x2);
+                  points[1].Y = pixelY(zone.z2);
+                  points[2].X = pixelX(zone.x3);
+                  points[2].Y = pixelY(zone.z3);
+                  points[3].X = pixelX(zone.x1);
+                  points[3].Y = pixelY(zone.z1);
+                  e.Graphics.DrawLines(stoppingPen, points);
+               }
+               foreach (TrainPlatform.PlatformCollision collision in platform.collision)
+               {
+                  points[0].X = pixelX(collision.x1);
+                  points[0].Y = pixelY(collision.z1);
+                  points[1].X = pixelX(collision.x2);
+                  points[1].Y = pixelY(collision.z2);
+                  points[2].X = pixelX(collision.x3);
+                  points[2].Y = pixelY(collision.z3);
+                  points[3].X = pixelX(collision.x1);
+                  points[3].Y = pixelY(collision.z1);
+                  e.Graphics.DrawLines(platformPen, points);
+               }
             }
             foreach (CommPoint comm in level.commPoints)
             {
