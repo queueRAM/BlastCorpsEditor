@@ -631,15 +631,19 @@ namespace BlastCorpsEditor
             rom = new BlastCorpsRom();
             if (rom.LoadRom(openFileDialog1.FileName))
             {
-               if (rom.type == BlastCorpsRom.RomType.Vanilla && (rom.region != BlastCorpsRom.Region.US || rom.version != BlastCorpsRom.Version.Ver1p1))
+               if (rom.type == BlastCorpsRom.RomType.Invalid || rom.region == BlastCorpsRom.Region.Invalid || rom.version == BlastCorpsRom.Version.Invalid)
                {
-                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.1) ROMs currently.");
+                  MessageBox.Show("Error, this does not appear to be a valid Blast Corps ROM.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               }
+               else if (rom.type == BlastCorpsRom.RomType.Vanilla && (rom.region != BlastCorpsRom.Region.US || rom.version != BlastCorpsRom.Version.Ver1p1))
+               {
+                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                }
                else
                {
                   if (rom.type == BlastCorpsRom.RomType.Vanilla)
                   {
-                     MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.");
+                     MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.", "Vanilla ROM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                      rom.ExtendRom();
                      statusStripFile.ForeColor = Color.Blue;
                      statusStripFile.Text = "Vanilla ROM";

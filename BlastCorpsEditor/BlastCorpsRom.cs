@@ -426,7 +426,7 @@ namespace BlastCorpsEditor
             romData = System.IO.File.ReadAllBytes(romPath);
             forceByteOrdering();
             collectRomData();
-            if (type == RomType.Extended)
+            if (version != Version.Invalid && type == RomType.Extended)
             {
                copyLevels();
                savePath = romPath;
