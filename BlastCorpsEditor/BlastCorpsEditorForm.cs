@@ -621,7 +621,7 @@ namespace BlastCorpsEditor
       {
          OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-         openFileDialog1.Filter = "N64 ROM (.z64)|*.z64|All Files (*.*)|*.*";
+         openFileDialog1.Filter = "N64 ROM (*.n64;*.v64;*.z64)|*.n64;*.v64;*.z64|All Files (*.*)|*.*";
          openFileDialog1.FilterIndex = 1;
 
          DialogResult dresult = openFileDialog1.ShowDialog();
