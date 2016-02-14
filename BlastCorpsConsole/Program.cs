@@ -6,6 +6,15 @@ namespace BlastCorpsConsole
 {
    class Program
    {
+      static void StatusPrint(ConsoleColor color, string colorMessage, string plainMessage)
+      {
+         ConsoleColor orig = System.Console.ForegroundColor;
+         System.Console.ForegroundColor = color;
+         System.Console.Write(colorMessage);
+         System.Console.ForegroundColor = orig;
+         System.Console.WriteLine(": " + plainMessage);
+      }
+
       static void Main(string[] args)
       {
          if (args.Length < 1)
@@ -17,7 +26,7 @@ namespace BlastCorpsConsole
          string inputDir = args[0];
 
          tmpDir = Path.Combine(tmpDir, "BlastCorps");
-         System.Console.WriteLine("tmpDir: " + tmpDir);
+         System.Console.WriteLine("Saving generated levels to: " + tmpDir);
 
          Directory.CreateDirectory(tmpDir);
 
@@ -31,17 +40,24 @@ namespace BlastCorpsConsole
             FileStream outStream = File.OpenWrite(outputFile);
             outStream.Write(outData, 0, outData.Length);
             outStream.Close();
+            bool passed = true;
             if (inData.Length != outData.Length)
             {
-               System.Console.WriteLine("Error \"" + levelMeta.filename + "\" lengths differ: " + inData.Length + " -> " + outData.Length);
+               StatusPrint(ConsoleColor.Red, "Fail", levelMeta.filename + ".raw, lengths differ: " + inData.Length + " -> " + outData.Length);
+               passed = false;
             }
             for (int i = 0; i < Math.Min(inData.Length, outData.Length); i++)
             {
                if (inData[i] != outData[i])
                {
-                  System.Console.WriteLine("Error \"" + levelMeta.filename + "\" mismatch at " + i.ToString("X6"));
+                  StatusPrint(ConsoleColor.Red, "Fail", levelMeta.filename + ".raw, mismatch at " + i.ToString("X6"));
+                  passed = false;
                   break;
                }
+            }
+            if (passed)
+            {
+               StatusPrint(ConsoleColor.Green, "Pass", levelMeta.filename + ".raw");
             }
          }
       }
