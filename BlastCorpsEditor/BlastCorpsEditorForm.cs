@@ -78,7 +78,37 @@ namespace BlastCorpsEditor
 
          comboBoxLevel.Enabled = true;
          saveToolStripMenuItem.Enabled = true;
+         saveRunToolStripMenuItem.Enabled = true;
          exportToolStripMenuItem.Enabled = true;
+      }
+
+      private void SaveFile()
+      {
+         if (rom != null)
+         {
+            // opening a vanilla ROM will not record the path, forcing a save as... dialog here
+            if (rom.savePath == null)
+            {
+               SaveFileDialog saveFileDialog = new SaveFileDialog();
+               saveFileDialog.Filter = "N64 ROM (.z64)|*.z64";
+               saveFileDialog.ShowDialog();
+
+               if (saveFileDialog.FileName != "")
+               {
+                  rom.savePath = saveFileDialog.FileName;
+                  statusStripFile.Text = saveFileDialog.FileName;
+                  statusStripFile.ForeColor = Color.Black;
+               }
+            }
+            if (rom.savePath != null)
+            {
+               if (level != null)
+               {
+                  rom.UpdateLevel(levelId, level.ToBytes(), level.displayList);
+               }
+               rom.SaveRom(rom.savePath);
+            }
+         }
       }
 
       private void SetSelectedItem(BlastCorpsItem item)
@@ -673,30 +703,17 @@ namespace BlastCorpsEditor
 
       private void saveToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         if (rom != null)
-         {
-            // opening a vanilla ROM will not record the path, forcing a save as... dialog here
-            if (rom.savePath == null)
-            {
-               SaveFileDialog saveFileDialog = new SaveFileDialog();
-               saveFileDialog.Filter = "N64 ROM (.z64)|*.z64";
-               saveFileDialog.ShowDialog();
+         SaveFile();
+      }
 
-               if (saveFileDialog.FileName != "")
-               {
-                  rom.savePath = saveFileDialog.FileName;
-                  statusStripFile.Text = saveFileDialog.FileName;
-                  statusStripFile.ForeColor = Color.Black;
-               }
-            }
-            if (rom.savePath != null)
-            {
-               if (level != null)
-               {
-                  rom.UpdateLevel(levelId, level.ToBytes(), level.displayList);
-               }
-               rom.SaveRom(rom.savePath);
-            }
+      private void saveRunToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         SaveFile();
+         if (rom.savePath != null)
+         {
+            ProcessStartInfo psi = new ProcessStartInfo(rom.savePath);
+            psi.UseShellExecute = true;
+            Process.Start(psi);
          }
       }
 
