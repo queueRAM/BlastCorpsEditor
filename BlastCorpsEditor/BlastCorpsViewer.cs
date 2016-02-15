@@ -122,7 +122,7 @@ namespace BlastCorpsEditor
          Pen stoppingPen = new Pen(Color.SaddleBrown, 2);
          Pen platformPen = new Pen(Color.DarkKhaki, 2);
          Pen blackPen = new Pen(Color.Black);
-         Pen selectedPen = new Pen(Color.Magenta);
+         Pen selectedPen = new Pen(Color.Magenta, 2);
          double angle;
          int x, y, dx, dy;
          if (level != null)
@@ -303,7 +303,9 @@ namespace BlastCorpsEditor
          {
             if (mouseStatus != null)
             {
-               mouseStatus.Text = levelX(e.X) + "," + levelZ(e.Y);
+               int lX = levelX(e.X);
+               int lZ = levelZ(e.Y);
+               mouseStatus.Text = lX + "," + lZ + " ( " + lX.ToString("X4") + "," + lZ.ToString("X4") + " )";
             }
 
             if (dragItem != null)
