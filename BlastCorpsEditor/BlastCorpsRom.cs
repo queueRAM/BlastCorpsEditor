@@ -115,7 +115,7 @@ namespace BlastCorpsEditor
          new BlastCorpsLevelMeta { id = 59, levelStart = 0x665F80, dlStart = 0x66BB49, end = 0x66C900, filename = "level59", name = "Lizard Island" },
       };
 
-      const int LEVEL_TABLE_START = 0x7FA000;
+      const int LEVEL_TABLE_START = 0x7FC000;
       const int LEVEL_START = 8 * 1024 * 1024;
       const int LEVEL_ALIGNMENT = 0x10;
 
@@ -170,11 +170,11 @@ namespace BlastCorpsEditor
 
       private void collectRomData()
       {
+         UInt32 cksum1, cksum2;
+         cksum1 = BE.U32(romData, 0x10);
+         cksum2 = BE.U32(romData, 0x14);
          if (romData.Length == 8 * 1024 * 1024)
          {
-            UInt32 cksum1, cksum2;
-            cksum1 = BE.U32(romData, 0x10);
-            cksum2 = BE.U32(romData, 0x14);
             foreach (RomMeta rom in romMeta)
             {
                if (cksum1 == rom.cksum1 && cksum2 == rom.cksum2)
@@ -186,10 +186,34 @@ namespace BlastCorpsEditor
                }
             }
          }
-         else
+         else if (romData.Length > 8 * 1024 * 1024)
          {
-            // assume already extended
+            // assume extended unless table at end contains invalid data
             type = RomType.Extended;
+            // verify table references valid range of data
+            for (uint offset = LEVEL_TABLE_START; offset < LEVEL_TABLE_START + 0x10 * levelMeta.Count; offset += 4)
+            {
+               UInt32 levelOffset = BE.U32(romData, offset);
+               if (levelOffset < 4 * 1024 * 1024 || levelOffset > romData.Length)
+               {
+                  type = RomType.Invalid;
+                  break;
+               }
+            }
+            if (type == RomType.Extended)
+            {
+               switch (romData[0x3E])
+               {
+                  case 0x45: region = Region.US; break;
+                  case 0x4A: region = Region.Japan; break;
+                  case 0x50: region = Region.Europe; break;
+               }
+               switch (romData[0x3F])
+               {
+                  case 0x00: version = Version.Ver1p0; break;
+                  case 0x01: version = Version.Ver1p1; break;
+               }
+            }
          }
       }
 
@@ -343,7 +367,7 @@ namespace BlastCorpsEditor
             Array.Copy(codeTextGzip, 0, romData, textStart, codeTextGzip.Length);
             Array.Copy(codeDataGzip, 0, romData, textStart + codeTextGzip.Length, codeDataGzip.Length);
 
-            // 7. copy all levels to end of ROM, saving start and end offsets to 0x7FA000
+            // 7. copy all gziped levels into memory, to later be written to end of ROM or inflated and edited
             foreach (BlastCorpsLevelMeta level in levelMeta)
             {
                int length;
