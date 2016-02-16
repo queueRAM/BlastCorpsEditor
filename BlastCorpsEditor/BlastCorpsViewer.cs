@@ -301,17 +301,16 @@ namespace BlastCorpsEditor
       {
          if (level != null)
          {
+            Int16 x = (Int16)levelX(e.X);
+            Int16 z = (Int16)levelZ(e.Y);
             if (mouseStatus != null)
             {
-               int lX = levelX(e.X);
-               int lZ = levelZ(e.Y);
-               mouseStatus.Text = lX + "," + lZ + " ( " + lX.ToString("X4") + "," + lZ.ToString("X4") + " )";
+               mouseStatus.Text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
             }
-
             if (dragItem != null)
             {
-               dragItem.x = (Int16)levelX(e.X);
-               dragItem.z = (Int16)levelZ(e.Y);
+               dragItem.x = x;
+               dragItem.z = z;
                Invalidate();
             }
          }
