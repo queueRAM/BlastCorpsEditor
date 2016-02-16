@@ -6,7 +6,8 @@ namespace BlastCorpsEditor
    public class LevelHeader
    {
       public UInt16[] u16s = new UInt16[12];
-      public Int32[] twoVals = new Int32[2];
+      public Int32 gravity;
+      public Int32 u1C; // TODO: identify
       public UInt32[] offsets = new UInt32[42];
    }
 
@@ -309,6 +310,7 @@ namespace BlastCorpsEditor
       private byte[] copy70;
       private byte[] copy74;
       private byte[] vertData;
+      public byte[] copyLevelData;
       public byte[] displayList;
 
       // 0x00-0x20: Header
@@ -320,10 +322,8 @@ namespace BlastCorpsEditor
             header.u16s[i] = BE.U16(data, i*2);
          }
          // read in two signed 32 values
-         for (uint i = 0; i < header.twoVals.Length; i++)
-         {
-            header.twoVals[i] = BE.I32(data, 0x18 + i*4);
-         }
+         header.gravity = BE.I32(data, 0x18);
+         header.u1C = BE.I32(data, 0x1C);
          // read in section offsets
          for (uint i = 0; i < header.offsets.Length; i++)
          {
@@ -766,10 +766,8 @@ namespace BlastCorpsEditor
          {
             offset += BE.ToBytes(val, data, offset);
          }
-         foreach (Int32 val in header.twoVals)
-         {
-            offset += BE.ToBytes(val, data, offset);
-         }
+         offset += BE.ToBytes(header.gravity, data, offset);
+         offset += BE.ToBytes(header.u1C, data, offset);
 
          // TODO: real offsets
          offset = 0x78;
@@ -1060,6 +1058,7 @@ namespace BlastCorpsEditor
          level.decode70(levelData);              // 0x70 TODO
          level.decode74(levelData);              // 0x74 TODO
          // TODO: 0x78-0x9C are beyond level length and may be in display list
+         level.copyLevelData = levelData;
          level.displayList = displayListData;
          return level;
       }

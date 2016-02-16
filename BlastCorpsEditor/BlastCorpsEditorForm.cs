@@ -26,26 +26,62 @@ namespace BlastCorpsEditor
          InitializeComponent();
          comboBoxLevel.DataSource = BlastCorpsRom.levelMeta;
          blastCorpsViewer.SetStatusLabel(statusStripMessage);
+         numericHeaders = new NumericUpDown[] { 
+            numericHeader00,
+            numericHeader02,
+            numericHeader04,
+            numericHeader06,
+            numericHeader08,
+            numericHeader0A,
+            numericHeader0C,
+            numericHeader0E,
+            numericHeader10,
+            numericHeader12,
+            numericHeader14,
+            numericHeader16 };
+         int index = 0;
+         foreach (NumericUpDown numeric in numericHeaders)
+         {
+            numeric.Tag = index++;
+            numeric.ValueChanged += new System.EventHandler(this.numericU16_ValueChanged);
+         }
       }
+
+      private NumericUpDown[] numericHeaders;
 
       private void readData(byte[] levelData, byte[] displayList)
       {
          level = BlastCorpsLevel.decodeLevel(levelData, displayList);
 
-         listBoxHeader.Items.Clear();
+         listViewHeaders.Items.Clear();
          for (int i = 0; i < level.header.u16s.Length; i++)
          {
-            listBoxHeader.Items.Add((2 * i).ToString("X2") + ": " + level.header.u16s[i].ToString("X4"));
+            numericHeaders[i].Value = level.header.u16s[i];
          }
-         for (int i = 0; i < level.header.twoVals.Length; i++)
+         numericGravity.Value = level.header.gravity;
+         numeric1C.Value = level.header.u1C;
+         for (int i = 0; i < level.header.offsets.Length-1; i++)
          {
-            int offset = 2 * level.header.u16s.Length + 4 * i;
-            listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.twoVals[i]);
-         }
-         for (int i = 0; i < level.header.offsets.Length; i++)
-         {
-            int offset = 2 * level.header.u16s.Length + 4 * level.header.twoVals.Length + 4 * i;
-            listBoxHeader.Items.Add(offset.ToString("X2") + ": " + level.header.offsets[i].ToString("X8"));
+            int offset = 2 * level.header.u16s.Length + 8 + 4 * i;
+            ListViewItem item = new ListViewItem("0x" + offset.ToString("X2"));
+            item.SubItems.Add(level.header.offsets[i].ToString("X8"));
+            uint len;
+            // most of them go in order, but some are switched around. 0x84 is last
+            switch (offset)
+            {
+               case 0x74: len = level.header.offsets[(0xA0 - 0x20) / 4] - level.header.offsets[i]; break;
+               case 0x78: len = level.header.offsets[(0x88 - 0x20) / 4] - level.header.offsets[i]; break;
+               case 0x84: len = (uint)level.displayList.Length + (uint)level.copyLevelData.Length - level.header.offsets[i]; break;
+               case 0x8C: len = level.header.offsets[(0x7C - 0x20) / 4] - level.header.offsets[i]; break;
+               case 0xC0: len = level.header.offsets[(0x88 - 0x20) / 4] - level.header.offsets[i]; break;
+               case 0x9C: len = level.header.offsets[(0x84 - 0x20) / 4] - level.header.offsets[i]; break;
+               default: len = level.header.offsets[i+1] - level.header.offsets[i]; break;
+            }
+            if (len > 0)
+            {
+               item.SubItems.Add(len.ToString("X"));
+            }
+            listViewHeaders.Items.Add(item);
          }
 
          ammoSource.DataSource = level.ammoBoxes;
@@ -65,7 +101,7 @@ namespace BlastCorpsEditor
          numericCarrierX.Value = level.carrier.x;
          numericCarrierY.Value = level.carrier.y;
          numericCarrierZ.Value = level.carrier.z;
-         numericCarrierBearing.Value = level.carrier.heading;
+         numericCarrierHeading.Value = level.carrier.heading;
          numericCarrierSpeed.Value = level.carrier.speed;
          numericCarrierDistance.Value = level.carrier.distance;
 
@@ -136,6 +172,33 @@ namespace BlastCorpsEditor
             byte[] levelData = rom.GetLevelData(levelId);
             byte[] displayList = rom.GetDisplayList(levelId);
             readData(levelData, displayList);
+         }
+      }
+
+      // Header data
+      private void numericU16_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            NumericUpDown numeric = (NumericUpDown)sender;
+            int index = (int)numeric.Tag;
+            level.header.u16s[index] = (UInt16)numeric.Value;
+         }
+      }
+
+      private void numericGravity_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.header.gravity = (Int32)numericGravity.Value;
+         }
+      }
+
+      private void numericFriction_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.header.u1C = (Int32)numeric1C.Value;
          }
       }
 
@@ -473,6 +536,54 @@ namespace BlastCorpsEditor
       }
 
       // Vehicles
+      private void numericCarrierX_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.x = (Int16)numericCarrierX.Value;
+         }
+      }
+
+      private void numericCarrierY_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.y = (Int16)numericCarrierY.Value;
+         }
+      }
+
+      private void numericCarrierZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.z = (Int16)numericCarrierZ.Value;
+         }
+      }
+
+      private void numericCarrierSpeed_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.speed = (byte)numericCarrierSpeed.Value;
+         }
+      }
+
+      private void numericCarrierHeading_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.heading = (UInt16)numericCarrierHeading.Value;
+         }
+      }
+
+      private void numericCarrierDistance_ValueChanged(object sender, EventArgs e)
+      {
+         if (level != null)
+         {
+            level.carrier.distance = (UInt16)numericCarrierDistance.Value;
+         }
+      }
+
       private void listBoxVehicles_SelectedIndexChanged(object sender, EventArgs e)
       {
          Vehicle veh = (Vehicle)listBoxVehicles.SelectedItem;

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+         this.components = new System.ComponentModel.Container();
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -37,6 +38,7 @@
          this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.saveRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
          this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +50,10 @@
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.tabControl1 = new System.Windows.Forms.TabControl();
          this.tabPageHeader = new System.Windows.Forms.TabPage();
-         this.listBoxHeader = new System.Windows.Forms.ListBox();
+         this.numeric1C = new System.Windows.Forms.NumericUpDown();
+         this.label44 = new System.Windows.Forms.Label();
+         this.numericGravity = new System.Windows.Forms.NumericUpDown();
+         this.label43 = new System.Windows.Forms.Label();
          this.tabPageAmmo = new System.Windows.Forms.TabPage();
          this.comboBoxAmmo = new System.Windows.Forms.ComboBox();
          this.label19 = new System.Windows.Forms.Label();
@@ -119,7 +124,7 @@
          this.groupBox1 = new System.Windows.Forms.GroupBox();
          this.numericCarrierDistance = new System.Windows.Forms.NumericUpDown();
          this.label34 = new System.Windows.Forms.Label();
-         this.numericCarrierBearing = new System.Windows.Forms.NumericUpDown();
+         this.numericCarrierHeading = new System.Windows.Forms.NumericUpDown();
          this.label33 = new System.Windows.Forms.Label();
          this.numericCarrierSpeed = new System.Windows.Forms.NumericUpDown();
          this.label29 = new System.Windows.Forms.Label();
@@ -163,12 +168,44 @@
          this.buttonAddBuilding = new System.Windows.Forms.Button();
          this.listBoxBuildings = new System.Windows.Forms.ListBox();
          this.comboBoxLevel = new System.Windows.Forms.ComboBox();
-         this.saveRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+         this.listViewHeaders = new System.Windows.Forms.ListView();
+         this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.numericHeader00 = new System.Windows.Forms.NumericUpDown();
+         this.label45 = new System.Windows.Forms.Label();
+         this.numericHeader02 = new System.Windows.Forms.NumericUpDown();
+         this.label46 = new System.Windows.Forms.Label();
+         this.numericHeader04 = new System.Windows.Forms.NumericUpDown();
+         this.label47 = new System.Windows.Forms.Label();
+         this.numericHeader06 = new System.Windows.Forms.NumericUpDown();
+         this.label48 = new System.Windows.Forms.Label();
+         this.numericHeader08 = new System.Windows.Forms.NumericUpDown();
+         this.label49 = new System.Windows.Forms.Label();
+         this.numericHeader0A = new System.Windows.Forms.NumericUpDown();
+         this.label50 = new System.Windows.Forms.Label();
+         this.numericHeader0C = new System.Windows.Forms.NumericUpDown();
+         this.label51 = new System.Windows.Forms.Label();
+         this.numericHeader0E = new System.Windows.Forms.NumericUpDown();
+         this.label52 = new System.Windows.Forms.Label();
+         this.numericHeader10 = new System.Windows.Forms.NumericUpDown();
+         this.label53 = new System.Windows.Forms.Label();
+         this.numericHeader12 = new System.Windows.Forms.NumericUpDown();
+         this.label54 = new System.Windows.Forms.Label();
+         this.numericHeader14 = new System.Windows.Forms.NumericUpDown();
+         this.label55 = new System.Windows.Forms.Label();
+         this.numericHeader16 = new System.Windows.Forms.NumericUpDown();
+         this.label56 = new System.Windows.Forms.Label();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.groupBox3 = new System.Windows.Forms.GroupBox();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
          this.tabControl1.SuspendLayout();
          this.tabPageHeader.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericGravity)).BeginInit();
          this.tabPageAmmo.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoY)).BeginInit();
@@ -197,7 +234,7 @@
          this.tabPageVehicles.SuspendLayout();
          this.groupBox1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierDistance)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericCarrierBearing)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCarrierHeading)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierSpeed)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierY)).BeginInit();
@@ -215,6 +252,20 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).BeginInit();
+         this.groupBox2.SuspendLayout();
+         this.groupBox3.SuspendLayout();
          this.SuspendLayout();
          // 
          // statusStrip
@@ -223,7 +274,7 @@
             this.statusStripFile,
             this.statusStripSpring,
             this.statusStripMessage});
-         this.statusStrip.Location = new System.Drawing.Point(0, 584);
+         this.statusStrip.Location = new System.Drawing.Point(0, 643);
          this.statusStrip.Name = "statusStrip";
          this.statusStrip.Size = new System.Drawing.Size(983, 22);
          this.statusStrip.TabIndex = 0;
@@ -288,6 +339,15 @@
          this.saveToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
          this.saveToolStripMenuItem.Text = "Save";
          this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+         // 
+         // saveRunToolStripMenuItem
+         // 
+         this.saveRunToolStripMenuItem.Enabled = false;
+         this.saveRunToolStripMenuItem.Name = "saveRunToolStripMenuItem";
+         this.saveRunToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+         this.saveRunToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+         this.saveRunToolStripMenuItem.Text = "Save && Run";
+         this.saveRunToolStripMenuItem.Click += new System.EventHandler(this.saveRunToolStripMenuItem_Click);
          // 
          // exportToolStripMenuItem
          // 
@@ -375,30 +435,80 @@
          this.tabControl1.Location = new System.Drawing.Point(8, 54);
          this.tabControl1.Name = "tabControl1";
          this.tabControl1.SelectedIndex = 0;
-         this.tabControl1.Size = new System.Drawing.Size(378, 520);
+         this.tabControl1.Size = new System.Drawing.Size(378, 579);
          this.tabControl1.TabIndex = 4;
          // 
          // tabPageHeader
          // 
-         this.tabPageHeader.Controls.Add(this.listBoxHeader);
+         this.tabPageHeader.Controls.Add(this.groupBox3);
+         this.tabPageHeader.Controls.Add(this.groupBox2);
+         this.tabPageHeader.Controls.Add(this.listViewHeaders);
          this.tabPageHeader.Location = new System.Drawing.Point(4, 22);
          this.tabPageHeader.Name = "tabPageHeader";
          this.tabPageHeader.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageHeader.Size = new System.Drawing.Size(370, 494);
+         this.tabPageHeader.Size = new System.Drawing.Size(370, 553);
          this.tabPageHeader.TabIndex = 3;
          this.tabPageHeader.Text = "Header";
          this.tabPageHeader.UseVisualStyleBackColor = true;
          // 
-         // listBoxHeader
+         // numeric1C
          // 
-         this.listBoxHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.listBoxHeader.FormattingEnabled = true;
-         this.listBoxHeader.Location = new System.Drawing.Point(6, 6);
-         this.listBoxHeader.Name = "listBoxHeader";
-         this.listBoxHeader.Size = new System.Drawing.Size(358, 472);
-         this.listBoxHeader.TabIndex = 7;
+         this.numeric1C.Location = new System.Drawing.Point(87, 48);
+         this.numeric1C.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+         this.numeric1C.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+         this.numeric1C.Name = "numeric1C";
+         this.numeric1C.Size = new System.Drawing.Size(69, 20);
+         this.numeric1C.TabIndex = 11;
+         this.toolTip1.SetToolTip(this.numeric1C, "Values in ROM:\r\n  0: Glory Crossing, Crystal Rift, Beeton Tracks, Jade Plateau, O" +
+        "rion Plaza, Mercury\r\n  1: All other levels\r\nOther tested values:\r\n  2+: caused m" +
+        "icrocode errors in emulation");
+         this.numeric1C.ValueChanged += new System.EventHandler(this.numericFriction_ValueChanged);
+         // 
+         // label44
+         // 
+         this.label44.AutoSize = true;
+         this.label44.Location = new System.Drawing.Point(6, 51);
+         this.label44.Name = "label44";
+         this.label44.Size = new System.Drawing.Size(34, 13);
+         this.label44.TabIndex = 10;
+         this.label44.Text = "0x1C:";
+         // 
+         // numericGravity
+         // 
+         this.numericGravity.Location = new System.Drawing.Point(87, 22);
+         this.numericGravity.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+         this.numericGravity.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+         this.numericGravity.Name = "numericGravity";
+         this.numericGravity.Size = new System.Drawing.Size(69, 20);
+         this.numericGravity.TabIndex = 9;
+         this.toolTip1.SetToolTip(this.numericGravity, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         this.numericGravity.ValueChanged += new System.EventHandler(this.numericGravity_ValueChanged);
+         // 
+         // label43
+         // 
+         this.label43.AutoSize = true;
+         this.label43.Location = new System.Drawing.Point(6, 24);
+         this.label43.Name = "label43";
+         this.label43.Size = new System.Drawing.Size(75, 13);
+         this.label43.TabIndex = 8;
+         this.label43.Text = "0x18 (Gravity):";
          // 
          // tabPageAmmo
          // 
@@ -415,7 +525,7 @@
          this.tabPageAmmo.Controls.Add(this.listBoxAmmo);
          this.tabPageAmmo.Location = new System.Drawing.Point(4, 22);
          this.tabPageAmmo.Name = "tabPageAmmo";
-         this.tabPageAmmo.Size = new System.Drawing.Size(370, 494);
+         this.tabPageAmmo.Size = new System.Drawing.Size(370, 553);
          this.tabPageAmmo.TabIndex = 4;
          this.tabPageAmmo.Text = "Ammo";
          this.tabPageAmmo.UseVisualStyleBackColor = true;
@@ -501,7 +611,7 @@
          // 
          this.buttonDelAmmo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelAmmo.Enabled = false;
-         this.buttonDelAmmo.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelAmmo.Location = new System.Drawing.Point(115, 527);
          this.buttonDelAmmo.Name = "buttonDelAmmo";
          this.buttonDelAmmo.Size = new System.Drawing.Size(101, 23);
          this.buttonDelAmmo.TabIndex = 17;
@@ -512,7 +622,7 @@
          // 
          this.buttonAddAmmo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddAmmo.Enabled = false;
-         this.buttonAddAmmo.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddAmmo.Location = new System.Drawing.Point(6, 527);
          this.buttonAddAmmo.Name = "buttonAddAmmo";
          this.buttonAddAmmo.Size = new System.Drawing.Size(97, 23);
          this.buttonAddAmmo.TabIndex = 16;
@@ -553,7 +663,7 @@
          this.listBoxAmmo.FormattingEnabled = true;
          this.listBoxAmmo.Location = new System.Drawing.Point(6, 6);
          this.listBoxAmmo.Name = "listBoxAmmo";
-         this.listBoxAmmo.Size = new System.Drawing.Size(210, 446);
+         this.listBoxAmmo.Size = new System.Drawing.Size(210, 498);
          this.listBoxAmmo.TabIndex = 12;
          this.listBoxAmmo.SelectedIndexChanged += new System.EventHandler(this.listBoxAmmo_SelectedIndexChanged);
          // 
@@ -570,7 +680,7 @@
          this.tabPageCommPt.Controls.Add(this.listBoxCommPt);
          this.tabPageCommPt.Location = new System.Drawing.Point(4, 22);
          this.tabPageCommPt.Name = "tabPageCommPt";
-         this.tabPageCommPt.Size = new System.Drawing.Size(370, 494);
+         this.tabPageCommPt.Size = new System.Drawing.Size(370, 553);
          this.tabPageCommPt.TabIndex = 5;
          this.tabPageCommPt.Text = "CommPt";
          this.tabPageCommPt.UseVisualStyleBackColor = true;
@@ -633,7 +743,7 @@
          // 
          this.buttonDelCommPt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelCommPt.Enabled = false;
-         this.buttonDelCommPt.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelCommPt.Location = new System.Drawing.Point(115, 527);
          this.buttonDelCommPt.Name = "buttonDelCommPt";
          this.buttonDelCommPt.Size = new System.Drawing.Size(101, 23);
          this.buttonDelCommPt.TabIndex = 26;
@@ -644,7 +754,7 @@
          // 
          this.buttonAddCommPt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddCommPt.Enabled = false;
-         this.buttonAddCommPt.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddCommPt.Location = new System.Drawing.Point(6, 527);
          this.buttonAddCommPt.Name = "buttonAddCommPt";
          this.buttonAddCommPt.Size = new System.Drawing.Size(97, 23);
          this.buttonAddCommPt.TabIndex = 25;
@@ -685,7 +795,7 @@
          this.listBoxCommPt.FormattingEnabled = true;
          this.listBoxCommPt.Location = new System.Drawing.Point(6, 6);
          this.listBoxCommPt.Name = "listBoxCommPt";
-         this.listBoxCommPt.Size = new System.Drawing.Size(210, 446);
+         this.listBoxCommPt.Size = new System.Drawing.Size(210, 498);
          this.listBoxCommPt.TabIndex = 21;
          this.listBoxCommPt.SelectedIndexChanged += new System.EventHandler(this.listBoxCommPt_SelectedIndexChanged);
          // 
@@ -703,7 +813,7 @@
          this.tabPageRdus.Location = new System.Drawing.Point(4, 22);
          this.tabPageRdus.Name = "tabPageRdus";
          this.tabPageRdus.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageRdus.Size = new System.Drawing.Size(370, 494);
+         this.tabPageRdus.Size = new System.Drawing.Size(370, 553);
          this.tabPageRdus.TabIndex = 0;
          this.tabPageRdus.Text = "RDUs";
          this.tabPageRdus.UseVisualStyleBackColor = true;
@@ -766,7 +876,7 @@
          // 
          this.buttonRduDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonRduDelete.Enabled = false;
-         this.buttonRduDelete.Location = new System.Drawing.Point(115, 468);
+         this.buttonRduDelete.Location = new System.Drawing.Point(115, 527);
          this.buttonRduDelete.Name = "buttonRduDelete";
          this.buttonRduDelete.Size = new System.Drawing.Size(101, 23);
          this.buttonRduDelete.TabIndex = 8;
@@ -777,7 +887,7 @@
          // 
          this.buttonAddRdu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddRdu.Enabled = false;
-         this.buttonAddRdu.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddRdu.Location = new System.Drawing.Point(6, 527);
          this.buttonAddRdu.Name = "buttonAddRdu";
          this.buttonAddRdu.Size = new System.Drawing.Size(97, 23);
          this.buttonAddRdu.TabIndex = 7;
@@ -818,7 +928,7 @@
          this.listBoxRdu.FormattingEnabled = true;
          this.listBoxRdu.Location = new System.Drawing.Point(6, 6);
          this.listBoxRdu.Name = "listBoxRdu";
-         this.listBoxRdu.Size = new System.Drawing.Size(210, 446);
+         this.listBoxRdu.Size = new System.Drawing.Size(210, 498);
          this.listBoxRdu.TabIndex = 0;
          this.listBoxRdu.SelectedIndexChanged += new System.EventHandler(this.listBoxRdu_SelectedIndexChanged);
          // 
@@ -843,7 +953,7 @@
          this.tabPageTnt.Controls.Add(this.listBoxTnt);
          this.tabPageTnt.Location = new System.Drawing.Point(4, 22);
          this.tabPageTnt.Name = "tabPageTnt";
-         this.tabPageTnt.Size = new System.Drawing.Size(370, 494);
+         this.tabPageTnt.Size = new System.Drawing.Size(370, 553);
          this.tabPageTnt.TabIndex = 2;
          this.tabPageTnt.Text = "TNT";
          this.tabPageTnt.UseVisualStyleBackColor = true;
@@ -994,7 +1104,7 @@
          // 
          this.buttonDelTnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelTnt.Enabled = false;
-         this.buttonDelTnt.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelTnt.Location = new System.Drawing.Point(115, 527);
          this.buttonDelTnt.Name = "buttonDelTnt";
          this.buttonDelTnt.Size = new System.Drawing.Size(101, 23);
          this.buttonDelTnt.TabIndex = 17;
@@ -1005,7 +1115,7 @@
          // 
          this.buttonAddTnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddTnt.Enabled = false;
-         this.buttonAddTnt.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddTnt.Location = new System.Drawing.Point(6, 527);
          this.buttonAddTnt.Name = "buttonAddTnt";
          this.buttonAddTnt.Size = new System.Drawing.Size(97, 23);
          this.buttonAddTnt.TabIndex = 16;
@@ -1046,7 +1156,7 @@
          this.listBoxTnt.FormattingEnabled = true;
          this.listBoxTnt.Location = new System.Drawing.Point(6, 6);
          this.listBoxTnt.Name = "listBoxTnt";
-         this.listBoxTnt.Size = new System.Drawing.Size(210, 446);
+         this.listBoxTnt.Size = new System.Drawing.Size(210, 498);
          this.listBoxTnt.TabIndex = 9;
          this.listBoxTnt.SelectedIndexChanged += new System.EventHandler(this.listBoxTnt_SelectedIndexChanged);
          // 
@@ -1069,7 +1179,7 @@
          this.tabPageBlock.Controls.Add(this.listBoxBlocks);
          this.tabPageBlock.Location = new System.Drawing.Point(4, 22);
          this.tabPageBlock.Name = "tabPageBlock";
-         this.tabPageBlock.Size = new System.Drawing.Size(370, 494);
+         this.tabPageBlock.Size = new System.Drawing.Size(370, 553);
          this.tabPageBlock.TabIndex = 6;
          this.tabPageBlock.Text = "Blocks";
          this.tabPageBlock.UseVisualStyleBackColor = true;
@@ -1226,7 +1336,7 @@
          // 
          this.buttonDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelBlock.Enabled = false;
-         this.buttonDelBlock.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelBlock.Location = new System.Drawing.Point(115, 527);
          this.buttonDelBlock.Name = "buttonDelBlock";
          this.buttonDelBlock.Size = new System.Drawing.Size(101, 23);
          this.buttonDelBlock.TabIndex = 31;
@@ -1237,7 +1347,7 @@
          // 
          this.buttonAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddBlock.Enabled = false;
-         this.buttonAddBlock.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddBlock.Location = new System.Drawing.Point(6, 527);
          this.buttonAddBlock.Name = "buttonAddBlock";
          this.buttonAddBlock.Size = new System.Drawing.Size(97, 23);
          this.buttonAddBlock.TabIndex = 30;
@@ -1251,7 +1361,7 @@
          this.listBoxBlocks.FormattingEnabled = true;
          this.listBoxBlocks.Location = new System.Drawing.Point(6, 6);
          this.listBoxBlocks.Name = "listBoxBlocks";
-         this.listBoxBlocks.Size = new System.Drawing.Size(210, 446);
+         this.listBoxBlocks.Size = new System.Drawing.Size(210, 498);
          this.listBoxBlocks.TabIndex = 23;
          this.listBoxBlocks.SelectedIndexChanged += new System.EventHandler(this.listBoxBlocks_SelectedIndexChanged);
          // 
@@ -1274,7 +1384,7 @@
          this.tabPageVehicles.Location = new System.Drawing.Point(4, 22);
          this.tabPageVehicles.Name = "tabPageVehicles";
          this.tabPageVehicles.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageVehicles.Size = new System.Drawing.Size(370, 494);
+         this.tabPageVehicles.Size = new System.Drawing.Size(370, 553);
          this.tabPageVehicles.TabIndex = 1;
          this.tabPageVehicles.Text = "Vehicles";
          this.tabPageVehicles.UseVisualStyleBackColor = true;
@@ -1283,7 +1393,7 @@
          // 
          this.groupBox1.Controls.Add(this.numericCarrierDistance);
          this.groupBox1.Controls.Add(this.label34);
-         this.groupBox1.Controls.Add(this.numericCarrierBearing);
+         this.groupBox1.Controls.Add(this.numericCarrierHeading);
          this.groupBox1.Controls.Add(this.label33);
          this.groupBox1.Controls.Add(this.numericCarrierSpeed);
          this.groupBox1.Controls.Add(this.label29);
@@ -1311,6 +1421,7 @@
          this.numericCarrierDistance.Name = "numericCarrierDistance";
          this.numericCarrierDistance.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierDistance.TabIndex = 36;
+         this.numericCarrierDistance.ValueChanged += new System.EventHandler(this.numericCarrierDistance_ValueChanged);
          // 
          // label34
          // 
@@ -1321,26 +1432,27 @@
          this.label34.TabIndex = 35;
          this.label34.Text = "Distance:";
          // 
-         // numericCarrierBearing
+         // numericCarrierHeading
          // 
-         this.numericCarrierBearing.Location = new System.Drawing.Point(240, 45);
-         this.numericCarrierBearing.Maximum = new decimal(new int[] {
+         this.numericCarrierHeading.Location = new System.Drawing.Point(240, 45);
+         this.numericCarrierHeading.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-         this.numericCarrierBearing.Name = "numericCarrierBearing";
-         this.numericCarrierBearing.Size = new System.Drawing.Size(100, 20);
-         this.numericCarrierBearing.TabIndex = 34;
+         this.numericCarrierHeading.Name = "numericCarrierHeading";
+         this.numericCarrierHeading.Size = new System.Drawing.Size(100, 20);
+         this.numericCarrierHeading.TabIndex = 34;
+         this.numericCarrierHeading.ValueChanged += new System.EventHandler(this.numericCarrierHeading_ValueChanged);
          // 
          // label33
          // 
          this.label33.AutoSize = true;
          this.label33.Location = new System.Drawing.Point(188, 47);
          this.label33.Name = "label33";
-         this.label33.Size = new System.Drawing.Size(46, 13);
+         this.label33.Size = new System.Drawing.Size(50, 13);
          this.label33.TabIndex = 33;
-         this.label33.Text = "Bearing:";
+         this.label33.Text = "Heading:";
          // 
          // numericCarrierSpeed
          // 
@@ -1353,6 +1465,7 @@
          this.numericCarrierSpeed.Name = "numericCarrierSpeed";
          this.numericCarrierSpeed.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierSpeed.TabIndex = 32;
+         this.numericCarrierSpeed.ValueChanged += new System.EventHandler(this.numericCarrierSpeed_ValueChanged);
          // 
          // label29
          // 
@@ -1379,6 +1492,7 @@
          this.numericCarrierZ.Name = "numericCarrierZ";
          this.numericCarrierZ.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierZ.TabIndex = 30;
+         this.numericCarrierZ.ValueChanged += new System.EventHandler(this.numericCarrierZ_ValueChanged);
          // 
          // numericCarrierY
          // 
@@ -1396,6 +1510,7 @@
          this.numericCarrierY.Name = "numericCarrierY";
          this.numericCarrierY.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierY.TabIndex = 29;
+         this.numericCarrierY.ValueChanged += new System.EventHandler(this.numericCarrierY_ValueChanged);
          // 
          // numericCarrierX
          // 
@@ -1413,6 +1528,7 @@
          this.numericCarrierX.Name = "numericCarrierX";
          this.numericCarrierX.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierX.TabIndex = 28;
+         this.numericCarrierX.ValueChanged += new System.EventHandler(this.numericCarrierX_ValueChanged);
          // 
          // label30
          // 
@@ -1561,7 +1677,7 @@
          // 
          this.buttonDelVehicle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelVehicle.Enabled = false;
-         this.buttonDelVehicle.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelVehicle.Location = new System.Drawing.Point(115, 527);
          this.buttonDelVehicle.Name = "buttonDelVehicle";
          this.buttonDelVehicle.Size = new System.Drawing.Size(101, 23);
          this.buttonDelVehicle.TabIndex = 17;
@@ -1572,7 +1688,7 @@
          // 
          this.buttonAddVehicle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddVehicle.Enabled = false;
-         this.buttonAddVehicle.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddVehicle.Location = new System.Drawing.Point(6, 527);
          this.buttonAddVehicle.Name = "buttonAddVehicle";
          this.buttonAddVehicle.Size = new System.Drawing.Size(97, 23);
          this.buttonAddVehicle.TabIndex = 16;
@@ -1613,7 +1729,7 @@
          this.listBoxVehicles.FormattingEnabled = true;
          this.listBoxVehicles.Location = new System.Drawing.Point(6, 123);
          this.listBoxVehicles.Name = "listBoxVehicles";
-         this.listBoxVehicles.Size = new System.Drawing.Size(210, 329);
+         this.listBoxVehicles.Size = new System.Drawing.Size(210, 381);
          this.listBoxVehicles.TabIndex = 12;
          this.listBoxVehicles.SelectedIndexChanged += new System.EventHandler(this.listBoxVehicles_SelectedIndexChanged);
          // 
@@ -1640,7 +1756,7 @@
          this.tabPageBuildings.Controls.Add(this.listBoxBuildings);
          this.tabPageBuildings.Location = new System.Drawing.Point(4, 22);
          this.tabPageBuildings.Name = "tabPageBuildings";
-         this.tabPageBuildings.Size = new System.Drawing.Size(370, 494);
+         this.tabPageBuildings.Size = new System.Drawing.Size(370, 553);
          this.tabPageBuildings.TabIndex = 7;
          this.tabPageBuildings.Text = "Buildings";
          this.tabPageBuildings.UseVisualStyleBackColor = true;
@@ -1840,7 +1956,7 @@
          // 
          this.buttonDelBuilding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonDelBuilding.Enabled = false;
-         this.buttonDelBuilding.Location = new System.Drawing.Point(115, 468);
+         this.buttonDelBuilding.Location = new System.Drawing.Point(115, 527);
          this.buttonDelBuilding.Name = "buttonDelBuilding";
          this.buttonDelBuilding.Size = new System.Drawing.Size(101, 23);
          this.buttonDelBuilding.TabIndex = 46;
@@ -1851,7 +1967,7 @@
          // 
          this.buttonAddBuilding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonAddBuilding.Enabled = false;
-         this.buttonAddBuilding.Location = new System.Drawing.Point(6, 468);
+         this.buttonAddBuilding.Location = new System.Drawing.Point(6, 527);
          this.buttonAddBuilding.Name = "buttonAddBuilding";
          this.buttonAddBuilding.Size = new System.Drawing.Size(97, 23);
          this.buttonAddBuilding.TabIndex = 45;
@@ -1865,7 +1981,7 @@
          this.listBoxBuildings.FormattingEnabled = true;
          this.listBoxBuildings.Location = new System.Drawing.Point(6, 6);
          this.listBoxBuildings.Name = "listBoxBuildings";
-         this.listBoxBuildings.Size = new System.Drawing.Size(210, 446);
+         this.listBoxBuildings.Size = new System.Drawing.Size(210, 498);
          this.listBoxBuildings.TabIndex = 44;
          this.listBoxBuildings.SelectedIndexChanged += new System.EventHandler(this.listBoxBuildings_SelectedIndexChanged);
          // 
@@ -1882,14 +1998,371 @@
          this.comboBoxLevel.TabIndex = 8;
          this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
          // 
-         // saveRunToolStripMenuItem
+         // listViewHeaders
          // 
-         this.saveRunToolStripMenuItem.Enabled = false;
-         this.saveRunToolStripMenuItem.Name = "saveRunToolStripMenuItem";
-         this.saveRunToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-         this.saveRunToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-         this.saveRunToolStripMenuItem.Text = "Save && Run";
-         this.saveRunToolStripMenuItem.Click += new System.EventHandler(this.saveRunToolStripMenuItem_Click);
+         this.listViewHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.listViewHeaders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+         this.listViewHeaders.GridLines = true;
+         this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
+         this.listViewHeaders.Name = "listViewHeaders";
+         this.listViewHeaders.Size = new System.Drawing.Size(192, 540);
+         this.listViewHeaders.TabIndex = 13;
+         this.listViewHeaders.UseCompatibleStateImageBehavior = false;
+         this.listViewHeaders.View = System.Windows.Forms.View.Details;
+         // 
+         // columnHeader1
+         // 
+         this.columnHeader1.Text = "Off.";
+         this.columnHeader1.Width = 36;
+         // 
+         // columnHeader2
+         // 
+         this.columnHeader2.Text = "Value";
+         this.columnHeader2.Width = 73;
+         // 
+         // columnHeader3
+         // 
+         this.columnHeader3.Text = "Length";
+         this.columnHeader3.Width = 55;
+         // 
+         // numericHeader00
+         // 
+         this.numericHeader00.Hexadecimal = true;
+         this.numericHeader00.Location = new System.Drawing.Point(87, 19);
+         this.numericHeader00.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader00.Name = "numericHeader00";
+         this.numericHeader00.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader00.TabIndex = 15;
+         this.toolTip1.SetToolTip(this.numericHeader00, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label45
+         // 
+         this.label45.AutoSize = true;
+         this.label45.Location = new System.Drawing.Point(6, 21);
+         this.label45.Name = "label45";
+         this.label45.Size = new System.Drawing.Size(33, 13);
+         this.label45.TabIndex = 14;
+         this.label45.Text = "0x00:";
+         // 
+         // numericHeader02
+         // 
+         this.numericHeader02.Hexadecimal = true;
+         this.numericHeader02.Location = new System.Drawing.Point(87, 45);
+         this.numericHeader02.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader02.Name = "numericHeader02";
+         this.numericHeader02.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader02.TabIndex = 17;
+         this.toolTip1.SetToolTip(this.numericHeader02, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label46
+         // 
+         this.label46.AutoSize = true;
+         this.label46.Location = new System.Drawing.Point(6, 47);
+         this.label46.Name = "label46";
+         this.label46.Size = new System.Drawing.Size(33, 13);
+         this.label46.TabIndex = 16;
+         this.label46.Text = "0x02:";
+         // 
+         // numericHeader04
+         // 
+         this.numericHeader04.Hexadecimal = true;
+         this.numericHeader04.Location = new System.Drawing.Point(87, 71);
+         this.numericHeader04.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader04.Name = "numericHeader04";
+         this.numericHeader04.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader04.TabIndex = 19;
+         this.toolTip1.SetToolTip(this.numericHeader04, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label47
+         // 
+         this.label47.AutoSize = true;
+         this.label47.Location = new System.Drawing.Point(6, 73);
+         this.label47.Name = "label47";
+         this.label47.Size = new System.Drawing.Size(33, 13);
+         this.label47.TabIndex = 18;
+         this.label47.Text = "0x04:";
+         // 
+         // numericHeader06
+         // 
+         this.numericHeader06.Hexadecimal = true;
+         this.numericHeader06.Location = new System.Drawing.Point(87, 97);
+         this.numericHeader06.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader06.Name = "numericHeader06";
+         this.numericHeader06.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader06.TabIndex = 21;
+         this.toolTip1.SetToolTip(this.numericHeader06, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label48
+         // 
+         this.label48.AutoSize = true;
+         this.label48.Location = new System.Drawing.Point(6, 99);
+         this.label48.Name = "label48";
+         this.label48.Size = new System.Drawing.Size(33, 13);
+         this.label48.TabIndex = 20;
+         this.label48.Text = "0x06:";
+         // 
+         // numericHeader08
+         // 
+         this.numericHeader08.Hexadecimal = true;
+         this.numericHeader08.Location = new System.Drawing.Point(87, 123);
+         this.numericHeader08.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader08.Name = "numericHeader08";
+         this.numericHeader08.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader08.TabIndex = 23;
+         this.toolTip1.SetToolTip(this.numericHeader08, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label49
+         // 
+         this.label49.AutoSize = true;
+         this.label49.Location = new System.Drawing.Point(6, 125);
+         this.label49.Name = "label49";
+         this.label49.Size = new System.Drawing.Size(33, 13);
+         this.label49.TabIndex = 22;
+         this.label49.Text = "0x08:";
+         // 
+         // numericHeader0A
+         // 
+         this.numericHeader0A.Hexadecimal = true;
+         this.numericHeader0A.Location = new System.Drawing.Point(87, 149);
+         this.numericHeader0A.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0A.Name = "numericHeader0A";
+         this.numericHeader0A.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0A.TabIndex = 25;
+         this.toolTip1.SetToolTip(this.numericHeader0A, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label50
+         // 
+         this.label50.AutoSize = true;
+         this.label50.Location = new System.Drawing.Point(6, 151);
+         this.label50.Name = "label50";
+         this.label50.Size = new System.Drawing.Size(34, 13);
+         this.label50.TabIndex = 24;
+         this.label50.Text = "0x0A:";
+         // 
+         // numericHeader0C
+         // 
+         this.numericHeader0C.Hexadecimal = true;
+         this.numericHeader0C.Location = new System.Drawing.Point(87, 175);
+         this.numericHeader0C.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0C.Name = "numericHeader0C";
+         this.numericHeader0C.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0C.TabIndex = 27;
+         this.toolTip1.SetToolTip(this.numericHeader0C, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label51
+         // 
+         this.label51.AutoSize = true;
+         this.label51.Location = new System.Drawing.Point(6, 177);
+         this.label51.Name = "label51";
+         this.label51.Size = new System.Drawing.Size(34, 13);
+         this.label51.TabIndex = 26;
+         this.label51.Text = "0x0C:";
+         // 
+         // numericHeader0E
+         // 
+         this.numericHeader0E.Hexadecimal = true;
+         this.numericHeader0E.Location = new System.Drawing.Point(87, 201);
+         this.numericHeader0E.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0E.Name = "numericHeader0E";
+         this.numericHeader0E.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0E.TabIndex = 29;
+         this.toolTip1.SetToolTip(this.numericHeader0E, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label52
+         // 
+         this.label52.AutoSize = true;
+         this.label52.Location = new System.Drawing.Point(6, 203);
+         this.label52.Name = "label52";
+         this.label52.Size = new System.Drawing.Size(34, 13);
+         this.label52.TabIndex = 28;
+         this.label52.Text = "0x0E:";
+         // 
+         // numericHeader10
+         // 
+         this.numericHeader10.Hexadecimal = true;
+         this.numericHeader10.Location = new System.Drawing.Point(87, 227);
+         this.numericHeader10.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader10.Name = "numericHeader10";
+         this.numericHeader10.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader10.TabIndex = 31;
+         this.toolTip1.SetToolTip(this.numericHeader10, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label53
+         // 
+         this.label53.AutoSize = true;
+         this.label53.Location = new System.Drawing.Point(6, 229);
+         this.label53.Name = "label53";
+         this.label53.Size = new System.Drawing.Size(33, 13);
+         this.label53.TabIndex = 30;
+         this.label53.Text = "0x10:";
+         // 
+         // numericHeader12
+         // 
+         this.numericHeader12.Hexadecimal = true;
+         this.numericHeader12.Location = new System.Drawing.Point(87, 253);
+         this.numericHeader12.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader12.Name = "numericHeader12";
+         this.numericHeader12.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader12.TabIndex = 33;
+         this.toolTip1.SetToolTip(this.numericHeader12, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label54
+         // 
+         this.label54.AutoSize = true;
+         this.label54.Location = new System.Drawing.Point(6, 255);
+         this.label54.Name = "label54";
+         this.label54.Size = new System.Drawing.Size(33, 13);
+         this.label54.TabIndex = 32;
+         this.label54.Text = "0x12:";
+         // 
+         // numericHeader14
+         // 
+         this.numericHeader14.Hexadecimal = true;
+         this.numericHeader14.Location = new System.Drawing.Point(87, 279);
+         this.numericHeader14.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader14.Name = "numericHeader14";
+         this.numericHeader14.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader14.TabIndex = 35;
+         this.toolTip1.SetToolTip(this.numericHeader14, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label55
+         // 
+         this.label55.AutoSize = true;
+         this.label55.Location = new System.Drawing.Point(6, 281);
+         this.label55.Name = "label55";
+         this.label55.Size = new System.Drawing.Size(33, 13);
+         this.label55.TabIndex = 34;
+         this.label55.Text = "0x14:";
+         // 
+         // numericHeader16
+         // 
+         this.numericHeader16.Hexadecimal = true;
+         this.numericHeader16.Location = new System.Drawing.Point(87, 305);
+         this.numericHeader16.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader16.Name = "numericHeader16";
+         this.numericHeader16.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader16.TabIndex = 37;
+         this.toolTip1.SetToolTip(this.numericHeader16, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label56
+         // 
+         this.label56.AutoSize = true;
+         this.label56.Location = new System.Drawing.Point(6, 307);
+         this.label56.Name = "label56";
+         this.label56.Size = new System.Drawing.Size(33, 13);
+         this.label56.TabIndex = 36;
+         this.label56.Text = "0x16:";
+         // 
+         // groupBox2
+         // 
+         this.groupBox2.Controls.Add(this.numericHeader00);
+         this.groupBox2.Controls.Add(this.numericHeader16);
+         this.groupBox2.Controls.Add(this.label45);
+         this.groupBox2.Controls.Add(this.label56);
+         this.groupBox2.Controls.Add(this.label46);
+         this.groupBox2.Controls.Add(this.numericHeader14);
+         this.groupBox2.Controls.Add(this.numericHeader02);
+         this.groupBox2.Controls.Add(this.label55);
+         this.groupBox2.Controls.Add(this.label47);
+         this.groupBox2.Controls.Add(this.numericHeader12);
+         this.groupBox2.Controls.Add(this.numericHeader04);
+         this.groupBox2.Controls.Add(this.label54);
+         this.groupBox2.Controls.Add(this.label48);
+         this.groupBox2.Controls.Add(this.numericHeader10);
+         this.groupBox2.Controls.Add(this.numericHeader06);
+         this.groupBox2.Controls.Add(this.label53);
+         this.groupBox2.Controls.Add(this.label49);
+         this.groupBox2.Controls.Add(this.numericHeader0E);
+         this.groupBox2.Controls.Add(this.numericHeader08);
+         this.groupBox2.Controls.Add(this.label52);
+         this.groupBox2.Controls.Add(this.label50);
+         this.groupBox2.Controls.Add(this.numericHeader0C);
+         this.groupBox2.Controls.Add(this.numericHeader0A);
+         this.groupBox2.Controls.Add(this.label51);
+         this.groupBox2.Location = new System.Drawing.Point(4, 7);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(162, 332);
+         this.groupBox2.TabIndex = 38;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "Unknown U16s:";
+         // 
+         // groupBox3
+         // 
+         this.groupBox3.Controls.Add(this.numericGravity);
+         this.groupBox3.Controls.Add(this.label43);
+         this.groupBox3.Controls.Add(this.label44);
+         this.groupBox3.Controls.Add(this.numeric1C);
+         this.groupBox3.Location = new System.Drawing.Point(4, 346);
+         this.groupBox3.Name = "groupBox3";
+         this.groupBox3.Size = new System.Drawing.Size(162, 80);
+         this.groupBox3.TabIndex = 39;
+         this.groupBox3.TabStop = false;
+         this.groupBox3.Text = "I32s:";
          // 
          // blastCorpsViewer
          // 
@@ -1901,14 +2374,14 @@
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
          this.blastCorpsViewer.ShowBoundingBoxes44 = false;
          this.blastCorpsViewer.ShowGridLines = false;
-         this.blastCorpsViewer.Size = new System.Drawing.Size(580, 547);
+         this.blastCorpsViewer.Size = new System.Drawing.Size(580, 606);
          this.blastCorpsViewer.TabIndex = 7;
          // 
          // BlastCorpsEditorForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(983, 606);
+         this.ClientSize = new System.Drawing.Size(983, 665);
          this.Controls.Add(this.comboBoxLevel);
          this.Controls.Add(this.blastCorpsViewer);
          this.Controls.Add(this.tabControl1);
@@ -1924,6 +2397,8 @@
          this.menuStrip1.PerformLayout();
          this.tabControl1.ResumeLayout(false);
          this.tabPageHeader.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericGravity)).EndInit();
          this.tabPageAmmo.ResumeLayout(false);
          this.tabPageAmmo.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoZ)).EndInit();
@@ -1959,7 +2434,7 @@
          this.groupBox1.ResumeLayout(false);
          this.groupBox1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierDistance)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericCarrierBearing)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCarrierHeading)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierSpeed)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCarrierY)).EndInit();
@@ -1978,6 +2453,22 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).EndInit();
+         this.groupBox2.ResumeLayout(false);
+         this.groupBox2.PerformLayout();
+         this.groupBox3.ResumeLayout(false);
+         this.groupBox3.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -2024,7 +2515,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridLinesToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPageHeader;
-        private System.Windows.Forms.ListBox listBoxHeader;
         private System.Windows.Forms.NumericUpDown numericVehicleZ;
         private System.Windows.Forms.NumericUpDown numericVehicleY;
         private System.Windows.Forms.NumericUpDown numericVehicleX;
@@ -2082,7 +2572,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown numericCarrierDistance;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.NumericUpDown numericCarrierBearing;
+        private System.Windows.Forms.NumericUpDown numericCarrierHeading;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.NumericUpDown numericCarrierSpeed;
         private System.Windows.Forms.Label label29;
@@ -2121,6 +2611,41 @@
         private System.Windows.Forms.NumericUpDown numericTntX;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveRunToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numeric1C;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.NumericUpDown numericGravity;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ListView listViewHeaders;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.NumericUpDown numericHeader00;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.NumericUpDown numericHeader16;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.NumericUpDown numericHeader14;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.NumericUpDown numericHeader12;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.NumericUpDown numericHeader10;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.NumericUpDown numericHeader0E;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.NumericUpDown numericHeader0C;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.NumericUpDown numericHeader0A;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.NumericUpDown numericHeader08;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.NumericUpDown numericHeader06;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.NumericUpDown numericHeader04;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.NumericUpDown numericHeader02;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
