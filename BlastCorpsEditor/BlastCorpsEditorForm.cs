@@ -98,12 +98,18 @@ namespace BlastCorpsEditor
          listBoxBlocks.DataSource = blockSource;
          listBoxVehicles.DataSource = vehicleSource;
          listBoxBuildings.DataSource = buildingSource;
-         numericCarrierX.Value = level.carrier.x;
-         numericCarrierY.Value = level.carrier.y;
-         numericCarrierZ.Value = level.carrier.z;
-         numericCarrierHeading.Value = level.carrier.heading;
-         numericCarrierSpeed.Value = level.carrier.speed;
-         numericCarrierDistance.Value = level.carrier.distance;
+         numericCarrierX.DataBindings.Clear();
+         numericCarrierX.DataBindings.Add("Value", level.carrier, "x", false, DataSourceUpdateMode.OnPropertyChanged);
+         numericCarrierY.DataBindings.Clear();
+         numericCarrierY.DataBindings.Add("Value", level.carrier, "y", false, DataSourceUpdateMode.OnPropertyChanged);
+         numericCarrierZ.DataBindings.Clear();
+         numericCarrierZ.DataBindings.Add("Value", level.carrier, "z", false, DataSourceUpdateMode.OnPropertyChanged);
+         numericCarrierHeading.DataBindings.Clear();
+         numericCarrierHeading.DataBindings.Add("Value", level.carrier, "heading", false, DataSourceUpdateMode.OnPropertyChanged);
+         numericCarrierSpeed.DataBindings.Clear();
+         numericCarrierSpeed.DataBindings.Add("Value", level.carrier, "speed", false, DataSourceUpdateMode.OnPropertyChanged);
+         numericCarrierDistance.DataBindings.Clear();
+         numericCarrierDistance.DataBindings.Add("Value", level.carrier, "distance", false, DataSourceUpdateMode.OnPropertyChanged);
 
          statusStripMessage.Text = level.bounds.ToString();
 
@@ -536,52 +542,9 @@ namespace BlastCorpsEditor
       }
 
       // Vehicles
-      private void numericCarrierX_ValueChanged(object sender, EventArgs e)
+      private void numericCarrier_ValueChanged(object sender, EventArgs e)
       {
-         if (level != null)
-         {
-            level.carrier.x = (Int16)numericCarrierX.Value;
-         }
-      }
-
-      private void numericCarrierY_ValueChanged(object sender, EventArgs e)
-      {
-         if (level != null)
-         {
-            level.carrier.y = (Int16)numericCarrierY.Value;
-         }
-      }
-
-      private void numericCarrierZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (level != null)
-         {
-            level.carrier.z = (Int16)numericCarrierZ.Value;
-         }
-      }
-
-      private void numericCarrierSpeed_ValueChanged(object sender, EventArgs e)
-      {
-         if (level != null)
-         {
-            level.carrier.speed = (byte)numericCarrierSpeed.Value;
-         }
-      }
-
-      private void numericCarrierHeading_ValueChanged(object sender, EventArgs e)
-      {
-         if (level != null)
-         {
-            level.carrier.heading = (UInt16)numericCarrierHeading.Value;
-         }
-      }
-
-      private void numericCarrierDistance_ValueChanged(object sender, EventArgs e)
-      {
-         if (level != null)
-         {
-            level.carrier.distance = (UInt16)numericCarrierDistance.Value;
-         }
+         blastCorpsViewer.Invalidate();
       }
 
       private void listBoxVehicles_SelectedIndexChanged(object sender, EventArgs e)

@@ -50,10 +50,40 @@
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.tabControl1 = new System.Windows.Forms.TabControl();
          this.tabPageHeader = new System.Windows.Forms.TabPage();
-         this.numeric1C = new System.Windows.Forms.NumericUpDown();
-         this.label44 = new System.Windows.Forms.Label();
+         this.groupBox3 = new System.Windows.Forms.GroupBox();
          this.numericGravity = new System.Windows.Forms.NumericUpDown();
          this.label43 = new System.Windows.Forms.Label();
+         this.label44 = new System.Windows.Forms.Label();
+         this.numeric1C = new System.Windows.Forms.NumericUpDown();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.numericHeader00 = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader16 = new System.Windows.Forms.NumericUpDown();
+         this.label45 = new System.Windows.Forms.Label();
+         this.label56 = new System.Windows.Forms.Label();
+         this.label46 = new System.Windows.Forms.Label();
+         this.numericHeader14 = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader02 = new System.Windows.Forms.NumericUpDown();
+         this.label55 = new System.Windows.Forms.Label();
+         this.label47 = new System.Windows.Forms.Label();
+         this.numericHeader12 = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader04 = new System.Windows.Forms.NumericUpDown();
+         this.label54 = new System.Windows.Forms.Label();
+         this.label48 = new System.Windows.Forms.Label();
+         this.numericHeader10 = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader06 = new System.Windows.Forms.NumericUpDown();
+         this.label53 = new System.Windows.Forms.Label();
+         this.label49 = new System.Windows.Forms.Label();
+         this.numericHeader0E = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader08 = new System.Windows.Forms.NumericUpDown();
+         this.label52 = new System.Windows.Forms.Label();
+         this.label50 = new System.Windows.Forms.Label();
+         this.numericHeader0C = new System.Windows.Forms.NumericUpDown();
+         this.numericHeader0A = new System.Windows.Forms.NumericUpDown();
+         this.label51 = new System.Windows.Forms.Label();
+         this.listViewHeaders = new System.Windows.Forms.ListView();
+         this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+         this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.tabPageAmmo = new System.Windows.Forms.TabPage();
          this.comboBoxAmmo = new System.Windows.Forms.ComboBox();
          this.label19 = new System.Windows.Forms.Label();
@@ -169,43 +199,27 @@
          this.listBoxBuildings = new System.Windows.Forms.ListBox();
          this.comboBoxLevel = new System.Windows.Forms.ComboBox();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-         this.listViewHeaders = new System.Windows.Forms.ListView();
-         this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.numericHeader00 = new System.Windows.Forms.NumericUpDown();
-         this.label45 = new System.Windows.Forms.Label();
-         this.numericHeader02 = new System.Windows.Forms.NumericUpDown();
-         this.label46 = new System.Windows.Forms.Label();
-         this.numericHeader04 = new System.Windows.Forms.NumericUpDown();
-         this.label47 = new System.Windows.Forms.Label();
-         this.numericHeader06 = new System.Windows.Forms.NumericUpDown();
-         this.label48 = new System.Windows.Forms.Label();
-         this.numericHeader08 = new System.Windows.Forms.NumericUpDown();
-         this.label49 = new System.Windows.Forms.Label();
-         this.numericHeader0A = new System.Windows.Forms.NumericUpDown();
-         this.label50 = new System.Windows.Forms.Label();
-         this.numericHeader0C = new System.Windows.Forms.NumericUpDown();
-         this.label51 = new System.Windows.Forms.Label();
-         this.numericHeader0E = new System.Windows.Forms.NumericUpDown();
-         this.label52 = new System.Windows.Forms.Label();
-         this.numericHeader10 = new System.Windows.Forms.NumericUpDown();
-         this.label53 = new System.Windows.Forms.Label();
-         this.numericHeader12 = new System.Windows.Forms.NumericUpDown();
-         this.label54 = new System.Windows.Forms.Label();
-         this.numericHeader14 = new System.Windows.Forms.NumericUpDown();
-         this.label55 = new System.Windows.Forms.Label();
-         this.numericHeader16 = new System.Windows.Forms.NumericUpDown();
-         this.label56 = new System.Windows.Forms.Label();
-         this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.groupBox3 = new System.Windows.Forms.GroupBox();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
          this.tabControl1.SuspendLayout();
          this.tabPageHeader.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).BeginInit();
+         this.groupBox3.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericGravity)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).BeginInit();
+         this.groupBox2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).BeginInit();
          this.tabPageAmmo.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoY)).BeginInit();
@@ -252,20 +266,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).BeginInit();
-         this.groupBox2.SuspendLayout();
-         this.groupBox3.SuspendLayout();
          this.SuspendLayout();
          // 
          // statusStrip
@@ -451,35 +451,18 @@
          this.tabPageHeader.Text = "Header";
          this.tabPageHeader.UseVisualStyleBackColor = true;
          // 
-         // numeric1C
+         // groupBox3
          // 
-         this.numeric1C.Location = new System.Drawing.Point(87, 48);
-         this.numeric1C.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-         this.numeric1C.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
-         this.numeric1C.Name = "numeric1C";
-         this.numeric1C.Size = new System.Drawing.Size(69, 20);
-         this.numeric1C.TabIndex = 11;
-         this.toolTip1.SetToolTip(this.numeric1C, "Values in ROM:\r\n  0: Glory Crossing, Crystal Rift, Beeton Tracks, Jade Plateau, O" +
-        "rion Plaza, Mercury\r\n  1: All other levels\r\nOther tested values:\r\n  2+: caused m" +
-        "icrocode errors in emulation");
-         this.numeric1C.ValueChanged += new System.EventHandler(this.numericFriction_ValueChanged);
-         // 
-         // label44
-         // 
-         this.label44.AutoSize = true;
-         this.label44.Location = new System.Drawing.Point(6, 51);
-         this.label44.Name = "label44";
-         this.label44.Size = new System.Drawing.Size(34, 13);
-         this.label44.TabIndex = 10;
-         this.label44.Text = "0x1C:";
+         this.groupBox3.Controls.Add(this.numericGravity);
+         this.groupBox3.Controls.Add(this.label43);
+         this.groupBox3.Controls.Add(this.label44);
+         this.groupBox3.Controls.Add(this.numeric1C);
+         this.groupBox3.Location = new System.Drawing.Point(4, 346);
+         this.groupBox3.Name = "groupBox3";
+         this.groupBox3.Size = new System.Drawing.Size(162, 80);
+         this.groupBox3.TabIndex = 39;
+         this.groupBox3.TabStop = false;
+         this.groupBox3.Text = "I32s:";
          // 
          // numericGravity
          // 
@@ -509,6 +492,389 @@
          this.label43.Size = new System.Drawing.Size(75, 13);
          this.label43.TabIndex = 8;
          this.label43.Text = "0x18 (Gravity):";
+         // 
+         // label44
+         // 
+         this.label44.AutoSize = true;
+         this.label44.Location = new System.Drawing.Point(6, 51);
+         this.label44.Name = "label44";
+         this.label44.Size = new System.Drawing.Size(34, 13);
+         this.label44.TabIndex = 10;
+         this.label44.Text = "0x1C:";
+         // 
+         // numeric1C
+         // 
+         this.numeric1C.Location = new System.Drawing.Point(87, 48);
+         this.numeric1C.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+         this.numeric1C.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+         this.numeric1C.Name = "numeric1C";
+         this.numeric1C.Size = new System.Drawing.Size(69, 20);
+         this.numeric1C.TabIndex = 11;
+         this.toolTip1.SetToolTip(this.numeric1C, "Values in ROM:\r\n  0: Glory Crossing, Crystal Rift, Beeton Tracks, Jade Plateau, O" +
+        "rion Plaza, Mercury\r\n  1: All other levels\r\nOther tested values:\r\n  2+: caused m" +
+        "icrocode errors in emulation");
+         this.numeric1C.ValueChanged += new System.EventHandler(this.numericFriction_ValueChanged);
+         // 
+         // groupBox2
+         // 
+         this.groupBox2.Controls.Add(this.numericHeader00);
+         this.groupBox2.Controls.Add(this.numericHeader16);
+         this.groupBox2.Controls.Add(this.label45);
+         this.groupBox2.Controls.Add(this.label56);
+         this.groupBox2.Controls.Add(this.label46);
+         this.groupBox2.Controls.Add(this.numericHeader14);
+         this.groupBox2.Controls.Add(this.numericHeader02);
+         this.groupBox2.Controls.Add(this.label55);
+         this.groupBox2.Controls.Add(this.label47);
+         this.groupBox2.Controls.Add(this.numericHeader12);
+         this.groupBox2.Controls.Add(this.numericHeader04);
+         this.groupBox2.Controls.Add(this.label54);
+         this.groupBox2.Controls.Add(this.label48);
+         this.groupBox2.Controls.Add(this.numericHeader10);
+         this.groupBox2.Controls.Add(this.numericHeader06);
+         this.groupBox2.Controls.Add(this.label53);
+         this.groupBox2.Controls.Add(this.label49);
+         this.groupBox2.Controls.Add(this.numericHeader0E);
+         this.groupBox2.Controls.Add(this.numericHeader08);
+         this.groupBox2.Controls.Add(this.label52);
+         this.groupBox2.Controls.Add(this.label50);
+         this.groupBox2.Controls.Add(this.numericHeader0C);
+         this.groupBox2.Controls.Add(this.numericHeader0A);
+         this.groupBox2.Controls.Add(this.label51);
+         this.groupBox2.Location = new System.Drawing.Point(4, 7);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(162, 332);
+         this.groupBox2.TabIndex = 38;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "Unknown U16s:";
+         // 
+         // numericHeader00
+         // 
+         this.numericHeader00.Hexadecimal = true;
+         this.numericHeader00.Location = new System.Drawing.Point(87, 19);
+         this.numericHeader00.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader00.Name = "numericHeader00";
+         this.numericHeader00.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader00.TabIndex = 15;
+         this.toolTip1.SetToolTip(this.numericHeader00, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader16
+         // 
+         this.numericHeader16.Hexadecimal = true;
+         this.numericHeader16.Location = new System.Drawing.Point(87, 305);
+         this.numericHeader16.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader16.Name = "numericHeader16";
+         this.numericHeader16.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader16.TabIndex = 37;
+         this.toolTip1.SetToolTip(this.numericHeader16, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label45
+         // 
+         this.label45.AutoSize = true;
+         this.label45.Location = new System.Drawing.Point(6, 21);
+         this.label45.Name = "label45";
+         this.label45.Size = new System.Drawing.Size(33, 13);
+         this.label45.TabIndex = 14;
+         this.label45.Text = "0x00:";
+         // 
+         // label56
+         // 
+         this.label56.AutoSize = true;
+         this.label56.Location = new System.Drawing.Point(6, 307);
+         this.label56.Name = "label56";
+         this.label56.Size = new System.Drawing.Size(33, 13);
+         this.label56.TabIndex = 36;
+         this.label56.Text = "0x16:";
+         // 
+         // label46
+         // 
+         this.label46.AutoSize = true;
+         this.label46.Location = new System.Drawing.Point(6, 47);
+         this.label46.Name = "label46";
+         this.label46.Size = new System.Drawing.Size(33, 13);
+         this.label46.TabIndex = 16;
+         this.label46.Text = "0x02:";
+         // 
+         // numericHeader14
+         // 
+         this.numericHeader14.Hexadecimal = true;
+         this.numericHeader14.Location = new System.Drawing.Point(87, 279);
+         this.numericHeader14.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader14.Name = "numericHeader14";
+         this.numericHeader14.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader14.TabIndex = 35;
+         this.toolTip1.SetToolTip(this.numericHeader14, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader02
+         // 
+         this.numericHeader02.Hexadecimal = true;
+         this.numericHeader02.Location = new System.Drawing.Point(87, 45);
+         this.numericHeader02.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader02.Name = "numericHeader02";
+         this.numericHeader02.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader02.TabIndex = 17;
+         this.toolTip1.SetToolTip(this.numericHeader02, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label55
+         // 
+         this.label55.AutoSize = true;
+         this.label55.Location = new System.Drawing.Point(6, 281);
+         this.label55.Name = "label55";
+         this.label55.Size = new System.Drawing.Size(33, 13);
+         this.label55.TabIndex = 34;
+         this.label55.Text = "0x14:";
+         // 
+         // label47
+         // 
+         this.label47.AutoSize = true;
+         this.label47.Location = new System.Drawing.Point(6, 73);
+         this.label47.Name = "label47";
+         this.label47.Size = new System.Drawing.Size(33, 13);
+         this.label47.TabIndex = 18;
+         this.label47.Text = "0x04:";
+         // 
+         // numericHeader12
+         // 
+         this.numericHeader12.Hexadecimal = true;
+         this.numericHeader12.Location = new System.Drawing.Point(87, 253);
+         this.numericHeader12.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader12.Name = "numericHeader12";
+         this.numericHeader12.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader12.TabIndex = 33;
+         this.toolTip1.SetToolTip(this.numericHeader12, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader04
+         // 
+         this.numericHeader04.Hexadecimal = true;
+         this.numericHeader04.Location = new System.Drawing.Point(87, 71);
+         this.numericHeader04.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader04.Name = "numericHeader04";
+         this.numericHeader04.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader04.TabIndex = 19;
+         this.toolTip1.SetToolTip(this.numericHeader04, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label54
+         // 
+         this.label54.AutoSize = true;
+         this.label54.Location = new System.Drawing.Point(6, 255);
+         this.label54.Name = "label54";
+         this.label54.Size = new System.Drawing.Size(33, 13);
+         this.label54.TabIndex = 32;
+         this.label54.Text = "0x12:";
+         // 
+         // label48
+         // 
+         this.label48.AutoSize = true;
+         this.label48.Location = new System.Drawing.Point(6, 99);
+         this.label48.Name = "label48";
+         this.label48.Size = new System.Drawing.Size(33, 13);
+         this.label48.TabIndex = 20;
+         this.label48.Text = "0x06:";
+         // 
+         // numericHeader10
+         // 
+         this.numericHeader10.Hexadecimal = true;
+         this.numericHeader10.Location = new System.Drawing.Point(87, 227);
+         this.numericHeader10.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader10.Name = "numericHeader10";
+         this.numericHeader10.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader10.TabIndex = 31;
+         this.toolTip1.SetToolTip(this.numericHeader10, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader06
+         // 
+         this.numericHeader06.Hexadecimal = true;
+         this.numericHeader06.Location = new System.Drawing.Point(87, 97);
+         this.numericHeader06.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader06.Name = "numericHeader06";
+         this.numericHeader06.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader06.TabIndex = 21;
+         this.toolTip1.SetToolTip(this.numericHeader06, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label53
+         // 
+         this.label53.AutoSize = true;
+         this.label53.Location = new System.Drawing.Point(6, 229);
+         this.label53.Name = "label53";
+         this.label53.Size = new System.Drawing.Size(33, 13);
+         this.label53.TabIndex = 30;
+         this.label53.Text = "0x10:";
+         // 
+         // label49
+         // 
+         this.label49.AutoSize = true;
+         this.label49.Location = new System.Drawing.Point(6, 125);
+         this.label49.Name = "label49";
+         this.label49.Size = new System.Drawing.Size(33, 13);
+         this.label49.TabIndex = 22;
+         this.label49.Text = "0x08:";
+         // 
+         // numericHeader0E
+         // 
+         this.numericHeader0E.Hexadecimal = true;
+         this.numericHeader0E.Location = new System.Drawing.Point(87, 201);
+         this.numericHeader0E.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0E.Name = "numericHeader0E";
+         this.numericHeader0E.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0E.TabIndex = 29;
+         this.toolTip1.SetToolTip(this.numericHeader0E, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader08
+         // 
+         this.numericHeader08.Hexadecimal = true;
+         this.numericHeader08.Location = new System.Drawing.Point(87, 123);
+         this.numericHeader08.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader08.Name = "numericHeader08";
+         this.numericHeader08.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader08.TabIndex = 23;
+         this.toolTip1.SetToolTip(this.numericHeader08, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label52
+         // 
+         this.label52.AutoSize = true;
+         this.label52.Location = new System.Drawing.Point(6, 203);
+         this.label52.Name = "label52";
+         this.label52.Size = new System.Drawing.Size(34, 13);
+         this.label52.TabIndex = 28;
+         this.label52.Text = "0x0E:";
+         // 
+         // label50
+         // 
+         this.label50.AutoSize = true;
+         this.label50.Location = new System.Drawing.Point(6, 151);
+         this.label50.Name = "label50";
+         this.label50.Size = new System.Drawing.Size(34, 13);
+         this.label50.TabIndex = 24;
+         this.label50.Text = "0x0A:";
+         // 
+         // numericHeader0C
+         // 
+         this.numericHeader0C.Hexadecimal = true;
+         this.numericHeader0C.Location = new System.Drawing.Point(87, 175);
+         this.numericHeader0C.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0C.Name = "numericHeader0C";
+         this.numericHeader0C.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0C.TabIndex = 27;
+         this.toolTip1.SetToolTip(this.numericHeader0C, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // numericHeader0A
+         // 
+         this.numericHeader0A.Hexadecimal = true;
+         this.numericHeader0A.Location = new System.Drawing.Point(87, 149);
+         this.numericHeader0A.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+         this.numericHeader0A.Name = "numericHeader0A";
+         this.numericHeader0A.Size = new System.Drawing.Size(69, 20);
+         this.numericHeader0A.TabIndex = 25;
+         this.toolTip1.SetToolTip(this.numericHeader0A, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
+        " drop down\r\n  -8: stuck to ground, dirving issues");
+         // 
+         // label51
+         // 
+         this.label51.AutoSize = true;
+         this.label51.Location = new System.Drawing.Point(6, 177);
+         this.label51.Name = "label51";
+         this.label51.Size = new System.Drawing.Size(34, 13);
+         this.label51.TabIndex = 26;
+         this.label51.Text = "0x0C:";
+         // 
+         // listViewHeaders
+         // 
+         this.listViewHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.listViewHeaders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+         this.listViewHeaders.GridLines = true;
+         this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
+         this.listViewHeaders.Name = "listViewHeaders";
+         this.listViewHeaders.Size = new System.Drawing.Size(192, 540);
+         this.listViewHeaders.TabIndex = 13;
+         this.listViewHeaders.UseCompatibleStateImageBehavior = false;
+         this.listViewHeaders.View = System.Windows.Forms.View.Details;
+         // 
+         // columnHeader1
+         // 
+         this.columnHeader1.Text = "Off.";
+         this.columnHeader1.Width = 36;
+         // 
+         // columnHeader2
+         // 
+         this.columnHeader2.Text = "Value";
+         this.columnHeader2.Width = 73;
+         // 
+         // columnHeader3
+         // 
+         this.columnHeader3.Text = "Length";
+         this.columnHeader3.Width = 55;
          // 
          // tabPageAmmo
          // 
@@ -1421,7 +1787,7 @@
          this.numericCarrierDistance.Name = "numericCarrierDistance";
          this.numericCarrierDistance.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierDistance.TabIndex = 36;
-         this.numericCarrierDistance.ValueChanged += new System.EventHandler(this.numericCarrierDistance_ValueChanged);
+         this.numericCarrierDistance.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // label34
          // 
@@ -1443,7 +1809,7 @@
          this.numericCarrierHeading.Name = "numericCarrierHeading";
          this.numericCarrierHeading.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierHeading.TabIndex = 34;
-         this.numericCarrierHeading.ValueChanged += new System.EventHandler(this.numericCarrierHeading_ValueChanged);
+         this.numericCarrierHeading.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // label33
          // 
@@ -1465,7 +1831,7 @@
          this.numericCarrierSpeed.Name = "numericCarrierSpeed";
          this.numericCarrierSpeed.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierSpeed.TabIndex = 32;
-         this.numericCarrierSpeed.ValueChanged += new System.EventHandler(this.numericCarrierSpeed_ValueChanged);
+         this.numericCarrierSpeed.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // label29
          // 
@@ -1492,7 +1858,7 @@
          this.numericCarrierZ.Name = "numericCarrierZ";
          this.numericCarrierZ.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierZ.TabIndex = 30;
-         this.numericCarrierZ.ValueChanged += new System.EventHandler(this.numericCarrierZ_ValueChanged);
+         this.numericCarrierZ.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // numericCarrierY
          // 
@@ -1510,7 +1876,7 @@
          this.numericCarrierY.Name = "numericCarrierY";
          this.numericCarrierY.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierY.TabIndex = 29;
-         this.numericCarrierY.ValueChanged += new System.EventHandler(this.numericCarrierY_ValueChanged);
+         this.numericCarrierY.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // numericCarrierX
          // 
@@ -1528,7 +1894,7 @@
          this.numericCarrierX.Name = "numericCarrierX";
          this.numericCarrierX.Size = new System.Drawing.Size(100, 20);
          this.numericCarrierX.TabIndex = 28;
-         this.numericCarrierX.ValueChanged += new System.EventHandler(this.numericCarrierX_ValueChanged);
+         this.numericCarrierX.ValueChanged += new System.EventHandler(this.numericCarrier_ValueChanged);
          // 
          // label30
          // 
@@ -1998,372 +2364,6 @@
          this.comboBoxLevel.TabIndex = 8;
          this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
          // 
-         // listViewHeaders
-         // 
-         this.listViewHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.listViewHeaders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
-         this.listViewHeaders.GridLines = true;
-         this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
-         this.listViewHeaders.Name = "listViewHeaders";
-         this.listViewHeaders.Size = new System.Drawing.Size(192, 540);
-         this.listViewHeaders.TabIndex = 13;
-         this.listViewHeaders.UseCompatibleStateImageBehavior = false;
-         this.listViewHeaders.View = System.Windows.Forms.View.Details;
-         // 
-         // columnHeader1
-         // 
-         this.columnHeader1.Text = "Off.";
-         this.columnHeader1.Width = 36;
-         // 
-         // columnHeader2
-         // 
-         this.columnHeader2.Text = "Value";
-         this.columnHeader2.Width = 73;
-         // 
-         // columnHeader3
-         // 
-         this.columnHeader3.Text = "Length";
-         this.columnHeader3.Width = 55;
-         // 
-         // numericHeader00
-         // 
-         this.numericHeader00.Hexadecimal = true;
-         this.numericHeader00.Location = new System.Drawing.Point(87, 19);
-         this.numericHeader00.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader00.Name = "numericHeader00";
-         this.numericHeader00.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader00.TabIndex = 15;
-         this.toolTip1.SetToolTip(this.numericHeader00, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label45
-         // 
-         this.label45.AutoSize = true;
-         this.label45.Location = new System.Drawing.Point(6, 21);
-         this.label45.Name = "label45";
-         this.label45.Size = new System.Drawing.Size(33, 13);
-         this.label45.TabIndex = 14;
-         this.label45.Text = "0x00:";
-         // 
-         // numericHeader02
-         // 
-         this.numericHeader02.Hexadecimal = true;
-         this.numericHeader02.Location = new System.Drawing.Point(87, 45);
-         this.numericHeader02.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader02.Name = "numericHeader02";
-         this.numericHeader02.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader02.TabIndex = 17;
-         this.toolTip1.SetToolTip(this.numericHeader02, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label46
-         // 
-         this.label46.AutoSize = true;
-         this.label46.Location = new System.Drawing.Point(6, 47);
-         this.label46.Name = "label46";
-         this.label46.Size = new System.Drawing.Size(33, 13);
-         this.label46.TabIndex = 16;
-         this.label46.Text = "0x02:";
-         // 
-         // numericHeader04
-         // 
-         this.numericHeader04.Hexadecimal = true;
-         this.numericHeader04.Location = new System.Drawing.Point(87, 71);
-         this.numericHeader04.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader04.Name = "numericHeader04";
-         this.numericHeader04.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader04.TabIndex = 19;
-         this.toolTip1.SetToolTip(this.numericHeader04, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label47
-         // 
-         this.label47.AutoSize = true;
-         this.label47.Location = new System.Drawing.Point(6, 73);
-         this.label47.Name = "label47";
-         this.label47.Size = new System.Drawing.Size(33, 13);
-         this.label47.TabIndex = 18;
-         this.label47.Text = "0x04:";
-         // 
-         // numericHeader06
-         // 
-         this.numericHeader06.Hexadecimal = true;
-         this.numericHeader06.Location = new System.Drawing.Point(87, 97);
-         this.numericHeader06.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader06.Name = "numericHeader06";
-         this.numericHeader06.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader06.TabIndex = 21;
-         this.toolTip1.SetToolTip(this.numericHeader06, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label48
-         // 
-         this.label48.AutoSize = true;
-         this.label48.Location = new System.Drawing.Point(6, 99);
-         this.label48.Name = "label48";
-         this.label48.Size = new System.Drawing.Size(33, 13);
-         this.label48.TabIndex = 20;
-         this.label48.Text = "0x06:";
-         // 
-         // numericHeader08
-         // 
-         this.numericHeader08.Hexadecimal = true;
-         this.numericHeader08.Location = new System.Drawing.Point(87, 123);
-         this.numericHeader08.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader08.Name = "numericHeader08";
-         this.numericHeader08.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader08.TabIndex = 23;
-         this.toolTip1.SetToolTip(this.numericHeader08, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label49
-         // 
-         this.label49.AutoSize = true;
-         this.label49.Location = new System.Drawing.Point(6, 125);
-         this.label49.Name = "label49";
-         this.label49.Size = new System.Drawing.Size(33, 13);
-         this.label49.TabIndex = 22;
-         this.label49.Text = "0x08:";
-         // 
-         // numericHeader0A
-         // 
-         this.numericHeader0A.Hexadecimal = true;
-         this.numericHeader0A.Location = new System.Drawing.Point(87, 149);
-         this.numericHeader0A.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader0A.Name = "numericHeader0A";
-         this.numericHeader0A.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader0A.TabIndex = 25;
-         this.toolTip1.SetToolTip(this.numericHeader0A, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label50
-         // 
-         this.label50.AutoSize = true;
-         this.label50.Location = new System.Drawing.Point(6, 151);
-         this.label50.Name = "label50";
-         this.label50.Size = new System.Drawing.Size(34, 13);
-         this.label50.TabIndex = 24;
-         this.label50.Text = "0x0A:";
-         // 
-         // numericHeader0C
-         // 
-         this.numericHeader0C.Hexadecimal = true;
-         this.numericHeader0C.Location = new System.Drawing.Point(87, 175);
-         this.numericHeader0C.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader0C.Name = "numericHeader0C";
-         this.numericHeader0C.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader0C.TabIndex = 27;
-         this.toolTip1.SetToolTip(this.numericHeader0C, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label51
-         // 
-         this.label51.AutoSize = true;
-         this.label51.Location = new System.Drawing.Point(6, 177);
-         this.label51.Name = "label51";
-         this.label51.Size = new System.Drawing.Size(34, 13);
-         this.label51.TabIndex = 26;
-         this.label51.Text = "0x0C:";
-         // 
-         // numericHeader0E
-         // 
-         this.numericHeader0E.Hexadecimal = true;
-         this.numericHeader0E.Location = new System.Drawing.Point(87, 201);
-         this.numericHeader0E.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader0E.Name = "numericHeader0E";
-         this.numericHeader0E.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader0E.TabIndex = 29;
-         this.toolTip1.SetToolTip(this.numericHeader0E, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label52
-         // 
-         this.label52.AutoSize = true;
-         this.label52.Location = new System.Drawing.Point(6, 203);
-         this.label52.Name = "label52";
-         this.label52.Size = new System.Drawing.Size(34, 13);
-         this.label52.TabIndex = 28;
-         this.label52.Text = "0x0E:";
-         // 
-         // numericHeader10
-         // 
-         this.numericHeader10.Hexadecimal = true;
-         this.numericHeader10.Location = new System.Drawing.Point(87, 227);
-         this.numericHeader10.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader10.Name = "numericHeader10";
-         this.numericHeader10.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader10.TabIndex = 31;
-         this.toolTip1.SetToolTip(this.numericHeader10, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label53
-         // 
-         this.label53.AutoSize = true;
-         this.label53.Location = new System.Drawing.Point(6, 229);
-         this.label53.Name = "label53";
-         this.label53.Size = new System.Drawing.Size(33, 13);
-         this.label53.TabIndex = 30;
-         this.label53.Text = "0x10:";
-         // 
-         // numericHeader12
-         // 
-         this.numericHeader12.Hexadecimal = true;
-         this.numericHeader12.Location = new System.Drawing.Point(87, 253);
-         this.numericHeader12.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader12.Name = "numericHeader12";
-         this.numericHeader12.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader12.TabIndex = 33;
-         this.toolTip1.SetToolTip(this.numericHeader12, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label54
-         // 
-         this.label54.AutoSize = true;
-         this.label54.Location = new System.Drawing.Point(6, 255);
-         this.label54.Name = "label54";
-         this.label54.Size = new System.Drawing.Size(33, 13);
-         this.label54.TabIndex = 32;
-         this.label54.Text = "0x12:";
-         // 
-         // numericHeader14
-         // 
-         this.numericHeader14.Hexadecimal = true;
-         this.numericHeader14.Location = new System.Drawing.Point(87, 279);
-         this.numericHeader14.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader14.Name = "numericHeader14";
-         this.numericHeader14.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader14.TabIndex = 35;
-         this.toolTip1.SetToolTip(this.numericHeader14, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label55
-         // 
-         this.label55.AutoSize = true;
-         this.label55.Location = new System.Drawing.Point(6, 281);
-         this.label55.Name = "label55";
-         this.label55.Size = new System.Drawing.Size(33, 13);
-         this.label55.TabIndex = 34;
-         this.label55.Text = "0x14:";
-         // 
-         // numericHeader16
-         // 
-         this.numericHeader16.Hexadecimal = true;
-         this.numericHeader16.Location = new System.Drawing.Point(87, 305);
-         this.numericHeader16.Maximum = new decimal(new int[] {
-            32767,
-            0,
-            0,
-            0});
-         this.numericHeader16.Name = "numericHeader16";
-         this.numericHeader16.Size = new System.Drawing.Size(69, 20);
-         this.numericHeader16.TabIndex = 37;
-         this.toolTip1.SetToolTip(this.numericHeader16, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
-         // 
-         // label56
-         // 
-         this.label56.AutoSize = true;
-         this.label56.Location = new System.Drawing.Point(6, 307);
-         this.label56.Name = "label56";
-         this.label56.Size = new System.Drawing.Size(33, 13);
-         this.label56.TabIndex = 36;
-         this.label56.Text = "0x16:";
-         // 
-         // groupBox2
-         // 
-         this.groupBox2.Controls.Add(this.numericHeader00);
-         this.groupBox2.Controls.Add(this.numericHeader16);
-         this.groupBox2.Controls.Add(this.label45);
-         this.groupBox2.Controls.Add(this.label56);
-         this.groupBox2.Controls.Add(this.label46);
-         this.groupBox2.Controls.Add(this.numericHeader14);
-         this.groupBox2.Controls.Add(this.numericHeader02);
-         this.groupBox2.Controls.Add(this.label55);
-         this.groupBox2.Controls.Add(this.label47);
-         this.groupBox2.Controls.Add(this.numericHeader12);
-         this.groupBox2.Controls.Add(this.numericHeader04);
-         this.groupBox2.Controls.Add(this.label54);
-         this.groupBox2.Controls.Add(this.label48);
-         this.groupBox2.Controls.Add(this.numericHeader10);
-         this.groupBox2.Controls.Add(this.numericHeader06);
-         this.groupBox2.Controls.Add(this.label53);
-         this.groupBox2.Controls.Add(this.label49);
-         this.groupBox2.Controls.Add(this.numericHeader0E);
-         this.groupBox2.Controls.Add(this.numericHeader08);
-         this.groupBox2.Controls.Add(this.label52);
-         this.groupBox2.Controls.Add(this.label50);
-         this.groupBox2.Controls.Add(this.numericHeader0C);
-         this.groupBox2.Controls.Add(this.numericHeader0A);
-         this.groupBox2.Controls.Add(this.label51);
-         this.groupBox2.Location = new System.Drawing.Point(4, 7);
-         this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(162, 332);
-         this.groupBox2.TabIndex = 38;
-         this.groupBox2.TabStop = false;
-         this.groupBox2.Text = "Unknown U16s:";
-         // 
-         // groupBox3
-         // 
-         this.groupBox3.Controls.Add(this.numericGravity);
-         this.groupBox3.Controls.Add(this.label43);
-         this.groupBox3.Controls.Add(this.label44);
-         this.groupBox3.Controls.Add(this.numeric1C);
-         this.groupBox3.Location = new System.Drawing.Point(4, 346);
-         this.groupBox3.Name = "groupBox3";
-         this.groupBox3.Size = new System.Drawing.Size(162, 80);
-         this.groupBox3.TabIndex = 39;
-         this.groupBox3.TabStop = false;
-         this.groupBox3.Text = "I32s:";
-         // 
          // blastCorpsViewer
          // 
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2397,8 +2397,24 @@
          this.menuStrip1.PerformLayout();
          this.tabControl1.ResumeLayout(false);
          this.tabPageHeader.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).EndInit();
+         this.groupBox3.ResumeLayout(false);
+         this.groupBox3.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericGravity)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numeric1C)).EndInit();
+         this.groupBox2.ResumeLayout(false);
+         this.groupBox2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).EndInit();
          this.tabPageAmmo.ResumeLayout(false);
          this.tabPageAmmo.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoZ)).EndInit();
@@ -2453,22 +2469,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader00)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader02)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader04)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader06)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader08)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader0E)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader10)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader12)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader14)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericHeader16)).EndInit();
-         this.groupBox2.ResumeLayout(false);
-         this.groupBox2.PerformLayout();
-         this.groupBox3.ResumeLayout(false);
-         this.groupBox3.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 

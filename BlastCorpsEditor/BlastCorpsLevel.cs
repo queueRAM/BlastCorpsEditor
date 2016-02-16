@@ -13,7 +13,9 @@ namespace BlastCorpsEditor
 
    public class BlastCorpsItem
    {
-      public Int16 x, y, z;
+      public Int16 x { get; set; }
+      public Int16 y { get; set; }
+      public Int16 z { get; set; }
       public bool selected;
    }
 
@@ -230,8 +232,9 @@ namespace BlastCorpsEditor
 
    public class Carrier : BlastCorpsItem
    {
-      public byte speed;
-      public UInt16 heading, distance;
+      public byte speed {get; set;}
+      public UInt16 heading {get; set;}
+      public UInt16 distance { get; set; }
 
       public override string ToString()
       {
