@@ -199,6 +199,8 @@
          this.listBoxBuildings = new System.Windows.Forms.ListBox();
          this.comboBoxLevel = new System.Windows.Forms.ComboBox();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+         this.numericCommPtH6 = new System.Windows.Forms.NumericUpDown();
+         this.label57 = new System.Windows.Forms.Label();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
@@ -266,6 +268,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).BeginInit();
          this.SuspendLayout();
          // 
          // statusStrip
@@ -1035,6 +1038,8 @@
          // 
          // tabPageCommPt
          // 
+         this.tabPageCommPt.Controls.Add(this.numericCommPtH6);
+         this.tabPageCommPt.Controls.Add(this.label57);
          this.tabPageCommPt.Controls.Add(this.numericCommPtZ);
          this.tabPageCommPt.Controls.Add(this.numericCommPtY);
          this.tabPageCommPt.Controls.Add(this.numericCommPtX);
@@ -2364,6 +2369,28 @@
          this.comboBoxLevel.TabIndex = 8;
          this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
          // 
+         // numericCommPtH6
+         // 
+         this.numericCommPtH6.Location = new System.Drawing.Point(243, 85);
+         this.numericCommPtH6.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+         this.numericCommPtH6.Name = "numericCommPtH6";
+         this.numericCommPtH6.Size = new System.Drawing.Size(100, 20);
+         this.numericCommPtH6.TabIndex = 31;
+         this.numericCommPtH6.ValueChanged += new System.EventHandler(this.numericCommPtH6_ValueChanged);
+         // 
+         // label57
+         // 
+         this.label57.AutoSize = true;
+         this.label57.Location = new System.Drawing.Point(218, 88);
+         this.label57.Name = "label57";
+         this.label57.Size = new System.Drawing.Size(24, 13);
+         this.label57.TabIndex = 30;
+         this.label57.Text = "H6:";
+         // 
          // blastCorpsViewer
          // 
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2469,6 +2496,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -2646,6 +2674,8 @@
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.NumericUpDown numericCommPtH6;
+        private System.Windows.Forms.Label label57;
     }
 }
 

@@ -66,19 +66,19 @@ namespace BlastCorpsEditor
 
    public class CommPoint : BlastCorpsItem
    {
-      public UInt16 todo;
+      public UInt16 h6;
 
-      public CommPoint(Int16 x, Int16 y, Int16 z, UInt16 todo)
+      public CommPoint(Int16 x, Int16 y, Int16 z, UInt16 h6)
       {
          this.x = x;
          this.y = y;
          this.z = z;
-         this.todo = todo;
+         this.h6 = h6;
       }
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + todo;
+         return x + ", " + y + ", " + z + ", " + h6;
       }
    }
 
@@ -816,7 +816,7 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(comm.x, data, offset);
             offset += BE.ToBytes(comm.y, data, offset);
             offset += BE.ToBytes(comm.z, data, offset);
-            offset += BE.ToBytes(comm.todo, data, offset);
+            offset += BE.ToBytes(comm.h6, data, offset);
          }
 
          BE.ToBytes(offset, data, 0x2C);

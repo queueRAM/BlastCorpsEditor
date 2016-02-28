@@ -273,6 +273,7 @@ namespace BlastCorpsEditor
             numericCommPtX.Value = comm.x;
             numericCommPtY.Value = comm.y;
             numericCommPtZ.Value = comm.z;
+            numericCommPtH6.Value = comm.h6;
             blastCorpsViewer.Invalidate();
          }
       }
@@ -302,6 +303,17 @@ namespace BlastCorpsEditor
          if (itemSel != null && itemSel is CommPoint)
          {
             itemSel.z = (Int16)numericCommPtZ.Value;
+            commSource.ResetBindings(false);
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericCommPtH6_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is CommPoint)
+         {
+            CommPoint comm = (CommPoint)itemSel;
+            comm.h6 = (UInt16)numericCommPtH6.Value;
             commSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
