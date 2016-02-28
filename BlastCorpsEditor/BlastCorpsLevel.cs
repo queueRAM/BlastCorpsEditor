@@ -246,24 +246,26 @@ namespace BlastCorpsEditor
    {
       public UInt16 type;
       // TODO: what are these?
-      public byte b8, b9;
-      public UInt16 hA, hC;
+      public byte counter;
+      public byte b9;
+      public UInt16 behavior;
+      public UInt16 speed;
 
-      public Building(Int16 x, Int16 y, Int16 z, UInt16 type, byte b8, byte b9, UInt16 hA, UInt16 hC)
+      public Building(Int16 x, Int16 y, Int16 z, UInt16 type, byte counter, byte b9, UInt16 behavior, UInt16 speed)
       {
          this.x = x;
          this.y = y;
          this.z = z;
          this.type = type;
-         this.b8 = b8;
+         this.counter = counter;
          this.b9 = b9;
-         this.hA = hA;
-         this.hC = hC;
+         this.behavior = behavior;
+         this.speed = speed;
       }
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + type + ", " + b8 + ", " + b9 + ", " + hA + ", " + hC;
+         return x + ", " + y + ", " + z + ", " + type + ", " + counter + ", " + b9 + ", " + behavior + ", " + speed;
       }
    }
 
@@ -962,10 +964,10 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(b.y, data, offset);
             offset += BE.ToBytes(b.z, data, offset);
             offset += BE.ToBytes(b.type, data, offset);
-            data[offset++] = b.b8;
+            data[offset++] = b.counter;
             data[offset++] = b.b9;
-            offset += BE.ToBytes(b.hA, data, offset);
-            offset += BE.ToBytes(b.hC, data, offset);
+            offset += BE.ToBytes(b.behavior, data, offset);
+            offset += BE.ToBytes(b.speed, data, offset);
          }
 
          // TODO: 0x60 real data

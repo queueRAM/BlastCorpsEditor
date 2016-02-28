@@ -178,11 +178,10 @@
          this.label13 = new System.Windows.Forms.Label();
          this.listBoxVehicles = new System.Windows.Forms.ListBox();
          this.tabPageBuildings = new System.Windows.Forms.TabPage();
-         this.numericBuildingHC = new System.Windows.Forms.NumericUpDown();
+         this.numericBuildingSpeed = new System.Windows.Forms.NumericUpDown();
          this.label42 = new System.Windows.Forms.Label();
-         this.numericBuildingHA = new System.Windows.Forms.NumericUpDown();
          this.label41 = new System.Windows.Forms.Label();
-         this.numericBuildingB8 = new System.Windows.Forms.NumericUpDown();
+         this.numericBuildingCounter = new System.Windows.Forms.NumericUpDown();
          this.numericBuildingT = new System.Windows.Forms.NumericUpDown();
          this.numericBuildingB9 = new System.Windows.Forms.NumericUpDown();
          this.label35 = new System.Windows.Forms.Label();
@@ -201,6 +200,7 @@
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.numericCommPtH6 = new System.Windows.Forms.NumericUpDown();
          this.label57 = new System.Windows.Forms.Label();
+         this.comboBoxBuildingBehavior = new System.Windows.Forms.ComboBox();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
@@ -260,9 +260,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericVehicleY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericVehicleX)).BeginInit();
          this.tabPageBuildings.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingHC)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingHA)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB8)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingSpeed)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingCounter)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingT)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB9)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
@@ -2106,11 +2105,11 @@
          // 
          // tabPageBuildings
          // 
-         this.tabPageBuildings.Controls.Add(this.numericBuildingHC);
+         this.tabPageBuildings.Controls.Add(this.comboBoxBuildingBehavior);
+         this.tabPageBuildings.Controls.Add(this.numericBuildingSpeed);
          this.tabPageBuildings.Controls.Add(this.label42);
-         this.tabPageBuildings.Controls.Add(this.numericBuildingHA);
          this.tabPageBuildings.Controls.Add(this.label41);
-         this.tabPageBuildings.Controls.Add(this.numericBuildingB8);
+         this.tabPageBuildings.Controls.Add(this.numericBuildingCounter);
          this.tabPageBuildings.Controls.Add(this.numericBuildingT);
          this.tabPageBuildings.Controls.Add(this.numericBuildingB9);
          this.tabPageBuildings.Controls.Add(this.label35);
@@ -2132,62 +2131,49 @@
          this.tabPageBuildings.Text = "Buildings";
          this.tabPageBuildings.UseVisualStyleBackColor = true;
          // 
-         // numericBuildingHC
+         // numericBuildingSpeed
          // 
-         this.numericBuildingHC.Location = new System.Drawing.Point(251, 194);
-         this.numericBuildingHC.Maximum = new decimal(new int[] {
+         this.numericBuildingSpeed.Location = new System.Drawing.Point(251, 195);
+         this.numericBuildingSpeed.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-         this.numericBuildingHC.Name = "numericBuildingHC";
-         this.numericBuildingHC.Size = new System.Drawing.Size(100, 20);
-         this.numericBuildingHC.TabIndex = 64;
-         this.numericBuildingHC.ValueChanged += new System.EventHandler(this.numericBuildingHC_ValueChanged);
+         this.numericBuildingSpeed.Name = "numericBuildingSpeed";
+         this.numericBuildingSpeed.Size = new System.Drawing.Size(100, 20);
+         this.numericBuildingSpeed.TabIndex = 64;
+         this.numericBuildingSpeed.ValueChanged += new System.EventHandler(this.numericBuildingSpeed_ValueChanged);
          // 
          // label42
          // 
          this.label42.AutoSize = true;
-         this.label42.Location = new System.Drawing.Point(224, 197);
+         this.label42.Location = new System.Drawing.Point(220, 198);
          this.label42.Name = "label42";
-         this.label42.Size = new System.Drawing.Size(25, 13);
+         this.label42.Size = new System.Drawing.Size(29, 13);
          this.label42.TabIndex = 63;
-         this.label42.Text = "HC:";
-         // 
-         // numericBuildingHA
-         // 
-         this.numericBuildingHA.Location = new System.Drawing.Point(251, 168);
-         this.numericBuildingHA.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-         this.numericBuildingHA.Name = "numericBuildingHA";
-         this.numericBuildingHA.Size = new System.Drawing.Size(100, 20);
-         this.numericBuildingHA.TabIndex = 62;
-         this.numericBuildingHA.ValueChanged += new System.EventHandler(this.numericBuildingHA_ValueChanged);
+         this.label42.Text = "Spd:";
          // 
          // label41
          // 
          this.label41.AutoSize = true;
-         this.label41.Location = new System.Drawing.Point(224, 171);
+         this.label41.Location = new System.Drawing.Point(220, 172);
          this.label41.Name = "label41";
-         this.label41.Size = new System.Drawing.Size(25, 13);
+         this.label41.Size = new System.Drawing.Size(29, 13);
          this.label41.TabIndex = 61;
-         this.label41.Text = "HA:";
+         this.label41.Text = "Beh:";
          // 
-         // numericBuildingB8
+         // numericBuildingCounter
          // 
-         this.numericBuildingB8.Location = new System.Drawing.Point(251, 116);
-         this.numericBuildingB8.Maximum = new decimal(new int[] {
+         this.numericBuildingCounter.Location = new System.Drawing.Point(251, 116);
+         this.numericBuildingCounter.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-         this.numericBuildingB8.Name = "numericBuildingB8";
-         this.numericBuildingB8.Size = new System.Drawing.Size(100, 20);
-         this.numericBuildingB8.TabIndex = 60;
-         this.numericBuildingB8.ValueChanged += new System.EventHandler(this.numericBuildingB8_ValueChanged);
+         this.numericBuildingCounter.Name = "numericBuildingCounter";
+         this.numericBuildingCounter.Size = new System.Drawing.Size(100, 20);
+         this.numericBuildingCounter.TabIndex = 60;
+         this.numericBuildingCounter.ValueChanged += new System.EventHandler(this.numericBuildingCounter_ValueChanged);
          // 
          // numericBuildingT
          // 
@@ -2227,11 +2213,11 @@
          // label36
          // 
          this.label36.AutoSize = true;
-         this.label36.Location = new System.Drawing.Point(224, 119);
+         this.label36.Location = new System.Drawing.Point(220, 119);
          this.label36.Name = "label36";
-         this.label36.Size = new System.Drawing.Size(23, 13);
+         this.label36.Size = new System.Drawing.Size(26, 13);
          this.label36.TabIndex = 56;
-         this.label36.Text = "B8:";
+         this.label36.Text = "Cnt:";
          // 
          // label37
          // 
@@ -2391,6 +2377,24 @@
          this.label57.TabIndex = 30;
          this.label57.Text = "H6:";
          // 
+         // comboBoxBuildingBehavior
+         // 
+         this.comboBoxBuildingBehavior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.comboBoxBuildingBehavior.DropDownWidth = 120;
+         this.comboBoxBuildingBehavior.FormattingEnabled = true;
+         this.comboBoxBuildingBehavior.Items.AddRange(new object[] {
+            "0: Normal",
+            "1: Vertically",
+            "2: Circle",
+            "3: Horizontally",
+            "4: Following Player",
+            "5: Rotation 90°"});
+         this.comboBoxBuildingBehavior.Location = new System.Drawing.Point(251, 168);
+         this.comboBoxBuildingBehavior.Name = "comboBoxBuildingBehavior";
+         this.comboBoxBuildingBehavior.Size = new System.Drawing.Size(100, 21);
+         this.comboBoxBuildingBehavior.TabIndex = 65;
+         this.comboBoxBuildingBehavior.SelectedIndexChanged += new System.EventHandler(this.comboBoxBuildingBehavior_SelectedIndexChanged);
+         // 
          // blastCorpsViewer
          // 
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2488,9 +2492,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericVehicleX)).EndInit();
          this.tabPageBuildings.ResumeLayout(false);
          this.tabPageBuildings.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingHC)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingHA)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB8)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingSpeed)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingCounter)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingT)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB9)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
@@ -2624,11 +2627,10 @@
         private System.Windows.Forms.Button buttonDelBuilding;
         private System.Windows.Forms.Button buttonAddBuilding;
         private System.Windows.Forms.ListBox listBoxBuildings;
-        private System.Windows.Forms.NumericUpDown numericBuildingHC;
+        private System.Windows.Forms.NumericUpDown numericBuildingSpeed;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.NumericUpDown numericBuildingHA;
         private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.NumericUpDown numericBuildingB8;
+        private System.Windows.Forms.NumericUpDown numericBuildingCounter;
         private System.Windows.Forms.NumericUpDown numericBuildingT;
         private System.Windows.Forms.NumericUpDown numericTntHA;
         private System.Windows.Forms.NumericUpDown numericTntTimer;
@@ -2676,6 +2678,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.NumericUpDown numericCommPtH6;
         private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.ComboBox comboBoxBuildingBehavior;
     }
 }
 

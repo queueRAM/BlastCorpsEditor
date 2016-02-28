@@ -640,10 +640,10 @@ namespace BlastCorpsEditor
             numericBuildingY.Value = building.y;
             numericBuildingZ.Value = building.z;
             numericBuildingT.Value = building.type;
-            numericBuildingB8.Value = building.b8;
+            numericBuildingCounter.Value = building.counter;
             numericBuildingB9.Value = building.b9;
-            numericBuildingHA.Value = building.hA;
-            numericBuildingHC.Value = building.hC;
+            comboBoxBuildingBehavior.SelectedIndex = building.behavior;
+            numericBuildingSpeed.Value = building.speed;
          }
       }
 
@@ -688,12 +688,12 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericBuildingB8_ValueChanged(object sender, EventArgs e)
+      private void numericBuildingCounter_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.b8 = (byte)numericBuildingB8.Value;
+            b.counter = (byte)numericBuildingCounter.Value;
             buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
@@ -710,23 +710,23 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericBuildingHA_ValueChanged(object sender, EventArgs e)
+      private void comboBoxBuildingBehavior_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.hA = (UInt16)numericBuildingHA.Value;
+            b.behavior = (UInt16)comboBoxBuildingBehavior.SelectedIndex;
             buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
-      private void numericBuildingHC_ValueChanged(object sender, EventArgs e)
+      private void numericBuildingSpeed_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.hC = (UInt16)numericBuildingHC.Value;
+            b.speed = (UInt16)numericBuildingSpeed.Value;
             buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
