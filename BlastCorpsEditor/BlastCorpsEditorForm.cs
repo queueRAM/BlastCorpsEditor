@@ -849,7 +849,11 @@ namespace BlastCorpsEditor
          var copyright = versionInfo.LegalCopyright;
          var assembly = Assembly.GetExecutingAssembly();
          var appName = "Blast Corps Editor";
-         MessageBox.Show(appName + " v" + version + "\n" + copyright, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+         var thanks = "Special thanks to :\n" +
+            "  \u2022 SunakazeKun / Aurum for Blast Corps documentation and testing\n" +
+            "  \u2022 SubDrag for the Universal N64 Compressor and notes\n" +
+            "  \u2022 \"Leveling Legend\" for sharing notes and support";
+         MessageBox.Show(appName + " v" + version + "\n" + copyright + "\n\n" + thanks, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
    }
 }
