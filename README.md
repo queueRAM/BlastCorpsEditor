@@ -9,6 +9,10 @@ Tools for hacking the Blast Corps ROM for N64.
 * View train/barge platforms, collision modifiers, and bounds
 
 ### Changelog ###
+0.0.3: More details on comm points and buildings
+* add control for comm point H6 value to control animation
+* add more descriptive fields for buildings
+
 0.0.2: UI cleanup, improved parsing, bug fixes
 
 * use internal GZipStream instead of external gzip dependency
