@@ -852,7 +852,7 @@ namespace BlastCorpsEditor
          var thanks = "Special thanks to :\n" +
             "  \u2022 SunakazeKun / Aurum for Blast Corps documentation and testing\n" +
             "  \u2022 SubDrag for the Universal N64 Compressor and notes\n" +
-            "  \u2022 \"Leveling Legend\" for sharing notes and support";
+            "  \u2022 Everyone else who has helped along the way";
          MessageBox.Show(appName + " v" + version + "\n" + copyright + "\n\n" + thanks, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
    }
