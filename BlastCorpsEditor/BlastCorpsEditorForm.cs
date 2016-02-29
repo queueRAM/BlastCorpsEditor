@@ -25,7 +25,61 @@ namespace BlastCorpsEditor
       {
          InitializeComponent();
          comboBoxLevel.DataSource = BlastCorpsRom.levelMeta;
-         blastCorpsViewer.SetStatusLabel(statusStripMessage);
+         blastCorpsViewer.PositionEvent += delegate(Object sender, PositionEventArgs e)
+         {
+            statusStripMessage.Text = e.Position;
+         };
+         blastCorpsViewer.SelectionChangedEvent += delegate(Object sender, SelectionChangedEventArgs e)
+         {
+            itemSel = e.SelectedItem;
+            if (itemSel != null)
+            {
+               ListBox list = null;
+               if (itemSel is AmmoBox)
+               {
+                  tabControlItems.SelectedIndex = 1;
+                  list = listBoxAmmo;
+               }
+               else if (itemSel is CommPoint)
+               {
+                  tabControlItems.SelectedIndex = 2;
+                  list = listBoxCommPt;
+               }
+               else if (itemSel is RDU)
+               {
+                  tabControlItems.SelectedIndex = 3;
+                  list = listBoxRdu;
+               }
+               else if (itemSel is TNTCrate)
+               {
+                  tabControlItems.SelectedIndex = 4;
+                  list = listBoxTnt;
+               }
+               else if (itemSel is SquareBlock)
+               {
+                  tabControlItems.SelectedIndex = 5;
+                  list = listBoxBlocks;
+               }
+               else if (itemSel is Vehicle)
+               {
+                  tabControlItems.SelectedIndex = 6;
+                  list = listBoxVehicles;
+               }
+               else if (itemSel is Carrier)
+               {
+                  tabControlItems.SelectedIndex = 6;
+               }
+               else if (itemSel is Building)
+               {
+                  tabControlItems.SelectedIndex = 7;
+                  list = listBoxBuildings;
+               }
+               if (list != null)
+               {
+                  list.SelectedItem = itemSel;
+               }
+            }
+         };
          numericHeaders = new NumericUpDown[] { 
             numericHeader00,
             numericHeader02,
@@ -122,6 +176,8 @@ namespace BlastCorpsEditor
          saveToolStripMenuItem.Enabled = true;
          saveRunToolStripMenuItem.Enabled = true;
          exportToolStripMenuItem.Enabled = true;
+
+         SetSelectedItem(null);
       }
 
       private void SaveFile()
@@ -155,13 +211,8 @@ namespace BlastCorpsEditor
 
       private void SetSelectedItem(BlastCorpsItem item)
       {
-         if (itemSel != null)
-         {
-            itemSel.selected = false;
-         }
-         item.selected = true;
          itemSel = item;
-         blastCorpsViewer.Invalidate();
+         blastCorpsViewer.SelectedItem = itemSel;
       }
 
       private void comboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)

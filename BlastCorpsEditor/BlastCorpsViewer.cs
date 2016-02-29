@@ -5,16 +5,37 @@ using System.Drawing.Drawing2D;
 
 namespace BlastCorpsEditor
 {
+   public delegate void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e);
+   public class SelectionChangedEventArgs : EventArgs
+   {
+      public BlastCorpsItem SelectedItem { get; set; }
+      public SelectionChangedEventArgs(BlastCorpsItem item)
+      {
+         this.SelectedItem = item;
+      }
+   }
+
+   public delegate void PositionEventHandler(object sender, PositionEventArgs e);
+   public class PositionEventArgs : EventArgs
+   {
+      public string Position { get; set; }
+      public PositionEventArgs(string position)
+      {
+         this.Position = position;
+      }
+   }
+
    public partial class BlastCorpsViewer : UserControl
    {
       private BlastCorpsLevel level;
       private bool showGridLines;
       private bool showBoundingBoxes40;
       private bool showBoundingBoxes44;
-      private ToolStripStatusLabel mouseStatus;
       private float zoom = 1;
       private int offX, offY;
 
+      // item selected either in list or by clicking
+      private BlastCorpsItem selectedItem = null;
       // click and drag related
       private BlastCorpsItem dragItem = null;
 
@@ -25,9 +46,24 @@ namespace BlastCorpsEditor
          ResizeRedraw = true;
       }
 
-      public void SetStatusLabel(ToolStripStatusLabel label)
+      // selected item changed event
+      public event SelectionChangedEventHandler SelectionChangedEvent;
+      protected virtual void OnSelectionChangedEvent(SelectionChangedEventArgs e)
       {
-         mouseStatus = label;
+         SelectionChangedEvent(this, e);
+      }
+
+      // mouse position change event
+      public event PositionEventHandler PositionEvent;
+      protected virtual void OnPositionEvent(PositionEventArgs e)
+      {
+         PositionEvent(this, e);
+      }
+
+      public BlastCorpsItem SelectedItem
+      {
+         get { return selectedItem; }
+         set { selectedItem = value; Invalidate(); }
       }
 
       public bool ShowGridLines
@@ -107,7 +143,6 @@ namespace BlastCorpsEditor
          Brush bounds44Brush = new HatchBrush(HatchStyle.DiagonalCross, Color.Aqua, Color.Transparent);
          Pen blockPen = new Pen(Color.DarkGray);
          Pen buildingPen = new Pen(Color.Brown, 2);
-         Brush selectedBrush = new SolidBrush(Color.Magenta);
          Pen vehPen = new Pen(Color.Blue);
          vehPen.StartCap = LineCap.SquareAnchor;
          vehPen.EndCap = LineCap.ArrowAnchor;
@@ -123,6 +158,7 @@ namespace BlastCorpsEditor
          Pen platformPen = new Pen(Color.DarkKhaki, 2);
          Pen blackPen = new Pen(Color.Black);
          Pen selectedPen = new Pen(Color.Magenta, 2);
+         selectedPen.EndCap = LineCap.ArrowAnchor;
          double angle;
          int x, y, dx, dy;
          if (level != null)
@@ -185,11 +221,11 @@ namespace BlastCorpsEditor
             int length = pixelY(0) - pixelY(level.carrier.distance);
             dx = (int)(length * Math.Sin(angle));
             dy = (int)(length * Math.Cos(angle));
-            e.Graphics.DrawLine(level.carrier.selected ? selectedPen : carrierPen, x, y, x - dx, y - dy);
+            e.Graphics.DrawLine(carrierPen, x, y, x - dx, y - dy);
 
             foreach (AmmoBox ammo in level.ammoBoxes)
             {
-               e.Graphics.FillRectangle(ammo.selected ? selectedBrush : ammoBrush, pixelX(ammo.x) - 4, pixelY(ammo.z) - 4, 7, 7);
+               e.Graphics.FillRectangle(ammoBrush, pixelX(ammo.x) - 4, pixelY(ammo.z) - 4, 7, 7);
             }
             Point[] points = new Point[4];
             foreach (Collision24 zone in level.collisions)
@@ -233,15 +269,15 @@ namespace BlastCorpsEditor
             }
             foreach (CommPoint comm in level.commPoints)
             {
-               e.Graphics.FillRectangle(comm.selected ? selectedBrush : commBrush, pixelX(comm.x) - 5, pixelY(comm.z) - 5, 9, 9);
+               e.Graphics.FillRectangle(commBrush, pixelX(comm.x) - 5, pixelY(comm.z) - 5, 9, 9);
             }
             foreach (RDU rdu in level.rdus)
             {
-               e.Graphics.FillEllipse(rdu.selected ? selectedBrush : rduBrush, pixelX(rdu.x)-4, pixelY(rdu.z)-4, 7, 7);
+               e.Graphics.FillEllipse(rduBrush, pixelX(rdu.x)-4, pixelY(rdu.z)-4, 7, 7);
             }
             foreach (TNTCrate tnt in level.tntCrates)
             {
-               e.Graphics.FillRectangle(tnt.selected ? selectedBrush : tntBrush, pixelX(tnt.x), pixelY(tnt.z), 7, 7);
+               e.Graphics.FillRectangle(tntBrush, pixelX(tnt.x)-4, pixelY(tnt.z)-4, 7, 7);
             }
             foreach (SquareBlock block in level.squareBlocks)
             {
@@ -256,11 +292,11 @@ namespace BlastCorpsEditor
                }
                if (block.hole == 8)
                {
-                  e.Graphics.DrawRectangle(block.selected ? selectedPen : blockPen, 0, 0, 9, 9);
+                  e.Graphics.DrawRectangle(blockPen, 0, 0, 9, 9);
                }
                else
                {
-                  e.Graphics.FillRectangle(block.selected ? selectedBrush : blockBrush, 0, 0, 7, 7);
+                  e.Graphics.FillRectangle(blockBrush, 0, 0, 7, 7);
                }
                e.Graphics.ResetTransform();
             }
@@ -274,16 +310,28 @@ namespace BlastCorpsEditor
                dy = (int)(12 * Math.Cos(angle));
                if (veh.type == 0x00)
                {
-                  e.Graphics.DrawLine(veh.selected ? selectedPen : playerPen, x, y, x - dx, y - dy);
+                  e.Graphics.DrawLine(playerPen, x, y, x - dx, y - dy);
                }
                else
                {
-                  e.Graphics.DrawLine(veh.selected ? selectedPen : vehPen, x, y, x - dx, y - dy);
+                  e.Graphics.DrawLine(vehPen, x, y, x - dx, y - dy);
                }
             }
             foreach (Building b in level.buildings)
             {
-               e.Graphics.DrawRectangle(b.selected ? selectedPen : buildingPen, pixelX(b.x) - 5, pixelY(b.z) - 5, 9, 9);
+               e.Graphics.DrawRectangle(buildingPen, pixelX(b.x) - 5, pixelY(b.z) - 5, 9, 9);
+            }
+
+            if (selectedItem != null)
+            {
+               x = pixelX(selectedItem.x);
+               y = pixelY(selectedItem.z);
+               const int selOuter = 10;
+               const int selInner = 4;
+               e.Graphics.DrawLine(selectedPen, x - selOuter, y - selOuter, x - selInner, y - selInner);
+               e.Graphics.DrawLine(selectedPen, x + selOuter - 1, y - selOuter, x + selInner - 1, y - selInner);
+               e.Graphics.DrawLine(selectedPen, x + selOuter - 1, y + selOuter - 1, x + selInner - 1, y + selInner - 1);
+               e.Graphics.DrawLine(selectedPen, x - selOuter, y + selOuter - 1, x - selInner, y + selInner - 1);
             }
          }
          e.Graphics.DrawRectangle(blackPen, 0, 0, Width - 1, Height - 1);
@@ -303,10 +351,8 @@ namespace BlastCorpsEditor
          {
             Int16 x = (Int16)levelX(e.X);
             Int16 z = (Int16)levelZ(e.Y);
-            if (mouseStatus != null)
-            {
-               mouseStatus.Text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
-            }
+            string text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
+            OnPositionEvent(new PositionEventArgs(text));
             if (dragItem != null)
             {
                dragItem.x = x;
@@ -395,7 +441,6 @@ namespace BlastCorpsEditor
 
             if (dragItem != null)
             {
-               dragItem.selected = true;
                Invalidate();
             }
          }
@@ -405,7 +450,8 @@ namespace BlastCorpsEditor
       {
          if (dragItem != null)
          {
-            dragItem.selected = false;
+            selectedItem = dragItem;
+            OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem));
             dragItem = null;
             Invalidate();
          }

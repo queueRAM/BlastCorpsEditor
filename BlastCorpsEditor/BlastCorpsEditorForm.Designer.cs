@@ -48,7 +48,7 @@
          this.boundingBoxes0x44ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.tabControl1 = new System.Windows.Forms.TabControl();
+         this.tabControlItems = new System.Windows.Forms.TabControl();
          this.tabPageHeader = new System.Windows.Forms.TabPage();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
          this.numericGravity = new System.Windows.Forms.NumericUpDown();
@@ -97,6 +97,8 @@
          this.label18 = new System.Windows.Forms.Label();
          this.listBoxAmmo = new System.Windows.Forms.ListBox();
          this.tabPageCommPt = new System.Windows.Forms.TabPage();
+         this.numericCommPtH6 = new System.Windows.Forms.NumericUpDown();
+         this.label57 = new System.Windows.Forms.Label();
          this.numericCommPtZ = new System.Windows.Forms.NumericUpDown();
          this.numericCommPtY = new System.Windows.Forms.NumericUpDown();
          this.numericCommPtX = new System.Windows.Forms.NumericUpDown();
@@ -178,6 +180,7 @@
          this.label13 = new System.Windows.Forms.Label();
          this.listBoxVehicles = new System.Windows.Forms.ListBox();
          this.tabPageBuildings = new System.Windows.Forms.TabPage();
+         this.comboBoxBuildingBehavior = new System.Windows.Forms.ComboBox();
          this.numericBuildingSpeed = new System.Windows.Forms.NumericUpDown();
          this.label42 = new System.Windows.Forms.Label();
          this.label41 = new System.Windows.Forms.Label();
@@ -198,13 +201,10 @@
          this.listBoxBuildings = new System.Windows.Forms.ListBox();
          this.comboBoxLevel = new System.Windows.Forms.ComboBox();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-         this.numericCommPtH6 = new System.Windows.Forms.NumericUpDown();
-         this.label57 = new System.Windows.Forms.Label();
-         this.comboBoxBuildingBehavior = new System.Windows.Forms.ComboBox();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
-         this.tabControl1.SuspendLayout();
+         this.tabControlItems.SuspendLayout();
          this.tabPageHeader.SuspendLayout();
          this.groupBox3.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericGravity)).BeginInit();
@@ -227,6 +227,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoX)).BeginInit();
          this.tabPageCommPt.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtX)).BeginInit();
@@ -267,7 +268,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).BeginInit();
          this.SuspendLayout();
          // 
          // statusStrip
@@ -422,23 +422,23 @@
          this.aboutToolStripMenuItem.Text = "About";
          this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
          // 
-         // tabControl1
+         // tabControlItems
          // 
-         this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+         this.tabControlItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-         this.tabControl1.Controls.Add(this.tabPageHeader);
-         this.tabControl1.Controls.Add(this.tabPageAmmo);
-         this.tabControl1.Controls.Add(this.tabPageCommPt);
-         this.tabControl1.Controls.Add(this.tabPageRdus);
-         this.tabControl1.Controls.Add(this.tabPageTnt);
-         this.tabControl1.Controls.Add(this.tabPageBlock);
-         this.tabControl1.Controls.Add(this.tabPageVehicles);
-         this.tabControl1.Controls.Add(this.tabPageBuildings);
-         this.tabControl1.Location = new System.Drawing.Point(8, 54);
-         this.tabControl1.Name = "tabControl1";
-         this.tabControl1.SelectedIndex = 0;
-         this.tabControl1.Size = new System.Drawing.Size(378, 579);
-         this.tabControl1.TabIndex = 4;
+         this.tabControlItems.Controls.Add(this.tabPageHeader);
+         this.tabControlItems.Controls.Add(this.tabPageAmmo);
+         this.tabControlItems.Controls.Add(this.tabPageCommPt);
+         this.tabControlItems.Controls.Add(this.tabPageRdus);
+         this.tabControlItems.Controls.Add(this.tabPageTnt);
+         this.tabControlItems.Controls.Add(this.tabPageBlock);
+         this.tabControlItems.Controls.Add(this.tabPageVehicles);
+         this.tabControlItems.Controls.Add(this.tabPageBuildings);
+         this.tabControlItems.Location = new System.Drawing.Point(8, 54);
+         this.tabControlItems.Name = "tabControlItems";
+         this.tabControlItems.SelectedIndex = 0;
+         this.tabControlItems.Size = new System.Drawing.Size(378, 579);
+         this.tabControlItems.TabIndex = 4;
          // 
          // tabPageHeader
          // 
@@ -1054,6 +1054,28 @@
          this.tabPageCommPt.TabIndex = 5;
          this.tabPageCommPt.Text = "CommPt";
          this.tabPageCommPt.UseVisualStyleBackColor = true;
+         // 
+         // numericCommPtH6
+         // 
+         this.numericCommPtH6.Location = new System.Drawing.Point(243, 85);
+         this.numericCommPtH6.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+         this.numericCommPtH6.Name = "numericCommPtH6";
+         this.numericCommPtH6.Size = new System.Drawing.Size(100, 20);
+         this.numericCommPtH6.TabIndex = 31;
+         this.numericCommPtH6.ValueChanged += new System.EventHandler(this.numericCommPtH6_ValueChanged);
+         // 
+         // label57
+         // 
+         this.label57.AutoSize = true;
+         this.label57.Location = new System.Drawing.Point(218, 88);
+         this.label57.Name = "label57";
+         this.label57.Size = new System.Drawing.Size(24, 13);
+         this.label57.TabIndex = 30;
+         this.label57.Text = "H6:";
          // 
          // numericCommPtZ
          // 
@@ -2131,6 +2153,24 @@
          this.tabPageBuildings.Text = "Buildings";
          this.tabPageBuildings.UseVisualStyleBackColor = true;
          // 
+         // comboBoxBuildingBehavior
+         // 
+         this.comboBoxBuildingBehavior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.comboBoxBuildingBehavior.DropDownWidth = 120;
+         this.comboBoxBuildingBehavior.FormattingEnabled = true;
+         this.comboBoxBuildingBehavior.Items.AddRange(new object[] {
+            "0: Normal",
+            "1: Vertically",
+            "2: Circle",
+            "3: Horizontally",
+            "4: Following Player",
+            "5: Rotation 90°"});
+         this.comboBoxBuildingBehavior.Location = new System.Drawing.Point(251, 168);
+         this.comboBoxBuildingBehavior.Name = "comboBoxBuildingBehavior";
+         this.comboBoxBuildingBehavior.Size = new System.Drawing.Size(100, 21);
+         this.comboBoxBuildingBehavior.TabIndex = 65;
+         this.comboBoxBuildingBehavior.SelectedIndexChanged += new System.EventHandler(this.comboBoxBuildingBehavior_SelectedIndexChanged);
+         // 
          // numericBuildingSpeed
          // 
          this.numericBuildingSpeed.Location = new System.Drawing.Point(251, 195);
@@ -2355,46 +2395,6 @@
          this.comboBoxLevel.TabIndex = 8;
          this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
          // 
-         // numericCommPtH6
-         // 
-         this.numericCommPtH6.Location = new System.Drawing.Point(243, 85);
-         this.numericCommPtH6.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-         this.numericCommPtH6.Name = "numericCommPtH6";
-         this.numericCommPtH6.Size = new System.Drawing.Size(100, 20);
-         this.numericCommPtH6.TabIndex = 31;
-         this.numericCommPtH6.ValueChanged += new System.EventHandler(this.numericCommPtH6_ValueChanged);
-         // 
-         // label57
-         // 
-         this.label57.AutoSize = true;
-         this.label57.Location = new System.Drawing.Point(218, 88);
-         this.label57.Name = "label57";
-         this.label57.Size = new System.Drawing.Size(24, 13);
-         this.label57.TabIndex = 30;
-         this.label57.Text = "H6:";
-         // 
-         // comboBoxBuildingBehavior
-         // 
-         this.comboBoxBuildingBehavior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.comboBoxBuildingBehavior.DropDownWidth = 120;
-         this.comboBoxBuildingBehavior.FormattingEnabled = true;
-         this.comboBoxBuildingBehavior.Items.AddRange(new object[] {
-            "0: Normal",
-            "1: Vertically",
-            "2: Circle",
-            "3: Horizontally",
-            "4: Following Player",
-            "5: Rotation 90°"});
-         this.comboBoxBuildingBehavior.Location = new System.Drawing.Point(251, 168);
-         this.comboBoxBuildingBehavior.Name = "comboBoxBuildingBehavior";
-         this.comboBoxBuildingBehavior.Size = new System.Drawing.Size(100, 21);
-         this.comboBoxBuildingBehavior.TabIndex = 65;
-         this.comboBoxBuildingBehavior.SelectedIndexChanged += new System.EventHandler(this.comboBoxBuildingBehavior_SelectedIndexChanged);
-         // 
          // blastCorpsViewer
          // 
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2402,6 +2402,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.blastCorpsViewer.Location = new System.Drawing.Point(391, 27);
          this.blastCorpsViewer.Name = "blastCorpsViewer";
+         this.blastCorpsViewer.SelectedItem = null;
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
          this.blastCorpsViewer.ShowBoundingBoxes44 = false;
          this.blastCorpsViewer.ShowGridLines = false;
@@ -2415,7 +2416,7 @@
          this.ClientSize = new System.Drawing.Size(983, 665);
          this.Controls.Add(this.comboBoxLevel);
          this.Controls.Add(this.blastCorpsViewer);
-         this.Controls.Add(this.tabControl1);
+         this.Controls.Add(this.tabControlItems);
          this.Controls.Add(this.statusStrip);
          this.Controls.Add(this.menuStrip1);
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2426,7 +2427,7 @@
          this.statusStrip.PerformLayout();
          this.menuStrip1.ResumeLayout(false);
          this.menuStrip1.PerformLayout();
-         this.tabControl1.ResumeLayout(false);
+         this.tabControlItems.ResumeLayout(false);
          this.tabPageHeader.ResumeLayout(false);
          this.groupBox3.ResumeLayout(false);
          this.groupBox3.PerformLayout();
@@ -2453,6 +2454,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericAmmoX)).EndInit();
          this.tabPageCommPt.ResumeLayout(false);
          this.tabPageCommPt.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtY)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericCommPtX)).EndInit();
@@ -2499,7 +2501,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingX)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericCommPtH6)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -2513,7 +2514,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControlItems;
         private System.Windows.Forms.TabPage tabPageRdus;
         private System.Windows.Forms.Button buttonRduDelete;
         private System.Windows.Forms.Button buttonAddRdu;

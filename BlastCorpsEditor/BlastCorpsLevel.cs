@@ -16,7 +16,6 @@ namespace BlastCorpsEditor
       public Int16 x { get; set; }
       public Int16 y { get; set; }
       public Int16 z { get; set; }
-      public bool selected;
    }
 
    public class AmmoBox : BlastCorpsItem
