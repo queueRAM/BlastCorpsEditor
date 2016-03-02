@@ -691,7 +691,7 @@ namespace BlastCorpsEditor
             numericBuildingX.Value = building.x;
             numericBuildingY.Value = building.y;
             numericBuildingZ.Value = building.z;
-            numericBuildingT.Value = building.type;
+            comboBoxBuildingType.SelectedIndex = building.type;
             numericBuildingCounter.Value = building.counter;
             numericBuildingB9.Value = building.b9;
             comboBoxBuildingBehavior.SelectedIndex = building.behavior;
@@ -729,12 +729,12 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericBuildingT_ValueChanged(object sender, EventArgs e)
+      private void comboBoxBuildingType_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.type = (UInt16)numericBuildingT.Value;
+            b.type = (UInt16)comboBoxBuildingType.SelectedIndex;
             buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }

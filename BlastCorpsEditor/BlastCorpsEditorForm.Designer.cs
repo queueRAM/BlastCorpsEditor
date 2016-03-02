@@ -187,7 +187,6 @@
          this.label42 = new System.Windows.Forms.Label();
          this.label41 = new System.Windows.Forms.Label();
          this.numericBuildingCounter = new System.Windows.Forms.NumericUpDown();
-         this.numericBuildingT = new System.Windows.Forms.NumericUpDown();
          this.numericBuildingB9 = new System.Windows.Forms.NumericUpDown();
          this.label35 = new System.Windows.Forms.Label();
          this.label36 = new System.Windows.Forms.Label();
@@ -203,6 +202,7 @@
          this.listBoxBuildings = new System.Windows.Forms.ListBox();
          this.comboBoxLevel = new System.Windows.Forms.ComboBox();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+         this.comboBoxBuildingType = new System.Windows.Forms.ComboBox();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
@@ -265,7 +265,6 @@
          this.tabPageBuildings.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingSpeed)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingCounter)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingT)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB9)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).BeginInit();
@@ -2144,12 +2143,12 @@
          // 
          // tabPageBuildings
          // 
+         this.tabPageBuildings.Controls.Add(this.comboBoxBuildingType);
          this.tabPageBuildings.Controls.Add(this.comboBoxBuildingBehavior);
          this.tabPageBuildings.Controls.Add(this.numericBuildingSpeed);
          this.tabPageBuildings.Controls.Add(this.label42);
          this.tabPageBuildings.Controls.Add(this.label41);
          this.tabPageBuildings.Controls.Add(this.numericBuildingCounter);
-         this.tabPageBuildings.Controls.Add(this.numericBuildingT);
          this.tabPageBuildings.Controls.Add(this.numericBuildingB9);
          this.tabPageBuildings.Controls.Add(this.label35);
          this.tabPageBuildings.Controls.Add(this.label36);
@@ -2215,9 +2214,9 @@
          this.label41.AutoSize = true;
          this.label41.Location = new System.Drawing.Point(220, 172);
          this.label41.Name = "label41";
-         this.label41.Size = new System.Drawing.Size(29, 13);
+         this.label41.Size = new System.Drawing.Size(31, 13);
          this.label41.TabIndex = 61;
-         this.label41.Text = "Beh:";
+         this.label41.Text = "Mov:";
          // 
          // numericBuildingCounter
          // 
@@ -2231,19 +2230,6 @@
          this.numericBuildingCounter.Size = new System.Drawing.Size(100, 20);
          this.numericBuildingCounter.TabIndex = 60;
          this.numericBuildingCounter.ValueChanged += new System.EventHandler(this.numericBuildingCounter_ValueChanged);
-         // 
-         // numericBuildingT
-         // 
-         this.numericBuildingT.Location = new System.Drawing.Point(251, 90);
-         this.numericBuildingT.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-         this.numericBuildingT.Name = "numericBuildingT";
-         this.numericBuildingT.Size = new System.Drawing.Size(100, 20);
-         this.numericBuildingT.TabIndex = 59;
-         this.numericBuildingT.ValueChanged += new System.EventHandler(this.numericBuildingT_ValueChanged);
          // 
          // numericBuildingB9
          // 
@@ -2412,6 +2398,298 @@
          this.comboBoxLevel.TabIndex = 8;
          this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
          // 
+         // comboBoxBuildingType
+         // 
+         this.comboBoxBuildingType.DropDownHeight = 500;
+         this.comboBoxBuildingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.comboBoxBuildingType.DropDownWidth = 350;
+         this.comboBoxBuildingType.FormattingEnabled = true;
+         this.comboBoxBuildingType.IntegralHeight = false;
+         this.comboBoxBuildingType.Items.AddRange(new object[] {
+            "000: Angel City Fences #1",
+            "001: Angel City Petrol Station",
+            "002: Angel City Burger Shop",
+            "003: Angel City Building with Stairs #1",
+            "004: Angel City Shop #1",
+            "005: Angel City Shop #1 Fences",
+            "006: Angel City Building #1",
+            "007: Angel City Building #1 Fences",
+            "008: Angel City Building #2",
+            "009: Angel City Building #3",
+            "010: Angel City Building #3 Fences",
+            "011: Angel City Building #4",
+            "012: Angel City Building #4 Fences",
+            "013: Angel City Shop #1",
+            "014: Angel City Shop #1 Fences",
+            "015: Angel City Building with Stairs #2",
+            "016: Angel City Garage",
+            "017: Angel City Building #5",
+            "018: Angel City Building #6 (Unused)",
+            "019: Angel City Building #7",
+            "020: Angel City Building #8",
+            "021: Angel City Building with Stairs #3",
+            "022: Angel City Building #9 (Unused)",
+            "023: Angel City Building #10",
+            "024: Angel City Building #10 Fences",
+            "025: Angel City Building #11",
+            "026: Angel City Fences #2",
+            "027: Angel City Oil Drum Fire",
+            "028: Angel City Building #12",
+            "029: Simian Acres American Dream Car (Destroyable) (Unused)",
+            "030: Simian Acres Track Sign",
+            "031: Simian Acres Building #1 (Unused)",
+            "032: Simian Acres Barn #1",
+            "033: Simian Acres Barn #1 Fences",
+            "034: Simian Acres Wagon",
+            "035: Simian Acres Building #2",
+            "036: Simian Acres Toilet",
+            "037: Simian Acres Bathtub",
+            "038: Simian Acres Fences",
+            "039: Simian Acres Windmill",
+            "040: Simian Acres Building #3",
+            "041: Simian Acres Building #3 Fences (Unused)",
+            "042: Simian Acres Building #4",
+            "043: Simian Acres Building #4 Fences",
+            "044: Simian Acres Barn #2",
+            "045: Simian Acres Barn #2 Fences",
+            "046: Simian Acres Tractor (Unused)",
+            "047: Simian Acres Building #5",
+            "048: Simian Acres Building #6",
+            "049: Simian Acres Barn #3",
+            "050: Angel City Black Car (Destroyable) (Unused)",
+            "051: Carrick Point Container (Red) (Unused)",
+            "052: Carrick Point Container (Green) (Unused)",
+            "053: Carrick Point Container (Whites) (Unused)",
+            "054: Carrick Point Metal Plates",
+            "055: Backlash (Unused)",
+            "056: Blast Corps Semi",
+            "057: Simian Acres Building #7",
+            "058: Simian Acres Building #7 Fences (Unused)",
+            "059: Simian Acres Wooden Container",
+            "060: Simian Acres Gas Station House",
+            "061: Simian Acres Gas Station Garage",
+            "062: Simian Acres Gas Station",
+            "063: Simian Acres Gas Station Hut",
+            "064: Simian Acres Gas Station Sign",
+            "065: Simian Acres Building #9",
+            "066: Simian Acres Building #9 Fences",
+            "067: Simian Acres Fences",
+            "068: Simian Acres Building #9 House",
+            "069: Simian Acres Building #9 Garage",
+            "070: Simian Acres Building #11",
+            "071: Simian Acres Building #11 Fences",
+            "072: Simian Acres Building #12",
+            "073: Simian Acres Building #12 Fences",
+            "074: Simian Acres Building #13",
+            "075: Simian Acres Building #13 Fences",
+            "076: Simian Acres Building #14",
+            "077: Simian Acres Building #14 Fences (Unused)",
+            "078: Simian Acres Building #15",
+            "079: Simian Acres Building #16",
+            "080: Simian Acres Building #16 Fences",
+            "081: Simian Acres Building #17 (Unused)",
+            "082: Simian Acres Building #17",
+            "083: Simian Acres Building #18 Fences",
+            "084: Simian Acres Building #18",
+            "085: Simian Acres Fences #2",
+            "086: Simian Acres Building #19",
+            "087: Simian Acres Building #20 Hut",
+            "088: Simian Acres Building #20 ",
+            "089: Simian Acres Building #20 Fences",
+            "090: Simian Acres Building #21",
+            "091: Simian Acres Building #21 Fences (Unused)",
+            "092: Simian Acres Building #22 (Unused)",
+            "093: Simian Acres Building #22 Fences (Unused)",
+            "094: Simian Acres Building #23",
+            "095: Simian Acres Tree #1 (Tall) (Unused)",
+            "096: Simian Acres Tree #2 (Small) (Unused)",
+            "097: Angel City Building #13",
+            "098: Carrick Point Building #1",
+            "099: Carrick Point Orange Container (Unused)",
+            "100: Carrick Point Container (Red)",
+            "101: Carrick Point Container (White)",
+            "102: Carrick Point Container (Green)",
+            "103: Carrick Point Wooden Box",
+            "104: Carrick Point Gas Tank (Blue)",
+            "105: Carrick Point Gas Tank (Red)",
+            "106: Carrick Point Container (Red)",
+            "107: Carrick Point Container (Blue)",
+            "108: Carrick Point Container (White)",
+            "109: Carrick Point Container (Orange)",
+            "110: Carrick Point Container (Green)",
+            "111: Carrick Point Building #1 (White Roof)",
+            "112: Carrick Point Building #1 (Blue Roof)",
+            "113: Carrick Point Building #1 (Red Roof)",
+            "114: Carrick Point Building #1 (White Roof) (Unused)",
+            "115: Carrick Point Building #2",
+            "116: Carrick Point Long Building #1",
+            "117: Carrick Point Long Building #2",
+            "118: Havoc District Building #1",
+            "119: Havoc District Building #2",
+            "120: Havoc District Building #3",
+            "121: Havoc District Building #4",
+            "122: Havoc District Building #5",
+            "123: Havoc District Building #6",
+            "124: Havoc District Building #7 Part 1/2",
+            "125: Havoc District Building #7 Part 2/2",
+            "126: Havoc District Building #8 Part 1/2",
+            "127: Havoc District Building #8 Part 2/2",
+            "128: Havoc District Building #9 Part 1/3",
+            "129: Havoc District Building #9 Part 2/3",
+            "130: Havoc District Building #9 Part 3/3",
+            "131: Outland Farm Building #1",
+            "132: Outland Farm Building #2",
+            "133: Outland Farm Building #3",
+            "134: Outland Farm Building #4",
+            "135: Outland Farm Silo (Set of 3)",
+            "136: Outland Farm Silo",
+            "137: Blackridge Works Building #1",
+            "138: Blackridge Works Building #2",
+            "139: Blackridge Works Building #3",
+            "140: Blackridge Works Silo (Set of 3)",
+            "141: Blackridge Works Building #4",
+            "142: Blackridge Works Building #5",
+            "143: Blackridge Works Fence",
+            "144: Small Rectangular (Vertical) (Unused)",
+            "145: Oyster Harbor Building #1",
+            "146: Oyster Harbor Metal Crate",
+            "147: Blackridge Works Large Orange Rectangular (Unused)",
+            "148: Blackridge Works Tall Pyramid (Unused)",
+            "149: Blackridge Works Decorations #1",
+            "150: Carrick Point Containers #1",
+            "151: Carrick Point Containers #2",
+            "152: Carrick Point Containers #3",
+            "153: Carrick Point Containers #4",
+            "154: Carrick Point Containers #5",
+            "155: Carrick Point Containers #6",
+            "156: Carrick Point Ship #1",
+            "157: Carrick Point Long Building #1 (Unused)",
+            "158: Carrick Point Long Building #2 (Unused)",
+            "159: Carrick Point Long Building #3",
+            "160: Carrick Point Long Building #4",
+            "161: Carrick Point Long Building #5",
+            "162: Carrick Point Long Building #6",
+            "163: Carrick Point Long Building #7",
+            "164: Carrick Point Long Building #8",
+            "165: Carrick Point Castle",
+            "166: Carrick Point Crane (Unused)",
+            "167: Carrick Point Crane (Unused)",
+            "168: Carrick Point Ship #2",
+            "169: Blackridge Works Decorations #2",
+            "170: Building",
+            "171: Tempest City Wall Block",
+            "172: Tempest City Decorations",
+            "173: Tempest City Fences",
+            "174: Ebony Coast Building #1",
+            "175: Ebony Coast Building #2",
+            "176: Ebony Coast Building #3",
+            "177: Building",
+            "178: Building",
+            "179: Tempest City Building #1",
+            "180: Ebony Coast Building #4",
+            "181: Ebony Coast Building #5",
+            "182: Billiards Cue",
+            "183: Havoc District Red Statue",
+            "184: Tempest City Gray Boxes #1",
+            "185: Tempest City Gray Boxes #2",
+            "186: Sphere",
+            "187: Sphere (Dark)",
+            "188: Sphere (Light)",
+            "189: Raft",
+            "190: Long Building #1 (Unused)",
+            "191: Long Building #2 (Unused)",
+            "192: Saline",
+            "193: Beeton Tracks Building",
+            "194: Beeton Tracks Blockade",
+            "195: Beeton Tracks Donut Shop",
+            "196: Beeton Tracks Glass Roof",
+            "197: Beeton Tracks Crane Building",
+            "198: Beeton Tracks Building With Glass Roof",
+            "199: Gray Thing #1 (Unused)",
+            "200: Wood Huts (Set of 2)",
+            "201: Gray Thing #2 (Unused)",
+            "202: Havoc District Lighthouse",
+            "203: Havoc District Crane (Unused)",
+            "204: Argent Tower Building #1",
+            "205: Argent Tower Building #2",
+            "206: Argent Tower Building #3",
+            "207: Argent Tower Building #4",
+            "208: Argent Tower Building #5",
+            "209: Argent Towers Door",
+            "210: Argent Towers Door (Set of 2)",
+            "211: Ebony Coast Big Building #1 Part 1/4",
+            "212: Ebony Coast Big Building #1 Part 2/4",
+            "213: Ebony Coast Big Building #1 Part 3/4",
+            "214: Ebony Coast Big Building #1 Part 4/4",
+            "215: Ebony Coast Big Building #2 Part 1/4",
+            "216: Ebony Coast Big Building #2 Part 2/4",
+            "217: Ebony Coast Big Building #2 Part 3/4",
+            "218: Ebony Coast Big Building #2 Part 4/4",
+            "219: Ebony Coast Big Building #3 Part 1/4",
+            "220: Ebony Coast Big Building #3 Part 2/4",
+            "221: Ebony Coast Big Building #3 Part 3/4",
+            "222: Ebony Coast Big Building #3 Part 4/4",
+            "223: Ebony Coast Island Statue #1",
+            "224: Ebony Coast Island Statue #2",
+            "225: Ebony Coast Island Statue #3",
+            "226: Ebony Coast Island Statue #4",
+            "227: Ebony Coast Station Building",
+            "228: Ebony Coast Stone Block",
+            "229: Pac-Truck (Red)",
+            "230: Wood Box",
+            "231: Pac-Truck (Blue)",
+            "232: Pac-Truck (Green)",
+            "233: Pac-Truck (Yellow)",
+            "234: Oyster Harbor Metal Crates",
+            "235: Ironstone Mine Long Building #1",
+            "236: Ironstone Mine Long Building #2",
+            "237: Ironstone Mine Long Building #3",
+            "238: Ironstone Mine Long Building #4",
+            "239: Ironstone Mine Donut-Building",
+            "240: Ironstone Mine Building #1",
+            "241: Ironstone Mine Wood Huts (Set of 2)",
+            "242: Ironstone Mine Wood Hut",
+            "243: Ironstone Mine Long Building #5 (Triangular Shaped Roof)",
+            "244: Ironstone Mine Chimney",
+            "245: Ironstone Mine Tall Building with Wheel",
+            "246: Ironstone Mine Building #2",
+            "247: Ironstone Mine Building #3",
+            "248: Ironstone Mine Long Building #4",
+            "249: Moon Machines Center",
+            "250: Moon Machines Box with Pipe #1",
+            "251: Moon Machines Box with Pipe #2",
+            "252: Moon Machines Box with Pipe #3",
+            "253: Moon Machines Box with Pipe #4",
+            "254: Moon Red Box",
+            "255: Moon Antenna #1",
+            "256: Moon Antenna #2",
+            "257: Moon Antenna #3",
+            "258: Moon Boxes (Set of 4)",
+            "259: Moon Boxes (Set of 8)",
+            "260: Moon Boxes (Set of 4)",
+            "261: Moon Building",
+            "262: Shuttle Island Shuttle Bridge",
+            "263: Diamond Sands Big Building #1 Part 1/4",
+            "264: Diamond Sands Big Building #1 Part 2/4",
+            "265: Diamond Sands Big Building #1 Part 3/4",
+            "266: Diamond Sands Big Building #1 Part 4/4",
+            "267: Diamond Sands Big Building #2 Part 1/3",
+            "268: Diamond Sands Big Building #2 Part 2/3",
+            "269: Diamond Sands Big Building #2 Part 3/3",
+            "270: Building",
+            "271: Gas Station (Black)",
+            "272: Gas Station (Red)",
+            "273: End Sequence Rocks #1",
+            "274: End Sequence Rocks #2",
+            "275: End Sequence Rocks #3",
+            "276: End Sequence Rocks #4",
+            "277: End Sequence Rocks #5"});
+         this.comboBoxBuildingType.Location = new System.Drawing.Point(251, 90);
+         this.comboBoxBuildingType.Name = "comboBoxBuildingType";
+         this.comboBoxBuildingType.Size = new System.Drawing.Size(100, 21);
+         this.comboBoxBuildingType.TabIndex = 66;
+         this.comboBoxBuildingType.SelectedIndexChanged += new System.EventHandler(this.comboBoxBuildingType_SelectedIndexChanged);
+         // 
          // blastCorpsViewer
          // 
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2513,7 +2791,6 @@
          this.tabPageBuildings.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingSpeed)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingCounter)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.numericBuildingT)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingB9)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingZ)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericBuildingY)).EndInit();
@@ -2649,7 +2926,6 @@
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.NumericUpDown numericBuildingCounter;
-        private System.Windows.Forms.NumericUpDown numericBuildingT;
         private System.Windows.Forms.NumericUpDown numericTntHA;
         private System.Windows.Forms.NumericUpDown numericTntTimer;
         private System.Windows.Forms.NumericUpDown numericTntB6;
@@ -2699,6 +2975,7 @@
         private System.Windows.Forms.ComboBox comboBoxBuildingBehavior;
         private System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ComboBox comboBoxBuildingType;
     }
 }
 
