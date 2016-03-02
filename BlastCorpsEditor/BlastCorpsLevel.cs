@@ -107,6 +107,7 @@ namespace BlastCorpsEditor
       public Int16 x1, y1, z1;
       public Int16 x2, y2, z2;
       public Int16 x3, y3, z3;
+      // TODO: what are these?
       public byte b12, b13;
 
       public TerrainTri(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte b12, byte b13)
@@ -310,6 +311,7 @@ namespace BlastCorpsEditor
       public struct PlatformCollision
       {
          public Int16 x1, x2, x3, y1, y2, y3, z1, z2, z3;
+         // TODO: what are these?
          public UInt16 h12;
          public byte b14;
       }
@@ -326,6 +328,7 @@ namespace BlastCorpsEditor
       public Int16 x1, y1, z1;
       public Int16 x2, y2, z2;
       public Int16 x3, y3, z3;
+      // TODO: what are these?
       public UInt16 h12;
       public byte b14, b15;
 
@@ -378,8 +381,8 @@ namespace BlastCorpsEditor
       private byte[] copy60;
       private byte[] copy64;
       public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
-      public List<CollisionGroup> collisionGroups = new List<CollisionGroup>();
-      private byte[] copy70;
+      public List<CollisionGroup> collision6C = new List<CollisionGroup>();
+      public List<CollisionGroup> collision70 = new List<CollisionGroup>();
       private byte[] copy74;
       private byte[] vertData;
       public byte[] copyLevelData;
@@ -840,15 +843,47 @@ namespace BlastCorpsEditor
                cg.triangles.Add(new CollisionTri(x1, y1, z1, x2, y2, z2, x3, y3, z3, h12, data[idx + 0x14], data[idx + 0x15]));
                idx += 0x16;
             }
-            collisionGroups.Add(cg);
+            collision6C.Add(cg);
             count--;
          }
       }
 
-      // 0x70 TODO
-      private void decode70(byte[] data)
+      // 0x70: Player Collision
+      // {[EE EE EE EE] {[X1 X1] [Y1 Y1] [Z1 Z1] [X2 X2] [Y2 Y2] [Z2 Z2] [X3 X3] [Y3 Y3] [Z3 Z3] [AA AA] [BB] [CC]}}
+      // TODO: this is a copy of 0x6C above, could be merged into common routine
+      private void decodeCollision70(byte[] data)
       {
-         copy70 = ArraySlice(data, BE.U32(data, 0x70), BE.U32(data, 0x74));
+         uint start = BE.U32(data, 0x70);
+         uint w = BE.U16(data, 0x10);
+         uint h = BE.U16(data, 0x12);
+         uint count = w * h;
+         uint idx = start;
+         uint end;
+         while (count > 0)
+         {
+            end = start + BE.U32(data, idx);
+            idx += 4;
+            CollisionGroup cg = new CollisionGroup();
+            while (idx < end)
+            {
+               Int16 x1, y1, z1, x2, y2, z2, x3, y3, z3;
+               UInt16 h12;
+               x1 = BE.I16(data, idx);
+               y1 = BE.I16(data, idx + 2);
+               z1 = BE.I16(data, idx + 4);
+               x2 = BE.I16(data, idx + 6);
+               y2 = BE.I16(data, idx + 8);
+               z2 = BE.I16(data, idx + 0xA);
+               x3 = BE.I16(data, idx + 0xC);
+               y3 = BE.I16(data, idx + 0xE);
+               z3 = BE.I16(data, idx + 0x10);
+               h12 = BE.U16(data, idx + 0x12);
+               cg.triangles.Add(new CollisionTri(x1, y1, z1, x2, y2, z2, x3, y3, z3, h12, data[idx + 0x14], data[idx + 0x15]));
+               idx += 0x16;
+            }
+            collision70.Add(cg);
+            count--;
+         }
       }
 
       // 0x74 TODO
@@ -1160,7 +1195,7 @@ namespace BlastCorpsEditor
 
          BE.ToBytes(offset, data, 0x6C);
          first = offset;
-         foreach (CollisionGroup cg in collisionGroups)
+         foreach (CollisionGroup cg in collision6C)
          {
             offset += BE.ToBytes(offset - first + cg.triangles.Count * 0x16 + 4, data, offset);
             foreach (CollisionTri tri in cg.triangles)
@@ -1180,9 +1215,34 @@ namespace BlastCorpsEditor
             }
          }
 
-         // TODO: 0x70 real data
+         // TODO: this is a copy of 0x6C above, could be merged into common routine
          BE.ToBytes(offset, data, 0x70);
-         offset += AppendArray(data, offset, copy70);
+         first = offset;
+         foreach (CollisionGroup cg in collision70)
+         {
+            offset += BE.ToBytes(offset - first + cg.triangles.Count * 0x16 + 4, data, offset);
+            foreach (CollisionTri tri in cg.triangles)
+            {
+               offset += BE.ToBytes(tri.x1, data, offset);
+               offset += BE.ToBytes(tri.y1, data, offset);
+               offset += BE.ToBytes(tri.z1, data, offset);
+               offset += BE.ToBytes(tri.x2, data, offset);
+               offset += BE.ToBytes(tri.y2, data, offset);
+               offset += BE.ToBytes(tri.z2, data, offset);
+               offset += BE.ToBytes(tri.x3, data, offset);
+               offset += BE.ToBytes(tri.y3, data, offset);
+               offset += BE.ToBytes(tri.z3, data, offset);
+               offset += BE.ToBytes(tri.h12, data, offset);
+               data[offset++] = tri.b14;
+               data[offset++] = tri.b15;
+            }
+         }
+
+         // 0x74 starts at word boundary, so pad as necessary
+         while ((offset & 0x3) > 0)
+         {
+            data[offset++] = 0x0;
+         }
 
          // TODO: 0x74 real data
          BE.ToBytes(offset, data, 0x74);
@@ -1220,7 +1280,7 @@ namespace BlastCorpsEditor
          level.decode64(levelData);              // 0x64 TODO
          level.decodeTrainPlatform(levelData);   // 0x68
          level.decodeCollision6C(levelData);     // 0x6C
-         level.decode70(levelData);              // 0x70 TODO
+         level.decodeCollision70(levelData);     // 0x70
          level.decode74(levelData);              // 0x74 TODO
          // TODO: 0x78-0x9C are beyond level length and may be in display list
          level.copyLevelData = levelData;
