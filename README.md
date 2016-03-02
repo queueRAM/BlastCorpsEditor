@@ -7,11 +7,14 @@ Tools for hacking the Blast Corps ROM for N64.
 * Change TNT position and timer
 * Move RDUs, ammo boxes, communication points, buildings
 * View train/barge platforms, collision modifiers, and bounds
+* Edit gravity and other level header data
 
 ### Changelog ###
 0.0.3: More details on comm points and buildings
 * add control for comm point H6 value to control animation
 * add more descriptive fields for buildings
+* improved item selection UI
+* export terrain and collision data to Wavefront OBJ model
 
 0.0.2: UI cleanup, improved parsing, bug fixes
 
