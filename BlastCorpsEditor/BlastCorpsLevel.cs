@@ -102,6 +102,39 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class TerrainTri
+   {
+      public Int16 x1, y1, z1;
+      public Int16 x2, y2, z2;
+      public Int16 x3, y3, z3;
+      public byte b12, b13;
+
+      public TerrainTri(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte b12, byte b13)
+      {
+         this.x1 = x1;
+         this.y1 = y1;
+         this.z1 = z1;
+         this.x2 = x2;
+         this.y2 = y2;
+         this.z2 = z2;
+         this.x3 = x3;
+         this.y3 = y3;
+         this.z3 = z3;
+         this.b12 = b12;
+         this.b13 = b13;
+      }
+
+      public override string ToString()
+      {
+         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ") " + b12 + ":" + b13;
+      }
+   }
+
+   public class TerrainGroup
+   {
+      public List<TerrainTri> triangles = new List<TerrainTri>();
+   }
+
    public class LevelBounds
    {
       public Int16 x1, z1, x2, z2;
@@ -295,6 +328,7 @@ namespace BlastCorpsEditor
       public List<Collision24> collisions = new List<Collision24>();
       public List<CommPoint> commPoints = new List<CommPoint>();
       public List<Object2C> object2Cs = new List<Object2C>();
+      public List<TerrainGroup> terrainGroups = new List<TerrainGroup>();
       public List<RDU> rdus = new List<RDU>();
       public List<TNTCrate> tntCrates = new List<TNTCrate>();
       public List<SquareBlock> squareBlocks = new List<SquareBlock>();
@@ -304,7 +338,6 @@ namespace BlastCorpsEditor
       public List<Vehicle> vehicles = new List<Vehicle>();
       public Carrier carrier = new Carrier();
       public List<Building> buildings = new List<Building>();
-      private byte[] copy30;
       private byte[] copy48;
       private byte[] copy58;
       private byte[] copy60;
@@ -431,10 +464,36 @@ namespace BlastCorpsEditor
          }
       }
 
-      // 0x30: TODO
-      private void decode30(byte[] data)
+      // 0x30: Terrain data
+      // [WW WW WW WW] {[X1 X1] [Y1 Y1] [Z1 Z1] [X2 X2] [Y2 Y2] [Z2 Z2] [X3 X3] [Y3 Y3] [Z3 Z3] [AA] [BB]}
+      private void decodeTerrain(byte[] data)
       {
-         copy30 = ArraySlice(data, BE.U32(data, 0x30), BE.U32(data, 0x34));
+         uint start = BE.U32(data, 0x30);
+         uint end = BE.U32(data, 0x34);
+         uint idx = start;
+         uint next;
+         while (idx < end)
+         {
+            next = start + BE.U32(data, idx);
+            idx += 4;
+            TerrainGroup tg = new TerrainGroup();
+            while (idx < next)
+            {
+               Int16 x1, y1, z1, x2, y2, z2, x3, y3, z3;
+               x1 = BE.I16(data, idx);
+               y1 = BE.I16(data, idx + 2);
+               z1 = BE.I16(data, idx + 4);
+               x2 = BE.I16(data, idx + 6);
+               y2 = BE.I16(data, idx + 8);
+               z2 = BE.I16(data, idx + 0xA);
+               x3 = BE.I16(data, idx + 0xC);
+               y3 = BE.I16(data, idx + 0xE);
+               z3 = BE.I16(data, idx + 0x10);
+               tg.triangles.Add(new TerrainTri(x1, y1, z1, x2, y2, z2, x3, y3, z3, data[idx + 0x12], data[idx + 0x13]));
+               idx += 0x14;
+            }
+            terrainGroups.Add(tg);
+         }
       }
 
       // 0x34: RDUs
@@ -838,9 +897,26 @@ namespace BlastCorpsEditor
             }
          }
 
-         // TODO: 0x30 real data
          BE.ToBytes(offset, data, 0x30);
-         offset += AppendArray(data, offset, copy30);
+         int first = offset;
+         foreach (TerrainGroup tg in terrainGroups)
+         {
+            offset += BE.ToBytes(offset - first + tg.triangles.Count * 0x14 + 4, data, offset);
+            foreach (TerrainTri tri in tg.triangles)
+            {
+               offset += BE.ToBytes(tri.x1, data, offset);
+               offset += BE.ToBytes(tri.y1, data, offset);
+               offset += BE.ToBytes(tri.z1, data, offset);
+               offset += BE.ToBytes(tri.x2, data, offset);
+               offset += BE.ToBytes(tri.y2, data, offset);
+               offset += BE.ToBytes(tri.z2, data, offset);
+               offset += BE.ToBytes(tri.x3, data, offset);
+               offset += BE.ToBytes(tri.y3, data, offset);
+               offset += BE.ToBytes(tri.z3, data, offset);
+               data[offset++] = tri.b12;
+               data[offset++] = tri.b13;
+            }
+         }
 
          BE.ToBytes(offset, data, 0x34);
          foreach (RDU rdu in rdus)
@@ -1043,7 +1119,7 @@ namespace BlastCorpsEditor
          level.decodeCollision24(levelData);     // 0x24
          level.decodeCommPoints(levelData);      // 0x28
          level.decode2C(levelData);              // 0x2C TODO: name
-         level.decode30(levelData);              // 0x30 TODO
+         level.decodeTerrain(levelData);         // 0x30
          level.decodeRDUs(levelData);            // 0x34
          level.decodeTNTCrates(levelData);       // 0x38
          level.decodeSquareBlocks(levelData);    // 0x3C
