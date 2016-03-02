@@ -228,7 +228,7 @@ namespace BlastCorpsEditor
                e.Graphics.FillRectangle(ammoBrush, pixelX(ammo.x) - 4, pixelY(ammo.z) - 4, 7, 7);
             }
             Point[] points = new Point[4];
-            foreach (Collision24 zone in level.collisions)
+            foreach (Collision24 zone in level.collision24)
             {
                points[0].X = pixelX(zone.x1);
                points[0].Y = pixelY(zone.z1);

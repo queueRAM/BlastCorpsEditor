@@ -39,7 +39,9 @@
          this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+         this.exportLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
          this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -318,7 +320,9 @@
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveRunToolStripMenuItem,
-            this.exportToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.exportLevelToolStripMenuItem,
+            this.exportModelToolStripMenuItem,
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
          this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -329,7 +333,7 @@
          // 
          this.openToolStripMenuItem.Name = "openToolStripMenuItem";
          this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-         this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+         this.openToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
          this.openToolStripMenuItem.Text = "Open";
          this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
          // 
@@ -338,7 +342,7 @@
          this.saveToolStripMenuItem.Enabled = false;
          this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
          this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-         this.saveToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+         this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
          this.saveToolStripMenuItem.Text = "Save";
          this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
          // 
@@ -347,27 +351,40 @@
          this.saveRunToolStripMenuItem.Enabled = false;
          this.saveRunToolStripMenuItem.Name = "saveRunToolStripMenuItem";
          this.saveRunToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-         this.saveRunToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+         this.saveRunToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
          this.saveRunToolStripMenuItem.Text = "Save && Run";
          this.saveRunToolStripMenuItem.Click += new System.EventHandler(this.saveRunToolStripMenuItem_Click);
          // 
-         // exportToolStripMenuItem
+         // toolStripMenuItem2
          // 
-         this.exportToolStripMenuItem.Enabled = false;
-         this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-         this.exportToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-         this.exportToolStripMenuItem.Text = "Export...";
-         this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+         this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+         this.toolStripMenuItem2.Size = new System.Drawing.Size(168, 6);
+         // 
+         // exportLevelToolStripMenuItem
+         // 
+         this.exportLevelToolStripMenuItem.Enabled = false;
+         this.exportLevelToolStripMenuItem.Name = "exportLevelToolStripMenuItem";
+         this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+         this.exportLevelToolStripMenuItem.Text = "Export Raw Level...";
+         this.exportLevelToolStripMenuItem.Click += new System.EventHandler(this.exportLevelToolStripMenuItem_Click);
+         // 
+         // exportModelToolStripMenuItem
+         // 
+         this.exportModelToolStripMenuItem.Enabled = false;
+         this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
+         this.exportModelToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+         this.exportModelToolStripMenuItem.Text = "Export 3D Model...";
+         this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.exportModelToolStripMenuItem_Click);
          // 
          // toolStripMenuItem1
          // 
          this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-         this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
+         this.toolStripMenuItem1.Size = new System.Drawing.Size(168, 6);
          // 
          // exitToolStripMenuItem
          // 
          this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-         this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+         this.exitToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
          this.exitToolStripMenuItem.Text = "Exit";
          this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
          // 
@@ -2640,7 +2657,7 @@
         private System.Windows.Forms.NumericUpDown numericTntZ;
         private System.Windows.Forms.NumericUpDown numericTntY;
         private System.Windows.Forms.NumericUpDown numericTntX;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveRunToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown numeric1C;
         private System.Windows.Forms.Label label44;
@@ -2680,6 +2697,8 @@
         private System.Windows.Forms.NumericUpDown numericCommPtH6;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.ComboBox comboBoxBuildingBehavior;
+        private System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
     }
 }
 

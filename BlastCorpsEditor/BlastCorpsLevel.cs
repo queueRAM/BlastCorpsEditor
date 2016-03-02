@@ -363,7 +363,7 @@ namespace BlastCorpsEditor
    {
       public LevelHeader header = new LevelHeader();
       public List<AmmoBox> ammoBoxes = new List<AmmoBox>();
-      public List<Collision24> collisions = new List<Collision24>();
+      public List<Collision24> collision24 = new List<Collision24>();
       public List<CommPoint> commPoints = new List<CommPoint>();
       public List<Object2C> object2Cs = new List<Object2C>();
       public List<TerrainGroup> terrainGroups = new List<TerrainGroup>();
@@ -448,7 +448,7 @@ namespace BlastCorpsEditor
             z3 = BE.I16(data, idx + 16);
             t = BE.U16(data, idx + 18);
             Collision24 zone = new Collision24(x1, y1, z1, x2, y2, z2, x3, y3, z3, t);
-            collisions.Add(zone);
+            collision24.Add(zone);
          }
       }
 
@@ -958,7 +958,7 @@ namespace BlastCorpsEditor
          }
 
          BE.ToBytes(offset, data, 0x24);
-         foreach (Collision24 collision in collisions)
+         foreach (Collision24 collision in collision24)
          {
             offset += BE.ToBytes(collision.x1, data, offset);
             offset += BE.ToBytes(collision.y1, data, offset);

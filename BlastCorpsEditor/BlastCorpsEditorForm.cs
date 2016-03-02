@@ -175,7 +175,8 @@ namespace BlastCorpsEditor
          comboBoxLevel.Enabled = true;
          saveToolStripMenuItem.Enabled = true;
          saveRunToolStripMenuItem.Enabled = true;
-         exportToolStripMenuItem.Enabled = true;
+         exportLevelToolStripMenuItem.Enabled = true;
+         exportModelToolStripMenuItem.Enabled = true;
 
          SetSelectedItem(null);
       }
@@ -854,11 +855,11 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+      private void exportLevelToolStripMenuItem_Click(object sender, EventArgs e)
       {
          SaveFileDialog saveFileDialog = new SaveFileDialog();
-         saveFileDialog.Filter = "Blast Corps RAW Level|*.raw";
-         saveFileDialog.Title = "Export Blast Corps Level";
+         saveFileDialog.Filter = "Blast Corps RAW Level(*.raw)|*.raw";
+         saveFileDialog.Title = "Export Blast Corps Raw Level";
          saveFileDialog.ShowDialog();
 
          if (saveFileDialog.FileName != "")
@@ -867,6 +868,31 @@ namespace BlastCorpsEditor
             byte[] data = level.ToBytes();
             fs.Write(data, 0, data.Length);
             fs.Close();
+         }
+      }
+
+      private void exportModelToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         ExportDialog exportDialog = new ExportDialog();
+         DialogResult result = exportDialog.ShowDialog(this);
+
+         if (result == DialogResult.OK)
+         {
+            switch (exportDialog.DataType)
+            {
+               case ExportType.Terrain30:
+                  WavefrontObjExporter.ExportTerrain(level.terrainGroups, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
+               case ExportType.Collision24:
+                  WavefrontObjExporter.ExportCollision(level.collision24, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
+               case ExportType.Collision6C:
+                  WavefrontObjExporter.ExportCollision(level.collision6C, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
+               case ExportType.Collision70:
+                  WavefrontObjExporter.ExportCollision(level.collision70, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
+            }
          }
       }
 
