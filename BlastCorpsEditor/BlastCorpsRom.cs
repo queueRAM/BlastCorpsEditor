@@ -50,7 +50,7 @@ namespace BlastCorpsEditor
          new RomMeta { cksum1 = 0x7C64E6DB, cksum2 = 0x55B924DB, version = Version.Ver1p0, region = Region.Europe },
       };
 
-      // level data for US V1.1 ROM
+      // level data for US V1.0 and V1.1 ROMs
       public static List<BlastCorpsLevelMeta> levelMeta = new List<BlastCorpsLevelMeta>()
       {
          new BlastCorpsLevelMeta { id =  0, levelStart = 0x4ACC10, dlStart = 0x4B71AB, end = 0x4B8960, filename = "chimp",   name = "Simian Acres" },
@@ -252,22 +252,6 @@ namespace BlastCorpsEditor
          }
       }
 
-      public static int RunProcess(string exePath, string arguments)
-      {
-         ProcessStartInfo startInfo = new ProcessStartInfo();
-         startInfo.CreateNoWindow = true;
-         startInfo.UseShellExecute = false;
-         startInfo.FileName = exePath;
-         startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-         startInfo.Arguments = arguments;
-
-         using (Process exeProcess = Process.Start(startInfo))
-         {
-            exeProcess.WaitForExit();
-            return exeProcess.ExitCode;
-         }
-      }
-
       public static byte[] GzipDeflate(byte[] data, string embedFilename)
       {
          using (MemoryStream memory = new MemoryStream())
@@ -313,14 +297,20 @@ namespace BlastCorpsEditor
          byte[] codeTextGzip;
          byte[] codeDataGzip;
 
+         // Only US region supported (either V1.0 or V1.1)
          // TODO: support more ROM types
-         if (type == RomType.Vanilla && region == Region.US && version == Version.Ver1p1)
+         if (type == RomType.Vanilla && region == Region.US)
          {
             // 1. extract hd_code_text and save copy of hd_code_data
-            const int textStart = 0x787FD0;
-            const int textEnd = 0x7D73B4;
-            const int dataStart = 0x7D73B4;
-            const int dataEnd = 0x7E3AD0;
+            int textStart = 0x787FD0;
+            int textEnd = 0x7D73B4;
+            int dataStart = 0x7D73B4;
+            int dataEnd = 0x7E3AD0;
+            switch (version)
+            {
+               case Version.Ver1p0: textStart = 0x787FD0; textEnd = 0x7D74D7; dataStart = 0x7D74D7; dataEnd = 0x7E3BF0; break;
+               case Version.Ver1p1: textStart = 0x787FD0; textEnd = 0x7D73B4; dataStart = 0x7D73B4; dataEnd = 0x7E3AD0; break;
+            }
             codeTextGzip = new byte[textEnd - textStart];
             Array.Copy(romData, textStart, codeTextGzip, 0, codeTextGzip.Length);
             codeDataGzip = new byte[dataEnd - dataStart];
@@ -333,16 +323,16 @@ namespace BlastCorpsEditor
             // start 0x119BC
             // fill 0x12240-pc()
             UInt32[] patch = new UInt32[] {
-               0x000E7100,
-               0x3C01B080,
-               0x002E0821,
-               0x8C2EC000,
-               0xAFAE0024,
-               0x8C2FC00C,
-               0x01EE7822,
-               0x8FAC0030,
-               0xAD8F0000,
-               0x10000217
+               0x000E7100, // sll   t6, t6, 0x4    // each entry is four words
+               0x3C01B080, // lui   at, 0xB080     // %hi(0xB07FC000), 0xB0000000 = ROM
+               0x002E0821, // addu  at, at, t6
+               0x8C2EC000, // lw    t6, 0xC000(at) // %lo(0xB07FC000)
+               0xAFAE0024, // sw    t6, 0x24(sp)
+               0x8C2FC00C, // lw    t7, 0xC00C(at) // %lo(0xB07FC00C)
+               0x01EE7822, // sub   t7, t7, t6     // compute length
+               0x8FAC0030, // lw    t4, 0x30(sp)
+               0xAD8F0000, // sw    t7, 0x0(t4)
+               0x10000217  // b     0x12240        // skip over old code
             };
 
             int offset = 0x119BC;

@@ -803,9 +803,9 @@ namespace BlastCorpsEditor
                {
                   MessageBox.Show("Error, this does not appear to be a valid Blast Corps ROM.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                }
-               else if (rom.type == BlastCorpsRom.RomType.Vanilla && (rom.region != BlastCorpsRom.Region.US || rom.version != BlastCorpsRom.Version.Ver1p1))
+               else if (rom.type == BlastCorpsRom.RomType.Vanilla && rom.region != BlastCorpsRom.Region.US)
                {
-                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.0 or V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                }
                else
                {
@@ -814,7 +814,19 @@ namespace BlastCorpsEditor
                      MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.", "Vanilla ROM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                      rom.ExtendRom();
                      statusStripFile.ForeColor = Color.Blue;
-                     statusStripFile.Text = "Vanilla ROM";
+                     string description = "Vanilla ROM";
+                     switch (rom.region)
+                     {
+                        case BlastCorpsRom.Region.Europe: description += " (E)"; break;
+                        case BlastCorpsRom.Region.Japan:  description += " (J)"; break;
+                        case BlastCorpsRom.Region.US:     description += " (U)"; break;
+                     }
+                     switch (rom.version)
+                     {
+                        case BlastCorpsRom.Version.Ver1p0: description += " (V1.0)"; break;
+                        case BlastCorpsRom.Version.Ver1p1: description += " (V1.1)"; break;
+                     }
+                     statusStripFile.Text = description;
                   }
                   else
                   {
