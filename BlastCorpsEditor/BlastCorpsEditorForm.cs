@@ -11,15 +11,42 @@ namespace BlastCorpsEditor
       private BlastCorpsRom rom = null;
       private int levelId = -1;
       private BlastCorpsLevel level;
-      private BindingSource ammoSource = new BindingSource();
-      private BindingSource commSource = new BindingSource();
-      private BindingSource tntSource = new BindingSource();
-      private BindingSource rduSource = new BindingSource();
-      private BindingSource blockSource = new BindingSource();
-      private BindingSource vehicleSource = new BindingSource();
-      private BindingSource buildingSource = new BindingSource();
 
       private BlastCorpsItem itemSel;
+
+      // dynamic controls
+      private NumericUpDown[] numericHeaders;
+      // X,Y,Z
+      private Label labelX, labelY, labelZ;
+      private NumericUpDown numericX, numericY, numericZ;
+      private Label labelType;
+      private Label labelHeading;
+      // Ammo
+      private ComboBox comboBoxAmmo;
+      // Communication Point
+      private Label labelCommPtH6;
+      private NumericUpDown numericCommPtH6;
+      // TNT
+      private NumericUpDown numericTntB6, numericTntTimer, numericTntH8, numericTntHA;
+      private Label labelTntB6, labelTntTimer, labelTntHA, labelTntH8;
+      // Blocks
+      private Label labelBlockType1, labelBlockType2, labelBlockType3;
+      private ComboBox comboBoxBlockType1, comboBoxBlockType2;
+      private NumericUpDown numericBlockType3;
+      // Vehicle
+      private ComboBox comboBoxVehicle;
+      private NumericUpDown numericHeading;
+      // Carrier
+      private Label labelSpeed, labelDistance;
+      private NumericUpDown numericCarrierSpeed;
+      private NumericUpDown numericCarrierDistance;
+      // Buildings
+      private Label labelBuildingCount, labelBuildingB9, labelBuildingMovement;
+      private ComboBox comboBoxBuildingType;
+      private NumericUpDown numericBuildingCounter;
+      private NumericUpDown numericBuildingB9;
+      private ComboBox comboBoxBuildingMovement;
+      private NumericUpDown numericBuildingSpeed;
 
       public BlastCorpsEditorForm()
       {
@@ -31,55 +58,10 @@ namespace BlastCorpsEditor
          };
          blastCorpsViewer.SelectionChangedEvent += delegate(Object sender, SelectionChangedEventArgs e)
          {
-            itemSel = e.SelectedItem;
-            if (itemSel != null)
-            {
-               ListBox list = null;
-               if (itemSel is AmmoBox)
-               {
-                  tabControlItems.SelectedIndex = 1;
-                  list = listBoxAmmo;
-               }
-               else if (itemSel is CommPoint)
-               {
-                  tabControlItems.SelectedIndex = 2;
-                  list = listBoxCommPt;
-               }
-               else if (itemSel is RDU)
-               {
-                  tabControlItems.SelectedIndex = 3;
-                  list = listBoxRdu;
-               }
-               else if (itemSel is TNTCrate)
-               {
-                  tabControlItems.SelectedIndex = 4;
-                  list = listBoxTnt;
-               }
-               else if (itemSel is SquareBlock)
-               {
-                  tabControlItems.SelectedIndex = 5;
-                  list = listBoxBlocks;
-               }
-               else if (itemSel is Vehicle)
-               {
-                  tabControlItems.SelectedIndex = 6;
-                  list = listBoxVehicles;
-               }
-               else if (itemSel is Carrier)
-               {
-                  tabControlItems.SelectedIndex = 6;
-               }
-               else if (itemSel is Building)
-               {
-                  tabControlItems.SelectedIndex = 7;
-                  list = listBoxBuildings;
-               }
-               if (list != null)
-               {
-                  list.SelectedItem = itemSel;
-               }
-            }
+            SelectItem(e.SelectedItem);
          };
+
+         // populate header NumericUpDowns
          numericHeaders = new NumericUpDown[] { 
             numericHeader00,
             numericHeader02,
@@ -99,9 +81,404 @@ namespace BlastCorpsEditor
             numeric.Tag = index++;
             numeric.ValueChanged += new System.EventHandler(this.numericU16_ValueChanged);
          }
+
+         // generate controls for the object properties
+         generatePropertyControls();
       }
 
-      private NumericUpDown[] numericHeaders;
+      private void generatePropertyControls()
+      {
+         labelX = createLabel("X:");
+         labelY = createLabel("Y:");
+         labelZ = createLabel("Z:");
+         numericX = createNumeric(-32768, 32767, new System.EventHandler(this.numericX_ValueChanged));
+         numericY = createNumeric(-32768, 32767, new System.EventHandler(this.numericY_ValueChanged));
+         numericZ = createNumeric(-32768, 32767, new System.EventHandler(this.numericZ_ValueChanged));
+
+         labelType = createLabel("Type:");
+         comboBoxAmmo = createComboBox(new object[] {
+            "0: Ballista missile",
+            "1: Sideswipe hydraulic"}, new System.EventHandler(this.comboBoxAmmo_SelectedIndexChanged));
+
+         labelCommPtH6 = createLabel("H6:");
+         numericCommPtH6 = createNumeric(0, 65535, new System.EventHandler(this.numericCommPtH6_ValueChanged));
+
+         labelTntB6 = createLabel("U8_6:");
+         labelTntTimer = createLabel("Timer:");
+         labelTntH8 = createLabel("I16_8:");
+         labelTntHA = createLabel("I16_A:");
+         numericTntB6 = createNumeric(0, 255, new System.EventHandler(this.numericTntB6_ValueChanged));
+         numericTntTimer = createNumeric(0, 255, new System.EventHandler(this.numericTntTimer_ValueChanged));
+         numericTntH8 = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntH8_ValueChanged));
+         numericTntHA = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntHA_ValueChanged));
+
+         labelBlockType1 = createLabel("Type1:");
+         comboBoxBlockType1 = createComboBox(new object[] {
+            "0: Normal",
+            "1: Diamond (Hole)",
+            "2: Diamond (Hole)"}, new System.EventHandler(this.comboBoxBlockType1_SelectedIndexChanged));
+         labelBlockType2 = createLabel("Type2:");
+         comboBoxBlockType2 = createComboBox(new object[] {
+            "0: Normal (Block)",
+            "1: Diamond (Block)",
+            "2: Diamond (Block)",
+            "8: Hole"}, new System.EventHandler(this.comboBoxBlockType2_SelectedIndexChanged));
+         labelBlockType3 = createLabel("Type3:");
+         numericBlockType3 = createNumeric(0, 65535, new System.EventHandler(this.numericBlockType3_ValueChanged));
+
+         comboBoxVehicle = createComboBox(new object[] {
+            "00: Player",
+            "01: Sideswipe",
+            "02: Thunderfist",
+            "03: Skyfall",
+            "04: Bulldozer",
+            "05: Backlash",
+            "06: Crane",
+            "07: Train",
+            "08: American Dream",
+            "09: J-Bomb",
+            "10: Ballista",
+            "11: barge 0",
+            "12: INVALID",
+            "13: police",
+            "14: A-Team Van",
+            "15: Hotrod",
+            "16: Cyclone Suit",
+            "17: barge 1",
+            "18: barge 2"}, new System.EventHandler(this.comboBoxVehicle_SelectedIndexChanged));
+         labelHeading = createLabel("Heading:");
+         numericHeading = createNumeric(0, 65535, new System.EventHandler(this.numericHeading_ValueChanged));
+
+         labelSpeed = createLabel("Speed:");
+         labelDistance = createLabel("Distance:");
+         numericCarrierSpeed = createNumeric(0, 255, new System.EventHandler(this.numericCarrierSpeed_ValueChanged));
+         numericCarrierDistance = createNumeric(0, 65535, new System.EventHandler(this.numericCarrierDistance_ValueChanged));
+
+         comboBoxBuildingType = createComboBox(new object[] {
+            "000: Angel City Fences #1",
+            "001: Angel City Petrol Station",
+            "002: Angel City Burger Shop",
+            "003: Angel City Building with Stairs #1",
+            "004: Angel City Shop #1",
+            "005: Angel City Shop #1 Fences",
+            "006: Angel City Building #1",
+            "007: Angel City Building #1 Fences",
+            "008: Angel City Building #2",
+            "009: Angel City Building #3",
+            "010: Angel City Building #3 Fences",
+            "011: Angel City Building #4",
+            "012: Angel City Building #4 Fences",
+            "013: Angel City Shop #1",
+            "014: Angel City Shop #1 Fences",
+            "015: Angel City Building with Stairs #2",
+            "016: Angel City Garage",
+            "017: Angel City Building #5",
+            "018: Angel City Building #6 (Unused)",
+            "019: Angel City Building #7",
+            "020: Angel City Building #8",
+            "021: Angel City Building with Stairs #3",
+            "022: Angel City Building #9 (Unused)",
+            "023: Angel City Building #10",
+            "024: Angel City Building #10 Fences",
+            "025: Angel City Building #11",
+            "026: Angel City Fences #2",
+            "027: Angel City Oil Drum Fire",
+            "028: Angel City Building #12",
+            "029: Simian Acres American Dream Car (Destroyable) (Unused)",
+            "030: Simian Acres Track Sign",
+            "031: Simian Acres Building #1 (Unused)",
+            "032: Simian Acres Barn #1",
+            "033: Simian Acres Barn #1 Fences",
+            "034: Simian Acres Wagon",
+            "035: Simian Acres Building #2",
+            "036: Simian Acres Toilet",
+            "037: Simian Acres Bathtub",
+            "038: Simian Acres Fences",
+            "039: Simian Acres Windmill",
+            "040: Simian Acres Building #3",
+            "041: Simian Acres Building #3 Fences (Unused)",
+            "042: Simian Acres Building #4",
+            "043: Simian Acres Building #4 Fences",
+            "044: Simian Acres Barn #2",
+            "045: Simian Acres Barn #2 Fences",
+            "046: Simian Acres Tractor (Unused)",
+            "047: Simian Acres Building #5",
+            "048: Simian Acres Building #6",
+            "049: Simian Acres Barn #3",
+            "050: Angel City Black Car (Destroyable) (Unused)",
+            "051: Carrick Point Container (Red) (Unused)",
+            "052: Carrick Point Container (Green) (Unused)",
+            "053: Carrick Point Container (Whites) (Unused)",
+            "054: Carrick Point Metal Plates",
+            "055: Backlash (Unused)",
+            "056: Blast Corps Semi",
+            "057: Simian Acres Building #7",
+            "058: Simian Acres Building #7 Fences (Unused)",
+            "059: Simian Acres Wooden Container",
+            "060: Simian Acres Gas Station House",
+            "061: Simian Acres Gas Station Garage",
+            "062: Simian Acres Gas Station",
+            "063: Simian Acres Gas Station Hut",
+            "064: Simian Acres Gas Station Sign",
+            "065: Simian Acres Building #9",
+            "066: Simian Acres Building #9 Fences",
+            "067: Simian Acres Fences",
+            "068: Simian Acres Building #9 House",
+            "069: Simian Acres Building #9 Garage",
+            "070: Simian Acres Building #11",
+            "071: Simian Acres Building #11 Fences",
+            "072: Simian Acres Building #12",
+            "073: Simian Acres Building #12 Fences",
+            "074: Simian Acres Building #13",
+            "075: Simian Acres Building #13 Fences",
+            "076: Simian Acres Building #14",
+            "077: Simian Acres Building #14 Fences (Unused)",
+            "078: Simian Acres Building #15",
+            "079: Simian Acres Building #16",
+            "080: Simian Acres Building #16 Fences",
+            "081: Simian Acres Building #17 (Unused)",
+            "082: Simian Acres Building #17",
+            "083: Simian Acres Building #18 Fences",
+            "084: Simian Acres Building #18",
+            "085: Simian Acres Fences #2",
+            "086: Simian Acres Building #19",
+            "087: Simian Acres Building #20 Hut",
+            "088: Simian Acres Building #20 ",
+            "089: Simian Acres Building #20 Fences",
+            "090: Simian Acres Building #21",
+            "091: Simian Acres Building #21 Fences (Unused)",
+            "092: Simian Acres Building #22 (Unused)",
+            "093: Simian Acres Building #22 Fences (Unused)",
+            "094: Simian Acres Building #23",
+            "095: Simian Acres Tree #1 (Tall) (Unused)",
+            "096: Simian Acres Tree #2 (Small) (Unused)",
+            "097: Angel City Building #13",
+            "098: Carrick Point Building #1",
+            "099: Carrick Point Orange Container (Unused)",
+            "100: Carrick Point Container (Red)",
+            "101: Carrick Point Container (White)",
+            "102: Carrick Point Container (Green)",
+            "103: Carrick Point Wooden Box",
+            "104: Carrick Point Gas Tank (Blue)",
+            "105: Carrick Point Gas Tank (Red)",
+            "106: Carrick Point Container (Red)",
+            "107: Carrick Point Container (Blue)",
+            "108: Carrick Point Container (White)",
+            "109: Carrick Point Container (Orange)",
+            "110: Carrick Point Container (Green)",
+            "111: Carrick Point Building #1 (White Roof)",
+            "112: Carrick Point Building #1 (Blue Roof)",
+            "113: Carrick Point Building #1 (Red Roof)",
+            "114: Carrick Point Building #1 (White Roof) (Unused)",
+            "115: Carrick Point Building #2",
+            "116: Carrick Point Long Building #1",
+            "117: Carrick Point Long Building #2",
+            "118: Havoc District Building #1",
+            "119: Havoc District Building #2",
+            "120: Havoc District Building #3",
+            "121: Havoc District Building #4",
+            "122: Havoc District Building #5",
+            "123: Havoc District Building #6",
+            "124: Havoc District Building #7 Part 1/2",
+            "125: Havoc District Building #7 Part 2/2",
+            "126: Havoc District Building #8 Part 1/2",
+            "127: Havoc District Building #8 Part 2/2",
+            "128: Havoc District Building #9 Part 1/3",
+            "129: Havoc District Building #9 Part 2/3",
+            "130: Havoc District Building #9 Part 3/3",
+            "131: Outland Farm Building #1",
+            "132: Outland Farm Building #2",
+            "133: Outland Farm Building #3",
+            "134: Outland Farm Building #4",
+            "135: Outland Farm Silo (Set of 3)",
+            "136: Outland Farm Silo",
+            "137: Blackridge Works Building #1",
+            "138: Blackridge Works Building #2",
+            "139: Blackridge Works Building #3",
+            "140: Blackridge Works Silo (Set of 3)",
+            "141: Blackridge Works Building #4",
+            "142: Blackridge Works Building #5",
+            "143: Blackridge Works Fence",
+            "144: Small Rectangular (Vertical) (Unused)",
+            "145: Oyster Harbor Building #1",
+            "146: Oyster Harbor Metal Crate",
+            "147: Blackridge Works Large Orange Rectangular (Unused)",
+            "148: Blackridge Works Tall Pyramid (Unused)",
+            "149: Blackridge Works Decorations #1",
+            "150: Carrick Point Containers #1",
+            "151: Carrick Point Containers #2",
+            "152: Carrick Point Containers #3",
+            "153: Carrick Point Containers #4",
+            "154: Carrick Point Containers #5",
+            "155: Carrick Point Containers #6",
+            "156: Carrick Point Ship #1",
+            "157: Carrick Point Long Building #1 (Unused)",
+            "158: Carrick Point Long Building #2 (Unused)",
+            "159: Carrick Point Long Building #3",
+            "160: Carrick Point Long Building #4",
+            "161: Carrick Point Long Building #5",
+            "162: Carrick Point Long Building #6",
+            "163: Carrick Point Long Building #7",
+            "164: Carrick Point Long Building #8",
+            "165: Carrick Point Castle",
+            "166: Carrick Point Crane (Unused)",
+            "167: Carrick Point Crane (Unused)",
+            "168: Carrick Point Ship #2",
+            "169: Blackridge Works Decorations #2",
+            "170: Building",
+            "171: Tempest City Wall Block",
+            "172: Tempest City Decorations",
+            "173: Tempest City Fences",
+            "174: Ebony Coast Building #1",
+            "175: Ebony Coast Building #2",
+            "176: Ebony Coast Building #3",
+            "177: Building",
+            "178: Building",
+            "179: Tempest City Building #1",
+            "180: Ebony Coast Building #4",
+            "181: Ebony Coast Building #5",
+            "182: Billiards Cue",
+            "183: Havoc District Red Statue",
+            "184: Tempest City Gray Boxes #1",
+            "185: Tempest City Gray Boxes #2",
+            "186: Sphere",
+            "187: Sphere (Dark)",
+            "188: Sphere (Light)",
+            "189: Raft",
+            "190: Long Building #1 (Unused)",
+            "191: Long Building #2 (Unused)",
+            "192: Saline",
+            "193: Beeton Tracks Building",
+            "194: Beeton Tracks Blockade",
+            "195: Beeton Tracks Donut Shop",
+            "196: Beeton Tracks Glass Roof",
+            "197: Beeton Tracks Crane Building",
+            "198: Beeton Tracks Building With Glass Roof",
+            "199: Gray Thing #1 (Unused)",
+            "200: Wood Huts (Set of 2)",
+            "201: Gray Thing #2 (Unused)",
+            "202: Havoc District Lighthouse",
+            "203: Havoc District Crane (Unused)",
+            "204: Argent Tower Building #1",
+            "205: Argent Tower Building #2",
+            "206: Argent Tower Building #3",
+            "207: Argent Tower Building #4",
+            "208: Argent Tower Building #5",
+            "209: Argent Towers Door",
+            "210: Argent Towers Door (Set of 2)",
+            "211: Ebony Coast Big Building #1 Part 1/4",
+            "212: Ebony Coast Big Building #1 Part 2/4",
+            "213: Ebony Coast Big Building #1 Part 3/4",
+            "214: Ebony Coast Big Building #1 Part 4/4",
+            "215: Ebony Coast Big Building #2 Part 1/4",
+            "216: Ebony Coast Big Building #2 Part 2/4",
+            "217: Ebony Coast Big Building #2 Part 3/4",
+            "218: Ebony Coast Big Building #2 Part 4/4",
+            "219: Ebony Coast Big Building #3 Part 1/4",
+            "220: Ebony Coast Big Building #3 Part 2/4",
+            "221: Ebony Coast Big Building #3 Part 3/4",
+            "222: Ebony Coast Big Building #3 Part 4/4",
+            "223: Ebony Coast Island Statue #1",
+            "224: Ebony Coast Island Statue #2",
+            "225: Ebony Coast Island Statue #3",
+            "226: Ebony Coast Island Statue #4",
+            "227: Ebony Coast Station Building",
+            "228: Ebony Coast Stone Block",
+            "229: Pac-Truck (Red)",
+            "230: Wood Box",
+            "231: Pac-Truck (Blue)",
+            "232: Pac-Truck (Green)",
+            "233: Pac-Truck (Yellow)",
+            "234: Oyster Harbor Metal Crates",
+            "235: Ironstone Mine Long Building #1",
+            "236: Ironstone Mine Long Building #2",
+            "237: Ironstone Mine Long Building #3",
+            "238: Ironstone Mine Long Building #4",
+            "239: Ironstone Mine Donut-Building",
+            "240: Ironstone Mine Building #1",
+            "241: Ironstone Mine Wood Huts (Set of 2)",
+            "242: Ironstone Mine Wood Hut",
+            "243: Ironstone Mine Long Building #5 (Triangular Shaped Roof)",
+            "244: Ironstone Mine Chimney",
+            "245: Ironstone Mine Tall Building with Wheel",
+            "246: Ironstone Mine Building #2",
+            "247: Ironstone Mine Building #3",
+            "248: Ironstone Mine Long Building #4",
+            "249: Moon Machines Center",
+            "250: Moon Machines Box with Pipe #1",
+            "251: Moon Machines Box with Pipe #2",
+            "252: Moon Machines Box with Pipe #3",
+            "253: Moon Machines Box with Pipe #4",
+            "254: Moon Red Box",
+            "255: Moon Antenna #1",
+            "256: Moon Antenna #2",
+            "257: Moon Antenna #3",
+            "258: Moon Boxes (Set of 4)",
+            "259: Moon Boxes (Set of 8)",
+            "260: Moon Boxes (Set of 4)",
+            "261: Moon Building",
+            "262: Shuttle Island Shuttle Bridge",
+            "263: Diamond Sands Big Building #1 Part 1/4",
+            "264: Diamond Sands Big Building #1 Part 2/4",
+            "265: Diamond Sands Big Building #1 Part 3/4",
+            "266: Diamond Sands Big Building #1 Part 4/4",
+            "267: Diamond Sands Big Building #2 Part 1/3",
+            "268: Diamond Sands Big Building #2 Part 2/3",
+            "269: Diamond Sands Big Building #2 Part 3/3",
+            "270: Building",
+            "271: Gas Station (Black)",
+            "272: Gas Station (Red)",
+            "273: End Sequence Rocks #1",
+            "274: End Sequence Rocks #2",
+            "275: End Sequence Rocks #3",
+            "276: End Sequence Rocks #4",
+            "277: End Sequence Rocks #5"}, new System.EventHandler(this.comboBoxBuildingType_SelectedIndexChanged));
+         comboBoxBuildingType.DropDownWidth = 400;
+         labelBuildingCount = createLabel("Count:");
+         numericBuildingCounter = createNumeric(0, 255, new System.EventHandler(this.numericBuildingCounter_ValueChanged));
+         labelBuildingB9 = createLabel("U8_9:");
+         numericBuildingB9 = createNumeric(0, 255, new System.EventHandler(this.numericBuildingB9_ValueChanged));
+         labelBuildingMovement = createLabel("Movement:");
+         comboBoxBuildingMovement = createComboBox(new object[] {
+            "0: Normal",
+            "1: Vertically",
+            "2: Circle",
+            "3: Horizontally",
+            "4: Following Player",
+            "5: Rotation 90°"}, new System.EventHandler(this.comboBoxBuildingMovement_SelectedIndexChanged));
+         numericBuildingSpeed = createNumeric(0, 65535, new System.EventHandler(this.numericBuildingSpeed_ValueChanged));
+      }
+
+      private Label createLabel(string text)
+      {
+         Label label = new Label();
+         label.AutoSize = true;
+         label.Text = text;
+         label.TextAlign = ContentAlignment.MiddleLeft;
+         label.Dock = DockStyle.Fill;
+         return label;
+      }
+
+      private NumericUpDown createNumeric(int min, int max, System.EventHandler handler)
+      {
+         NumericUpDown numeric = new NumericUpDown();
+         numeric.AutoSize = true;
+         numeric.Maximum = new decimal(max);
+         numeric.Minimum = new decimal(min);
+         numeric.ValueChanged += handler;
+         return numeric;
+      }
+
+      private ComboBox createComboBox(object[] options, System.EventHandler handler)
+      {
+         ComboBox combo = new ComboBox();
+         combo.AutoSize = true;
+         combo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         combo.FormattingEnabled = true;
+         combo.Items.AddRange(options);
+         combo.SelectedIndexChanged += handler;
+         return combo;
+      }
 
       private void readData(byte[] levelData, byte[] displayList)
       {
@@ -138,33 +515,6 @@ namespace BlastCorpsEditor
             listViewHeaders.Items.Add(item);
          }
 
-         ammoSource.DataSource = level.ammoBoxes;
-         commSource.DataSource = level.commPoints;
-         rduSource.DataSource = level.rdus;
-         tntSource.DataSource = level.tntCrates;
-         blockSource.DataSource = level.squareBlocks;
-         vehicleSource.DataSource = level.vehicles;
-         buildingSource.DataSource = level.buildings;
-         listBoxAmmo.DataSource = ammoSource;
-         listBoxCommPt.DataSource = commSource;
-         listBoxRdu.DataSource = rduSource;
-         listBoxTnt.DataSource = tntSource;
-         listBoxBlocks.DataSource = blockSource;
-         listBoxVehicles.DataSource = vehicleSource;
-         listBoxBuildings.DataSource = buildingSource;
-         numericCarrierX.DataBindings.Clear();
-         numericCarrierX.DataBindings.Add("Value", level.carrier, "x", false, DataSourceUpdateMode.OnPropertyChanged);
-         numericCarrierY.DataBindings.Clear();
-         numericCarrierY.DataBindings.Add("Value", level.carrier, "y", false, DataSourceUpdateMode.OnPropertyChanged);
-         numericCarrierZ.DataBindings.Clear();
-         numericCarrierZ.DataBindings.Add("Value", level.carrier, "z", false, DataSourceUpdateMode.OnPropertyChanged);
-         numericCarrierHeading.DataBindings.Clear();
-         numericCarrierHeading.DataBindings.Add("Value", level.carrier, "heading", false, DataSourceUpdateMode.OnPropertyChanged);
-         numericCarrierSpeed.DataBindings.Clear();
-         numericCarrierSpeed.DataBindings.Add("Value", level.carrier, "speed", false, DataSourceUpdateMode.OnPropertyChanged);
-         numericCarrierDistance.DataBindings.Clear();
-         numericCarrierDistance.DataBindings.Add("Value", level.carrier, "distance", false, DataSourceUpdateMode.OnPropertyChanged);
-
          statusStripMessage.Text = level.bounds.ToString();
 
          blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
@@ -178,7 +528,253 @@ namespace BlastCorpsEditor
          exportLevelToolStripMenuItem.Enabled = true;
          exportModelToolStripMenuItem.Enabled = true;
 
+         populateObjectTreeView();
+
          SetSelectedItem(null);
+      }
+
+      private void populateObjectTreeView()
+      {
+         const int ICON_AMMO = 1;
+         const int ICON_COMM = 3;
+         const int ICON_RDU = 4;
+         const int ICON_TNT = 5;
+         const int ICON_BLOCK = 6;
+         const int ICON_VEHICLE = 7;
+         const int ICON_CARRIER = 23;
+         const int ICON_BUILDING = 24;
+         TreeNode groupNode;
+         treeViewObjects.Nodes.Clear();
+
+         groupNode = new TreeNode("Carrier", ICON_CARRIER, ICON_CARRIER);
+         groupNode.Tag = level.carrier;
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("Ammo Boxes [" + level.ammoBoxes.Count + "]", ICON_AMMO, ICON_AMMO);
+         foreach (AmmoBox ammo in level.ammoBoxes)
+         {
+            int icon = ICON_AMMO + ammo.type;
+            TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
+            ammoNode.Tag = ammo;
+            groupNode.Nodes.Add(ammoNode);
+         }
+         groupNode.Expand();
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("Communication Points [" + level.commPoints.Count + "]", ICON_COMM, ICON_COMM);
+         foreach (CommPoint comm in level.commPoints)
+         {
+            TreeNode commNode = new TreeNode(comm.ToString(), ICON_COMM, ICON_COMM);
+            commNode.Tag = comm;
+            groupNode.Nodes.Add(commNode);
+         }
+         groupNode.Expand();
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("RDUs [" + level.rdus.Count + "]", ICON_RDU, ICON_RDU);
+         foreach (RDU rdu in level.rdus)
+         {
+            TreeNode rduNode = new TreeNode(rdu.ToString(), ICON_RDU, ICON_RDU);
+            rduNode.Tag = rdu;
+            groupNode.Nodes.Add(rduNode);
+         }
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("TNT Crates [" + level.tntCrates.Count + "]", ICON_TNT, ICON_TNT);
+         foreach (TNTCrate tnt in level.tntCrates)
+         {
+            TreeNode tntNode = new TreeNode(tnt.ToString(), ICON_TNT, ICON_TNT);
+            tntNode.Tag = tnt;
+            groupNode.Nodes.Add(tntNode);
+         }
+         groupNode.Expand();
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("Square Blocks [" + level.squareBlocks.Count + "]", ICON_BLOCK, ICON_BLOCK);
+         foreach (SquareBlock block in level.squareBlocks)
+         {
+            // TODO: diff icon for type?
+            TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
+            blockNode.Tag = block;
+            groupNode.Nodes.Add(blockNode);
+         }
+         groupNode.Expand();
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("Vehicles [" + level.vehicles.Count + "]", 10, 10);
+         foreach (Vehicle vehicle in level.vehicles)
+         {
+            int vehicleImage = 0;
+            switch (vehicle.type)
+            {
+               case 0x00: vehicleImage = ICON_VEHICLE; break;      // 00 Player          driver
+               case 0x01: vehicleImage = ICON_VEHICLE + 1; break;  // 01 Sideswipe       sideswipe
+               case 0x02: vehicleImage = ICON_VEHICLE + 2; break;  // 02 Thunderfist     magoo
+               case 0x03: vehicleImage = ICON_VEHICLE + 3; break;  // 03 Skyfall         buggy
+               case 0x04: vehicleImage = ICON_VEHICLE + 4; break;  // 04 Ramdozer        ramdozer
+               case 0x05: vehicleImage = ICON_VEHICLE + 5; break;  // 05 Backlash        truck
+               case 0x06: vehicleImage = ICON_VEHICLE + 6; break;  // 06 Crane           crane
+               case 0x07: vehicleImage = ICON_VEHICLE + 7; break;  // 07 Train           train
+               case 0x08: vehicleImage = ICON_VEHICLE + 8; break;  // 08 American Dream  hotrod
+               case 0x09: vehicleImage = ICON_VEHICLE + 9; break;  // 09 J-Bomb          jetpack
+               case 0x0A: vehicleImage = ICON_VEHICLE + 10; break; // 0A Ballista        bike
+               case 0x0B: vehicleImage = ICON_VEHICLE + 11; break; // 0B Boat 1          barge
+                                                                   // 0C - - -
+               case 0x0D: vehicleImage = ICON_VEHICLE + 12; break; // 0D Police Car      police
+               case 0x0E: vehicleImage = ICON_VEHICLE + 13; break; // 0E A-Team Van      ateam
+               case 0x0F: vehicleImage = ICON_VEHICLE + 14; break; // 0F Red Car         starski
+               case 0x10: vehicleImage = ICON_VEHICLE + 15; break; // 10 Cyclone Suit    minimagoo
+               case 0x11: vehicleImage = ICON_VEHICLE + 11; break; // 11 Boat 2          barge
+               case 0x12: vehicleImage = ICON_VEHICLE + 11; break; // 12 Boat 3          barge
+            }
+            TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
+            vehicleNode.Tag = vehicle;
+            groupNode.Nodes.Add(vehicleNode);
+         }
+         groupNode.Expand();
+         treeViewObjects.Nodes.Add(groupNode);
+
+         groupNode = new TreeNode("Buildings [" + level.buildings.Count + "]", ICON_BUILDING, ICON_BUILDING);
+         foreach (Building building in level.buildings)
+         {
+            TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
+            buildingNode.Tag = building;
+            groupNode.Nodes.Add(buildingNode);
+         }
+         treeViewObjects.Nodes.Add(groupNode);
+      }
+
+      private void SelectItem(BlastCorpsItem item)
+      {
+         bool itemChanged = !Object.ReferenceEquals(itemSel, item);
+         itemSel = item;
+         if (itemChanged)
+         {
+            tableLayoutProperties.Controls.Clear();
+            if (itemSel != null)
+            {
+               int row = 0;
+               numericX.Value = itemSel.x;
+               numericY.Value = itemSel.y;
+               numericZ.Value = itemSel.z;
+               tableLayoutProperties.Controls.Add(labelX, 0, row);
+               tableLayoutProperties.Controls.Add(numericX, 1, row++);
+               tableLayoutProperties.Controls.Add(labelY, 0, row);
+               tableLayoutProperties.Controls.Add(numericY, 1, row++);
+               tableLayoutProperties.Controls.Add(labelZ, 0, row);
+               tableLayoutProperties.Controls.Add(numericZ, 1, row++);
+               row = 0;
+               if (itemSel is AmmoBox)
+               {
+                  groupBoxProperties.Text = "Ammo Box Properties:";
+                  tableLayoutProperties.Controls.Add(labelType, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxAmmo, 3, row++);
+               }
+               else if (itemSel is CommPoint)
+               {
+                  groupBoxProperties.Text = "Communication Point Properties:";
+                  CommPoint comm = (CommPoint)itemSel;
+                  numericCommPtH6.Value = comm.h6;
+                  tableLayoutProperties.Controls.Add(labelCommPtH6, 2, row);
+                  tableLayoutProperties.Controls.Add(numericCommPtH6, 3, row++);
+               }
+               else if (itemSel is RDU)
+               {
+                  groupBoxProperties.Text = "RDU Properties:";
+               }
+               else if (itemSel is TNTCrate)
+               {
+                  groupBoxProperties.Text = "TNT Crate Properties:";
+                  TNTCrate tnt = (TNTCrate)itemSel;
+                  numericTntB6.Value = tnt.b6;
+                  numericTntTimer.Value = tnt.timer;
+                  numericTntH8.Value = tnt.h8;
+                  numericTntHA.Value = tnt.hA;
+                  tableLayoutProperties.Controls.Add(labelTntB6, 2, row);
+                  tableLayoutProperties.Controls.Add(numericTntB6, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelTntTimer, 2, row);
+                  tableLayoutProperties.Controls.Add(numericTntTimer, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelTntH8, 2, row);
+                  tableLayoutProperties.Controls.Add(numericTntH8, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelTntHA, 2, row);
+                  tableLayoutProperties.Controls.Add(numericTntHA, 3, row++);
+               }
+               else if (itemSel is SquareBlock)
+               {
+                  groupBoxProperties.Text = "Square Block Properties:";
+                  SquareBlock block = (SquareBlock)itemSel;
+                  comboBoxBlockType1.SelectedIndex = block.type;
+                  switch (block.hole)
+                  {
+                     case 0:
+                     case 1:
+                     case 2:
+                        comboBoxBlockType1.SelectedIndex = 0;
+                        comboBoxBlockType2.SelectedIndex = block.hole;
+                        numericBlockType3.Enabled = false;
+                        break;
+                     case 8:
+                        comboBoxBlockType1.SelectedIndex = block.type;
+                        comboBoxBlockType2.SelectedIndex = 3;
+                        numericBlockType3.Enabled = true;
+                        break;
+                  }
+                  numericBlockType3.Value = block.extra;
+                  tableLayoutProperties.Controls.Add(labelBlockType1, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBlockType1, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBlockType2, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBlockType2, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBlockType3, 2, row);
+                  tableLayoutProperties.Controls.Add(numericBlockType3, 3, row++);
+               }
+               else if (itemSel is Vehicle)
+               {
+                  groupBoxProperties.Text = "Vehicle Properties:";
+                  Vehicle veh = (Vehicle)itemSel;
+                  comboBoxVehicle.SelectedIndex = veh.type;
+                  numericHeading.Value = veh.heading;
+                  tableLayoutProperties.Controls.Add(labelType, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxVehicle, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelHeading, 2, row);
+                  tableLayoutProperties.Controls.Add(numericHeading, 3, row++);
+               }
+               else if (itemSel is Carrier)
+               {
+                  groupBoxProperties.Text = "Carrier Properties:";
+                  Carrier carrier = (Carrier)itemSel;
+                  numericCarrierSpeed.Value = carrier.speed;
+                  numericHeading.Value = carrier.heading;
+                  numericCarrierDistance.Value = carrier.distance;
+                  tableLayoutProperties.Controls.Add(labelSpeed, 2, row);
+                  tableLayoutProperties.Controls.Add(numericCarrierSpeed, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelHeading, 2, row);
+                  tableLayoutProperties.Controls.Add(numericHeading, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelDistance, 2, row);
+                  tableLayoutProperties.Controls.Add(numericCarrierDistance, 3, row++);
+               }
+               else if (itemSel is Building)
+               {
+                  groupBoxProperties.Text = "Building Properties:";
+                  Building building = (Building)itemSel;
+                  comboBoxBuildingType.SelectedIndex = building.type;
+                  numericBuildingCounter.Value = building.counter;
+                  numericBuildingB9.Value = building.b9;
+                  comboBoxBuildingMovement.SelectedIndex = building.movement;
+                  numericBuildingSpeed.Value = building.speed;
+                  tableLayoutProperties.Controls.Add(labelType, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBuildingType, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBuildingCount, 2, row);
+                  tableLayoutProperties.Controls.Add(numericBuildingCounter, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBuildingB9, 2, row);
+                  tableLayoutProperties.Controls.Add(numericBuildingB9, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBuildingMovement, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBuildingMovement, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelSpeed, 2, row);
+                  tableLayoutProperties.Controls.Add(numericBuildingSpeed, 3, row++);
+               }
+               // TODO: select row in tree view
+            }
+         }
       }
 
       private void SaveFile()
@@ -260,214 +856,63 @@ namespace BlastCorpsEditor
          }
       }
 
+      // Object X/Y/Z
+      private void numericX_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null)
+         {
+            itemSel.x = (Int16)numericX.Value;
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericY_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null)
+         {
+            itemSel.y = (Int16)numericY.Value;
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void numericZ_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null)
+         {
+            itemSel.z = (Int16)numericZ.Value;
+            blastCorpsViewer.Invalidate();
+         }
+      }
+
       // Ammo boxes
-      private void listBoxAmmo_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         AmmoBox ammo = (AmmoBox)listBoxAmmo.SelectedItem;
-         if (ammo != null)
-         {
-            SetSelectedItem(ammo);
-            numericAmmoX.Value = ammo.x;
-            numericAmmoY.Value = ammo.y;
-            numericAmmoZ.Value = ammo.z;
-            comboBoxAmmo.SelectedIndex = ammo.type;
-         }
-      }
-
-      private void numericAmmoX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is AmmoBox)
-         {
-            itemSel.x = (Int16)numericAmmoX.Value;
-            ammoSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericAmmoY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is AmmoBox)
-         {
-            itemSel.y = (Int16)numericAmmoY.Value;
-            ammoSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericAmmoZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is AmmoBox)
-         {
-            itemSel.z = (Int16)numericAmmoZ.Value;
-            ammoSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
       private void comboBoxAmmo_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is AmmoBox)
          {
             AmmoBox ammo = (AmmoBox)itemSel;
             ammo.type = (UInt16)comboBoxAmmo.SelectedIndex;
-            ammoSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
       // Communication point
-      private void listBoxCommPt_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         CommPoint comm = (CommPoint)listBoxCommPt.SelectedItem;
-         if (comm != null)
-         {
-            SetSelectedItem(comm);
-            numericCommPtX.Value = comm.x;
-            numericCommPtY.Value = comm.y;
-            numericCommPtZ.Value = comm.z;
-            numericCommPtH6.Value = comm.h6;
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericCommPtX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is CommPoint)
-         {
-            itemSel.x = (Int16)numericCommPtX.Value;
-            commSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericCommPtY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is CommPoint)
-         {
-            itemSel.y = (Int16)numericCommPtY.Value;
-            commSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericCommPtZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is CommPoint)
-         {
-            itemSel.z = (Int16)numericCommPtZ.Value;
-            commSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
       private void numericCommPtH6_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is CommPoint)
          {
             CommPoint comm = (CommPoint)itemSel;
             comm.h6 = (UInt16)numericCommPtH6.Value;
-            commSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      // RDUs
-      private void listBoxRdu_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         RDU rdu = (RDU)listBoxRdu.SelectedItem;
-         if (rdu != null)
-         {
-            SetSelectedItem(rdu);
-            numericRduX.Value = rdu.x;
-            numericRduY.Value = rdu.y;
-            numericRduZ.Value = rdu.z;
-         }
-      }
-
-      private void numericRduX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is RDU)
-         {
-            itemSel.x = (Int16)numericRduX.Value;
-            rduSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericRduY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is RDU)
-         {
-            itemSel.y = (Int16)numericRduY.Value;
-            rduSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericRduZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is RDU)
-         {
-            itemSel.z = (Int16)numericRduZ.Value;
-            rduSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
       // TNT crates
-      private void listBoxTnt_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         TNTCrate tnt = (TNTCrate)listBoxTnt.SelectedItem;
-         if (tnt != null)
-         {
-            SetSelectedItem(tnt);
-            numericTntX.Value = tnt.x;
-            numericTntY.Value = tnt.y;
-            numericTntZ.Value = tnt.z;
-            numericTntB6.Value = tnt.b6;
-            numericTntTimer.Value = tnt.timer;
-            numericTntH8.Value = tnt.h8;
-            numericTntHA.Value = tnt.hA;
-         }
-      }
-
-      private void numericTntX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is TNTCrate)
-         {
-            itemSel.x = (Int16)numericTntX.Value;
-            tntSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericTntY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is TNTCrate)
-         {
-            itemSel.y = (Int16)numericTntY.Value;
-            tntSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericTntZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is TNTCrate)
-         {
-            itemSel.z = (Int16)numericTntZ.Value;
-            tntSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
       private void numericTntB6_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is TNTCrate)
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.b6 = (byte)numericTntB6.Value;
-            tntSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
@@ -478,7 +923,6 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.timer = (byte)numericTntTimer.Value;
-            tntSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
@@ -489,7 +933,6 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.h8 = (Int16)numericTntH8.Value;
-            tntSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
@@ -500,134 +943,68 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.hA = (Int16)numericTntHA.Value;
-            tntSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
       // Blocks
-      private void listBoxBlocks_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         SquareBlock block = (SquareBlock)listBoxBlocks.SelectedItem;
-         if (block != null)
-         {
-            SetSelectedItem(block);
-            numericBlockX.Value = block.x;
-            numericBlockY.Value = block.y;
-            numericBlockZ.Value = block.z;
-            numericBlockT3.Value = block.extra;
-            switch (block.hole)
-            {
-               case 0:
-               case 1:
-               case 2:
-                  comboBoxBlockT1.SelectedIndex = 0;
-                  comboBoxBlockT2.SelectedIndex = block.hole;
-                  numericBlockT3.Enabled = false;
-                  break;
-               case 8:
-                  comboBoxBlockT1.SelectedIndex = block.type;
-                  comboBoxBlockT2.SelectedIndex = 3;
-                  numericBlockT3.Enabled = true;
-                  break;
-            }
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericBlockX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is SquareBlock)
-         {
-            itemSel.x = (Int16)numericBlockX.Value;
-            blockSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericBlockY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is SquareBlock)
-         {
-            itemSel.y = (Int16)numericBlockY.Value;
-            blockSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericBlockZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is SquareBlock)
-         {
-            itemSel.z = (Int16)numericBlockZ.Value;
-            blockSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void comboBoxBlockT1_SelectedIndexChanged(object sender, EventArgs e)
+      private void comboBoxBlockType1_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            block.type = (byte)comboBoxBlockT1.SelectedIndex;
-            blockSource.ResetBindings(false);
+            block.type = (byte)comboBoxBlockType1.SelectedIndex;
             blastCorpsViewer.Invalidate();
          }
       }
 
-      private void comboBoxBlockT2_SelectedIndexChanged(object sender, EventArgs e)
+      private void comboBoxBlockType2_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            switch (comboBoxBlockT2.SelectedIndex)
+            switch (comboBoxBlockType2.SelectedIndex)
             {
                case 0: block.hole = 0; break;
                case 1: block.hole = 1; break;
                case 2: block.hole = 2; break;
                case 3: block.hole = 8; break;
-                       // TODO: toggle T3 based on this value
+               // TODO: toggle T3 based on this value
             }
-            blockSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
-      private void numericBlockT3_ValueChanged(object sender, EventArgs e)
+      private void numericBlockType3_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            block.extra = (UInt16)numericBlockT3.Value;
-            blockSource.ResetBindings(false);
+            block.extra = (UInt16)numericBlockType3.Value;
             blastCorpsViewer.Invalidate();
          }
       }
 
       // Vehicles
-      private void numericCarrier_ValueChanged(object sender, EventArgs e)
+      private void numericCarrierSpeed_ValueChanged(object sender, EventArgs e)
       {
-         blastCorpsViewer.Invalidate();
-      }
-
-      private void listBoxVehicles_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         Vehicle veh = (Vehicle)listBoxVehicles.SelectedItem;
-         if (veh != null)
+         if (itemSel != null && itemSel is Carrier)
          {
-            SetSelectedItem(veh);
-            if (veh.type < comboBoxVehicle.Items.Count)
-            {
-               comboBoxVehicle.SelectedIndex = veh.type;
-            }
-            numericVehicleX.Value = veh.x;
-            numericVehicleY.Value = veh.y;
-            numericVehicleZ.Value = veh.z;
-            numericVehicleH.Value = veh.heading;
+            Carrier carrier = (Carrier)itemSel;
+            carrier.speed = (byte)numericCarrierSpeed.Value;
+            blastCorpsViewer.Invalidate();
          }
       }
 
+      private void numericCarrierDistance_ValueChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is Carrier)
+         {
+            Carrier carrier = (Carrier)itemSel;
+            carrier.distance = (UInt16)numericCarrierDistance.Value;
+            blastCorpsViewer.Invalidate();
+         }
+      }
 
       private void comboBoxVehicle_SelectedIndexChanged(object sender, EventArgs e)
       {
@@ -635,107 +1012,35 @@ namespace BlastCorpsEditor
          {
             Vehicle veh = (Vehicle)itemSel;
             veh.type = (byte)comboBoxVehicle.SelectedIndex;
-            vehicleSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
-      private void numericVehicleX_ValueChanged(object sender, EventArgs e)
+      private void numericHeading_ValueChanged(object sender, EventArgs e)
       {
-         if (itemSel != null && itemSel is Vehicle)
+         if (itemSel != null)
          {
-            itemSel.x = (Int16)numericVehicleX.Value;
-            vehicleSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericVehicleY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Vehicle)
-         {
-            itemSel.y = (Int16)numericVehicleY.Value;
-            vehicleSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericVehicleZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Vehicle)
-         {
-            itemSel.z = (Int16)numericVehicleZ.Value;
-            vehicleSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericVehicleH_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Vehicle)
-         {
-            Vehicle veh = (Vehicle)itemSel;
-            veh.heading = (Int16)numericVehicleH.Value;
-            vehicleSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
+            if (itemSel is Vehicle)
+            {
+               Vehicle veh = (Vehicle)itemSel;
+               veh.heading = (Int16)numericHeading.Value;
+               blastCorpsViewer.Invalidate();
+            }
+            else if (itemSel is Carrier)
+            {
+               level.carrier.heading = (UInt16)numericHeading.Value;
+               blastCorpsViewer.Invalidate();
+            }
          }
       }
 
       // Buildings
-      private void listBoxBuildings_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         Building building = (Building)listBoxBuildings.SelectedItem;
-         if (building != null)
-         {
-            SetSelectedItem(building);
-            numericBuildingX.Value = building.x;
-            numericBuildingY.Value = building.y;
-            numericBuildingZ.Value = building.z;
-            comboBoxBuildingType.SelectedIndex = building.type;
-            numericBuildingCounter.Value = building.counter;
-            numericBuildingB9.Value = building.b9;
-            comboBoxBuildingBehavior.SelectedIndex = building.behavior;
-            numericBuildingSpeed.Value = building.speed;
-         }
-      }
-
-      private void numericBuildingX_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Building)
-         {
-            itemSel.x = (Int16)numericBuildingX.Value;
-            buildingSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericBuildingY_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Building)
-         {
-            itemSel.y = (Int16)numericBuildingY.Value;
-            buildingSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
-      private void numericBuildingZ_ValueChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is Building)
-         {
-            itemSel.z = (Int16)numericBuildingZ.Value;
-            buildingSource.ResetBindings(false);
-            blastCorpsViewer.Invalidate();
-         }
-      }
-
       private void comboBoxBuildingType_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
             b.type = (UInt16)comboBoxBuildingType.SelectedIndex;
-            buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
@@ -746,7 +1051,6 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.counter = (byte)numericBuildingCounter.Value;
-            buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
@@ -757,18 +1061,16 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.b9 = (byte)numericBuildingB9.Value;
-            buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
          }
       }
 
-      private void comboBoxBuildingBehavior_SelectedIndexChanged(object sender, EventArgs e)
+      private void comboBoxBuildingMovement_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.behavior = (UInt16)comboBoxBuildingBehavior.SelectedIndex;
-            buildingSource.ResetBindings(false);
+            b.movement = (UInt16)comboBoxBuildingMovement.SelectedIndex;
             blastCorpsViewer.Invalidate();
          }
       }
@@ -779,8 +1081,18 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.speed = (UInt16)numericBuildingSpeed.Value;
-            buildingSource.ResetBindings(false);
             blastCorpsViewer.Invalidate();
+         }
+      }
+
+      private void treeViewObjects_AfterSelect(object sender, TreeViewEventArgs e)
+      {
+         TreeNode node = treeViewObjects.SelectedNode;
+         if (node != null && node.Tag != null)
+         {
+            BlastCorpsItem item = (BlastCorpsItem)node.Tag;
+            SelectItem(item);
+            SetSelectedItem(item);
          }
       }
 

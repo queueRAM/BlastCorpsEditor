@@ -281,10 +281,10 @@ namespace BlastCorpsEditor
       // TODO: what are these?
       public byte counter;
       public byte b9;
-      public UInt16 behavior;
+      public UInt16 movement;
       public UInt16 speed;
 
-      public Building(Int16 x, Int16 y, Int16 z, UInt16 type, byte counter, byte b9, UInt16 behavior, UInt16 speed)
+      public Building(Int16 x, Int16 y, Int16 z, UInt16 type, byte counter, byte b9, UInt16 movement, UInt16 speed)
       {
          this.x = x;
          this.y = y;
@@ -292,13 +292,13 @@ namespace BlastCorpsEditor
          this.type = type;
          this.counter = counter;
          this.b9 = b9;
-         this.behavior = behavior;
+         this.movement = movement;
          this.speed = speed;
       }
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + type + ", " + counter + ", " + b9 + ", " + behavior + ", " + speed;
+         return x + ", " + y + ", " + z + ", " + type + ", " + counter + ", " + b9 + ", " + movement + ", " + speed;
       }
    }
 
@@ -1143,7 +1143,7 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(b.type, data, offset);
             data[offset++] = b.counter;
             data[offset++] = b.b9;
-            offset += BE.ToBytes(b.behavior, data, offset);
+            offset += BE.ToBytes(b.movement, data, offset);
             offset += BE.ToBytes(b.speed, data, offset);
          }
 
