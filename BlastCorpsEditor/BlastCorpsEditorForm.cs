@@ -434,6 +434,7 @@ namespace BlastCorpsEditor
             "276: End Sequence Rocks #4",
             "277: End Sequence Rocks #5"}, new System.EventHandler(this.comboBoxBuildingType_SelectedIndexChanged));
          comboBoxBuildingType.DropDownWidth = 400;
+         comboBoxBuildingType.Width = 150;
          labelBuildingCount = createLabel("Count:");
          numericBuildingCounter = createNumeric(0, 255, new System.EventHandler(this.numericBuildingCounter_ValueChanged));
          labelBuildingB9 = createLabel("U8_9:");
@@ -536,13 +537,13 @@ namespace BlastCorpsEditor
       private void populateObjectTreeView()
       {
          const int ICON_AMMO = 1;
-         const int ICON_COMM = 3;
-         const int ICON_RDU = 4;
-         const int ICON_TNT = 5;
-         const int ICON_BLOCK = 6;
-         const int ICON_VEHICLE = 7;
-         const int ICON_CARRIER = 23;
-         const int ICON_BUILDING = 24;
+         const int ICON_COMM = 4;
+         const int ICON_RDU = 5;
+         const int ICON_TNT = 6;
+         const int ICON_BLOCK = 7;
+         const int ICON_VEHICLE = 8;
+         const int ICON_CARRIER = 24;
+         const int ICON_BUILDING = 25;
          TreeNode groupNode;
          treeViewObjects.Nodes.Clear();
 
@@ -553,7 +554,7 @@ namespace BlastCorpsEditor
          groupNode = new TreeNode("Ammo Boxes [" + level.ammoBoxes.Count + "]", ICON_AMMO, ICON_AMMO);
          foreach (AmmoBox ammo in level.ammoBoxes)
          {
-            int icon = ICON_AMMO + ammo.type;
+            int icon = ICON_AMMO + 1 + ammo.type;
             TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
             ammoNode.Tag = ammo;
             groupNode.Nodes.Add(ammoNode);
@@ -601,7 +602,7 @@ namespace BlastCorpsEditor
          groupNode.Expand();
          treeViewObjects.Nodes.Add(groupNode);
 
-         groupNode = new TreeNode("Vehicles [" + level.vehicles.Count + "]", 10, 10);
+         groupNode = new TreeNode("Vehicles [" + level.vehicles.Count + "]", ICON_VEHICLE + 4, ICON_VEHICLE + 4);
          foreach (Vehicle vehicle in level.vehicles)
          {
             int vehicleImage = 0;
@@ -667,6 +668,8 @@ namespace BlastCorpsEditor
                if (itemSel is AmmoBox)
                {
                   groupBoxProperties.Text = "Ammo Box Properties:";
+                  AmmoBox ammo = (AmmoBox)itemSel;
+                  comboBoxAmmo.SelectedIndex = ammo.type;
                   tableLayoutProperties.Controls.Add(labelType, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxAmmo, 3, row++);
                }

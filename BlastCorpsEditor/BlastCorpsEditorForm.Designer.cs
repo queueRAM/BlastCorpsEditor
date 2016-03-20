@@ -53,6 +53,7 @@
          this.tabControlItems = new System.Windows.Forms.TabControl();
          this.tabPageObjects = new System.Windows.Forms.TabPage();
          this.treeViewObjects = new System.Windows.Forms.TreeView();
+         this.imageListObjects = new System.Windows.Forms.ImageList(this.components);
          this.groupBoxProperties = new System.Windows.Forms.GroupBox();
          this.tableLayoutProperties = new System.Windows.Forms.TableLayoutPanel();
          this.tabPageHeader = new System.Windows.Forms.TabPage();
@@ -94,7 +95,6 @@
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.splitContainer1 = new System.Windows.Forms.SplitContainer();
          this.label1 = new System.Windows.Forms.Label();
-         this.imageListObjects = new System.Windows.Forms.ImageList(this.components);
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
@@ -328,6 +328,37 @@
          this.treeViewObjects.Size = new System.Drawing.Size(324, 434);
          this.treeViewObjects.TabIndex = 24;
          this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_AfterSelect);
+         // 
+         // imageListObjects
+         // 
+         this.imageListObjects.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListObjects.ImageStream")));
+         this.imageListObjects.TransparentColor = System.Drawing.Color.Transparent;
+         this.imageListObjects.Images.SetKeyName(0, "default.png");
+         this.imageListObjects.Images.SetKeyName(1, "ammo.png");
+         this.imageListObjects.Images.SetKeyName(2, "ammo_rocket.png");
+         this.imageListObjects.Images.SetKeyName(3, "ammo_sideswipe.png");
+         this.imageListObjects.Images.SetKeyName(4, "comm_point.png");
+         this.imageListObjects.Images.SetKeyName(5, "rdu.png");
+         this.imageListObjects.Images.SetKeyName(6, "tnt.png");
+         this.imageListObjects.Images.SetKeyName(7, "block.png");
+         this.imageListObjects.Images.SetKeyName(8, "veh_player.png");
+         this.imageListObjects.Images.SetKeyName(9, "veh_sideswipe.png");
+         this.imageListObjects.Images.SetKeyName(10, "veh_thunderfist.png");
+         this.imageListObjects.Images.SetKeyName(11, "veh_skyfall.png");
+         this.imageListObjects.Images.SetKeyName(12, "veh_bulldozer.png");
+         this.imageListObjects.Images.SetKeyName(13, "veh_backlash.png");
+         this.imageListObjects.Images.SetKeyName(14, "veh_crane.png");
+         this.imageListObjects.Images.SetKeyName(15, "veh_train.png");
+         this.imageListObjects.Images.SetKeyName(16, "veh_hotrod.png");
+         this.imageListObjects.Images.SetKeyName(17, "veh_jbomb.png");
+         this.imageListObjects.Images.SetKeyName(18, "veh_ballista.png");
+         this.imageListObjects.Images.SetKeyName(19, "veh_barge.png");
+         this.imageListObjects.Images.SetKeyName(20, "veh_police.png");
+         this.imageListObjects.Images.SetKeyName(21, "veh_ateam.png");
+         this.imageListObjects.Images.SetKeyName(22, "veh_starski.png");
+         this.imageListObjects.Images.SetKeyName(23, "veh_cyclone.png");
+         this.imageListObjects.Images.SetKeyName(24, "veh_carrier.png");
+         this.imageListObjects.Images.SetKeyName(25, "building.png");
          // 
          // groupBoxProperties
          // 
@@ -843,36 +874,6 @@
          this.label1.Size = new System.Drawing.Size(36, 13);
          this.label1.TabIndex = 9;
          this.label1.Text = "Level:";
-         // 
-         // imageListObjects
-         // 
-         this.imageListObjects.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListObjects.ImageStream")));
-         this.imageListObjects.TransparentColor = System.Drawing.Color.Transparent;
-         this.imageListObjects.Images.SetKeyName(0, "default.png");
-         this.imageListObjects.Images.SetKeyName(1, "ammo_sideswipe.png");
-         this.imageListObjects.Images.SetKeyName(2, "ammo_rocket.png");
-         this.imageListObjects.Images.SetKeyName(3, "comm_point.png");
-         this.imageListObjects.Images.SetKeyName(4, "rdu.png");
-         this.imageListObjects.Images.SetKeyName(5, "tnt.png");
-         this.imageListObjects.Images.SetKeyName(6, "block.png");
-         this.imageListObjects.Images.SetKeyName(7, "veh_player.png");
-         this.imageListObjects.Images.SetKeyName(8, "veh_sideswipe.png");
-         this.imageListObjects.Images.SetKeyName(9, "veh_thunderfist.png");
-         this.imageListObjects.Images.SetKeyName(10, "veh_skyfall.png");
-         this.imageListObjects.Images.SetKeyName(11, "veh_bulldozer.png");
-         this.imageListObjects.Images.SetKeyName(12, "veh_backlash.png");
-         this.imageListObjects.Images.SetKeyName(13, "veh_crane.png");
-         this.imageListObjects.Images.SetKeyName(14, "veh_train.png");
-         this.imageListObjects.Images.SetKeyName(15, "veh_hotrod.png");
-         this.imageListObjects.Images.SetKeyName(16, "veh_jbomb.png");
-         this.imageListObjects.Images.SetKeyName(17, "veh_ballista.png");
-         this.imageListObjects.Images.SetKeyName(18, "veh_barge.png");
-         this.imageListObjects.Images.SetKeyName(19, "veh_police.png");
-         this.imageListObjects.Images.SetKeyName(20, "veh_ateam.png");
-         this.imageListObjects.Images.SetKeyName(21, "veh_starski.png");
-         this.imageListObjects.Images.SetKeyName(22, "veh_cyclone.png");
-         this.imageListObjects.Images.SetKeyName(23, "veh_carrier.png");
-         this.imageListObjects.Images.SetKeyName(24, "building.png");
          // 
          // blastCorpsViewer
          // 
