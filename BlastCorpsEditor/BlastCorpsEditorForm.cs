@@ -14,6 +14,16 @@ namespace BlastCorpsEditor
 
       private BlastCorpsItem itemSel;
 
+      // top level tree view nodes
+      private TreeNode treeNodeCarrier;
+      private TreeNode treeNodeAmmo;
+      private TreeNode treeNodeCommPt;
+      private TreeNode treeNodeRdu;
+      private TreeNode treeNodeTnt;
+      private TreeNode treeNodeBlock;
+      private TreeNode treeNodeVehicle;
+      private TreeNode treeNodeBuilding;
+
       // dynamic controls
       private NumericUpDown[] numericHeaders;
       // X,Y,Z
@@ -81,6 +91,16 @@ namespace BlastCorpsEditor
             numeric.Tag = index++;
             numeric.ValueChanged += new System.EventHandler(this.numericU16_ValueChanged);
          }
+
+         // tree view references for convenience
+         treeNodeCarrier = treeViewObjects.Nodes[0];
+         treeNodeAmmo = treeViewObjects.Nodes[1];
+         treeNodeCommPt = treeViewObjects.Nodes[2];
+         treeNodeRdu = treeViewObjects.Nodes[3];
+         treeNodeTnt = treeViewObjects.Nodes[4];
+         treeNodeBlock = treeViewObjects.Nodes[5];
+         treeNodeVehicle = treeViewObjects.Nodes[6];
+         treeNodeBuilding = treeViewObjects.Nodes[7];
 
          // generate controls for the object properties
          generatePropertyControls();
@@ -536,73 +556,69 @@ namespace BlastCorpsEditor
 
       private void populateObjectTreeView()
       {
-         const int ICON_AMMO = 1;
+         const int ICON_AMMO = 2;
          const int ICON_COMM = 4;
          const int ICON_RDU = 5;
          const int ICON_TNT = 6;
          const int ICON_BLOCK = 7;
          const int ICON_VEHICLE = 8;
-         const int ICON_CARRIER = 24;
          const int ICON_BUILDING = 25;
-         TreeNode groupNode;
-         treeViewObjects.Nodes.Clear();
 
-         groupNode = new TreeNode("Carrier", ICON_CARRIER, ICON_CARRIER);
-         groupNode.Tag = level.carrier;
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeCarrier.Tag = level.carrier;
 
-         groupNode = new TreeNode("Ammo Boxes [" + level.ammoBoxes.Count + "]", ICON_AMMO, ICON_AMMO);
+         treeNodeAmmo.Nodes.Clear();
+         treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
          foreach (AmmoBox ammo in level.ammoBoxes)
          {
-            int icon = ICON_AMMO + 1 + ammo.type;
+            int icon = ICON_AMMO + ammo.type;
             TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
             ammoNode.Tag = ammo;
-            groupNode.Nodes.Add(ammoNode);
+            treeNodeAmmo.Nodes.Add(ammoNode);
          }
-         groupNode.Expand();
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeAmmo.Expand();
 
-         groupNode = new TreeNode("Communication Points [" + level.commPoints.Count + "]", ICON_COMM, ICON_COMM);
+         treeNodeCommPt.Nodes.Clear();
+         treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
          foreach (CommPoint comm in level.commPoints)
          {
             TreeNode commNode = new TreeNode(comm.ToString(), ICON_COMM, ICON_COMM);
             commNode.Tag = comm;
-            groupNode.Nodes.Add(commNode);
+            treeNodeCommPt.Nodes.Add(commNode);
          }
-         groupNode.Expand();
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeCommPt.Expand();
 
-         groupNode = new TreeNode("RDUs [" + level.rdus.Count + "]", ICON_RDU, ICON_RDU);
+         treeNodeRdu.Nodes.Clear();
+         treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
          foreach (RDU rdu in level.rdus)
          {
             TreeNode rduNode = new TreeNode(rdu.ToString(), ICON_RDU, ICON_RDU);
             rduNode.Tag = rdu;
-            groupNode.Nodes.Add(rduNode);
+            treeNodeRdu.Nodes.Add(rduNode);
          }
-         treeViewObjects.Nodes.Add(groupNode);
 
-         groupNode = new TreeNode("TNT Crates [" + level.tntCrates.Count + "]", ICON_TNT, ICON_TNT);
+         treeNodeTnt.Nodes.Clear();
+         treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
          foreach (TNTCrate tnt in level.tntCrates)
          {
             TreeNode tntNode = new TreeNode(tnt.ToString(), ICON_TNT, ICON_TNT);
             tntNode.Tag = tnt;
-            groupNode.Nodes.Add(tntNode);
+            treeNodeTnt.Nodes.Add(tntNode);
          }
-         groupNode.Expand();
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeTnt.Expand();
 
-         groupNode = new TreeNode("Square Blocks [" + level.squareBlocks.Count + "]", ICON_BLOCK, ICON_BLOCK);
+         treeNodeBlock.Nodes.Clear();
+         treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
          foreach (SquareBlock block in level.squareBlocks)
          {
             // TODO: diff icon for type?
             TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
             blockNode.Tag = block;
-            groupNode.Nodes.Add(blockNode);
+            treeNodeBlock.Nodes.Add(blockNode);
          }
-         groupNode.Expand();
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeBlock.Expand();
 
-         groupNode = new TreeNode("Vehicles [" + level.vehicles.Count + "]", ICON_VEHICLE + 4, ICON_VEHICLE + 4);
+         treeNodeVehicle.Nodes.Clear();
+         treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
          foreach (Vehicle vehicle in level.vehicles)
          {
             int vehicleImage = 0;
@@ -630,19 +646,30 @@ namespace BlastCorpsEditor
             }
             TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
             vehicleNode.Tag = vehicle;
-            groupNode.Nodes.Add(vehicleNode);
+            treeNodeVehicle.Nodes.Add(vehicleNode);
          }
-         groupNode.Expand();
-         treeViewObjects.Nodes.Add(groupNode);
+         treeNodeVehicle.Expand();
 
-         groupNode = new TreeNode("Buildings [" + level.buildings.Count + "]", ICON_BUILDING, ICON_BUILDING);
+         treeNodeBuilding.Nodes.Clear();
+         treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
          foreach (Building building in level.buildings)
          {
             TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
             buildingNode.Tag = building;
-            groupNode.Nodes.Add(buildingNode);
+            treeNodeBuilding.Nodes.Add(buildingNode);
          }
-         treeViewObjects.Nodes.Add(groupNode);
+      }
+
+      private void SelectNode(TreeNode root, BlastCorpsItem item)
+      {
+         foreach (TreeNode child in root.Nodes)
+         {
+            if (Object.ReferenceEquals(item, child.Tag))
+            {
+               treeViewObjects.SelectedNode = child;
+               break;
+            }
+         }
       }
 
       private void SelectItem(BlastCorpsItem item)
@@ -672,6 +699,7 @@ namespace BlastCorpsEditor
                   comboBoxAmmo.SelectedIndex = ammo.type;
                   tableLayoutProperties.Controls.Add(labelType, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxAmmo, 3, row++);
+                  SelectNode(treeNodeAmmo, itemSel);
                }
                else if (itemSel is CommPoint)
                {
@@ -680,10 +708,12 @@ namespace BlastCorpsEditor
                   numericCommPtH6.Value = comm.h6;
                   tableLayoutProperties.Controls.Add(labelCommPtH6, 2, row);
                   tableLayoutProperties.Controls.Add(numericCommPtH6, 3, row++);
+                  SelectNode(treeNodeCommPt, itemSel);
                }
                else if (itemSel is RDU)
                {
                   groupBoxProperties.Text = "RDU Properties:";
+                  SelectNode(treeNodeRdu, itemSel);
                }
                else if (itemSel is TNTCrate)
                {
@@ -701,6 +731,7 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(numericTntH8, 3, row++);
                   tableLayoutProperties.Controls.Add(labelTntHA, 2, row);
                   tableLayoutProperties.Controls.Add(numericTntHA, 3, row++);
+                  SelectNode(treeNodeTnt, itemSel);
                }
                else if (itemSel is SquareBlock)
                {
@@ -729,6 +760,7 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(comboBoxBlockType2, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBlockType3, 2, row);
                   tableLayoutProperties.Controls.Add(numericBlockType3, 3, row++);
+                  SelectNode(treeNodeBlock, itemSel);
                }
                else if (itemSel is Vehicle)
                {
@@ -740,6 +772,7 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(comboBoxVehicle, 3, row++);
                   tableLayoutProperties.Controls.Add(labelHeading, 2, row);
                   tableLayoutProperties.Controls.Add(numericHeading, 3, row++);
+                  SelectNode(treeNodeVehicle, itemSel);
                }
                else if (itemSel is Carrier)
                {
@@ -754,6 +787,7 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(numericHeading, 3, row++);
                   tableLayoutProperties.Controls.Add(labelDistance, 2, row);
                   tableLayoutProperties.Controls.Add(numericCarrierDistance, 3, row++);
+                  treeViewObjects.SelectedNode = treeNodeCarrier;
                }
                else if (itemSel is Building)
                {
@@ -774,8 +808,8 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(comboBoxBuildingMovement, 3, row++);
                   tableLayoutProperties.Controls.Add(labelSpeed, 2, row);
                   tableLayoutProperties.Controls.Add(numericBuildingSpeed, 3, row++);
+                  SelectNode(treeNodeBuilding, itemSel);
                }
-               // TODO: select row in tree view
             }
          }
       }
