@@ -16,6 +16,11 @@ namespace BlastCorpsEditor
       public Int16 x { get; set; }
       public Int16 y { get; set; }
       public Int16 z { get; set; }
+
+      public override string ToString()
+      {
+         return "(" + x + ", " + y + ", " + z + ")";
+      }
    }
 
    public class AmmoBox : BlastCorpsItem
@@ -32,7 +37,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + type;
+         return base.ToString() + ", " + type;
       }
    }
 
@@ -77,7 +82,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + h6;
+         return base.ToString() + ", " + h6;
       }
    }
 
@@ -142,7 +147,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x1 + ", " + z1 + " " + x2 + ", " + z2;
+         return "(" + x1 + ", " + z1 + "), (" + x2 + ", " + z2 + ")";
       }
    }
 
@@ -153,11 +158,6 @@ namespace BlastCorpsEditor
          this.x = x;
          this.y = y;
          this.z = z;
-      }
-
-      public override string ToString()
-      {
-         return x + ", " + y + ", " + z;
       }
    }
 
@@ -180,7 +180,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + b6.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + hA.ToString("X4");
+         return base.ToString() + ", " + b6.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + hA.ToString("X4");
       }
    }
 
@@ -219,7 +219,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
+         return base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
       }
    }
 
@@ -239,7 +239,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x1 + ", " + z1 + ", " + x2 + ", " + z2 + ", " + todo;
+         return "(" + x1 + ", " + z1 + "), (" + x2 + ", " + z2 + "), " + todo;
       }
    }
 
@@ -259,7 +259,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return type.ToString("X2") + ": " + x + ", " + y + ", " + z + ", " + heading;
+         return type.ToString("X2") + ", " + base.ToString() + ", " + heading;
       }
    }
 
@@ -271,7 +271,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return speed + ", " + x + ", " + y + ", " + z + ", " + heading;
+         return speed + ", " + base.ToString() + ", " + heading;
       }
    }
 
@@ -298,7 +298,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return x + ", " + y + ", " + z + ", " + type + ", " + counter + ", " + b9 + ", " + movement + ", " + speed;
+         return base.ToString() + ", " + type + ", " + counter + ", " + b9 + ", " + movement + ", " + speed;
       }
    }
 
@@ -350,7 +350,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ") " + h12 + ":" + b14 + ":" + b15;
+         return "(" + x1 + "," + y1 + "," + z1 + "), (" + x2 + "," + y2 + "," + z2 + "), (" + x3 + "," + y3 + "," + z3 + "), " + h12 + ", " + b14 + ", " + b15;
       }
    }
 
