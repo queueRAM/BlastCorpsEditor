@@ -110,42 +110,7 @@ namespace BlastCorpsEditor
             }
             if (e.IsDeleted)
             {
-               if (e.SelectedItem is AmmoBox)
-               {
-                  level.ammoBoxes.Remove((AmmoBox)e.SelectedItem);
-                  deleteNode(treeNodeAmmo, e.SelectedItem);
-               }
-               else if (e.SelectedItem is CommPoint)
-               {
-                  level.commPoints.Remove((CommPoint)e.SelectedItem);
-                  deleteNode(treeNodeCommPt, e.SelectedItem);
-               }
-               else if (e.SelectedItem is RDU)
-               {
-                  level.rdus.Remove((RDU)e.SelectedItem);
-                  deleteNode(treeNodeRdu, e.SelectedItem);
-               }
-               else if (e.SelectedItem is TNTCrate)
-               {
-                  level.tntCrates.Remove((TNTCrate)e.SelectedItem);
-                  deleteNode(treeNodeTnt, e.SelectedItem);
-               }
-               else if (e.SelectedItem is SquareBlock)
-               {
-                  level.squareBlocks.Remove((SquareBlock)e.SelectedItem);
-                  deleteNode(treeNodeBlock, e.SelectedItem);
-               }
-               else if (e.SelectedItem is Vehicle)
-               {
-                  level.vehicles.Remove((Vehicle)e.SelectedItem);
-                  deleteNode(treeNodeVehicle, e.SelectedItem);
-               }
-               else if (e.SelectedItem is Building)
-               {
-                  level.buildings.Remove((Building)e.SelectedItem);
-                  deleteNode(treeNodeBuilding, e.SelectedItem);
-               }
-               SelectItem(null);
+               DeleteItem(e.SelectedItem);
             }
             else
             {
@@ -935,6 +900,53 @@ namespace BlastCorpsEditor
          }
       }
 
+      private void DeleteItem(BlastCorpsItem item)
+      {
+         if (item is AmmoBox)
+         {
+            level.ammoBoxes.Remove((AmmoBox)item);
+            deleteNode(treeNodeAmmo, item);
+            treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
+         }
+         else if (item is CommPoint)
+         {
+            level.commPoints.Remove((CommPoint)item);
+            deleteNode(treeNodeCommPt, item);
+            treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
+         }
+         else if (item is RDU)
+         {
+            level.rdus.Remove((RDU)item);
+            deleteNode(treeNodeRdu, item);
+            treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
+         }
+         else if (item is TNTCrate)
+         {
+            level.tntCrates.Remove((TNTCrate)item);
+            deleteNode(treeNodeTnt, item);
+            treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
+         }
+         else if (item is SquareBlock)
+         {
+            level.squareBlocks.Remove((SquareBlock)item);
+            deleteNode(treeNodeBlock, item);
+            treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
+         }
+         else if (item is Vehicle)
+         {
+            level.vehicles.Remove((Vehicle)item);
+            deleteNode(treeNodeVehicle, item);
+            treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
+         }
+         else if (item is Building)
+         {
+            level.buildings.Remove((Building)item);
+            deleteNode(treeNodeBuilding, item);
+            treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
+         }
+         SelectItem(null);
+      }
+
       private void SaveFile()
       {
          if (rom != null)
@@ -1482,6 +1494,21 @@ namespace BlastCorpsEditor
       {
          setAddTool(sender);
          blastCorpsViewer.AddType = typeof(Building);
+      }
+
+      private void treeViewObjects_KeyDown(object sender, KeyEventArgs e)
+      {
+         if (e.KeyCode == Keys.Delete)
+         {
+            TreeNode node = treeViewObjects.SelectedNode;
+            if (node != null && node.Tag != null)
+            {
+               BlastCorpsItem item = (BlastCorpsItem)node.Tag;
+               DeleteItem(item);
+               SetSelectedItem(null);
+            }
+            blastCorpsViewer.Invalidate();
+         }
       }
    }
 }

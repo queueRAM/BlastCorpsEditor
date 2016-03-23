@@ -30,13 +30,13 @@
         {
          this.components = new System.ComponentModel.Container();
          System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
-         System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Ammo Boxes", 1, 1);
-         System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Communcation Points", 4, 4);
-         System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RDUs", 5, 5);
-         System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("TNT Crates", 6, 6);
-         System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Square Blocks", 7, 7);
-         System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Vehicles", 12, 12);
-         System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Buildings", 25, 25);
+         System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
+         System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
+         System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
+         System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
+         System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
+         System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Vehicles [0]", 12, 12);
+         System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Buildings [0]", 25, 25);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -352,31 +352,31 @@
          treeNode10.ImageIndex = 1;
          treeNode10.Name = "nodeAmmo";
          treeNode10.SelectedImageIndex = 1;
-         treeNode10.Text = "Ammo Boxes";
+         treeNode10.Text = "Ammo Boxes [0]";
          treeNode11.ImageIndex = 4;
          treeNode11.Name = "nodeCommPt";
          treeNode11.SelectedImageIndex = 4;
-         treeNode11.Text = "Communcation Points";
+         treeNode11.Text = "Communcation Points [0]";
          treeNode12.ImageIndex = 5;
          treeNode12.Name = "nodeRdu";
          treeNode12.SelectedImageIndex = 5;
-         treeNode12.Text = "RDUs";
+         treeNode12.Text = "RDUs [0]";
          treeNode13.ImageIndex = 6;
          treeNode13.Name = "nodeTnt";
          treeNode13.SelectedImageIndex = 6;
-         treeNode13.Text = "TNT Crates";
+         treeNode13.Text = "TNT Crates [0]";
          treeNode14.ImageIndex = 7;
          treeNode14.Name = "nodeBlock";
          treeNode14.SelectedImageIndex = 7;
-         treeNode14.Text = "Square Blocks";
+         treeNode14.Text = "Square Blocks [0]";
          treeNode15.ImageIndex = 12;
          treeNode15.Name = "nodeVehicle";
          treeNode15.SelectedImageIndex = 12;
-         treeNode15.Text = "Vehicles";
+         treeNode15.Text = "Vehicles [0]";
          treeNode16.ImageIndex = 25;
          treeNode16.Name = "nodeBuilding";
          treeNode16.SelectedImageIndex = 25;
-         treeNode16.Text = "Buildings";
+         treeNode16.Text = "Buildings [0]";
          this.treeViewObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode9,
             treeNode10,
@@ -391,6 +391,7 @@
          this.treeViewObjects.Size = new System.Drawing.Size(324, 461);
          this.treeViewObjects.TabIndex = 24;
          this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_AfterSelect);
+         this.treeViewObjects.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewObjects_KeyDown);
          // 
          // imageListObjects
          // 
@@ -1042,10 +1043,12 @@
          // 
          // blastCorpsViewer
          // 
+         this.blastCorpsViewer.AddType = null;
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
          this.blastCorpsViewer.Location = new System.Drawing.Point(0, 28);
+         this.blastCorpsViewer.Mode = BlastCorpsEditor.MouseMode.Move;
          this.blastCorpsViewer.Name = "blastCorpsViewer";
          this.blastCorpsViewer.SelectedItem = null;
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
