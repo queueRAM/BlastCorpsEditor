@@ -10,6 +10,11 @@ Tools for hacking the Blast Corps ROM for N64.
 * Edit gravity and other level header data
 
 ### Changelog ###
+0.0.4: UI Cleanup, V1.0 Support, Tools
+* add support for extending (U) (V1.0) ROM
+* use TreeView in UI for object list and common properties area
+* allow adding and removing objects from level
+
 0.0.3: More details on comm points and buildings
 * add control for comm point H6 value to control animation
 * add more descriptive fields for buildings
