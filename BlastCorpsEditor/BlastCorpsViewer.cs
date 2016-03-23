@@ -2,29 +2,10 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace BlastCorpsEditor
 {
-   public delegate void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e);
-   public class SelectionChangedEventArgs : EventArgs
-   {
-      public BlastCorpsItem SelectedItem { get; set; }
-      public SelectionChangedEventArgs(BlastCorpsItem item)
-      {
-         this.SelectedItem = item;
-      }
-   }
-
-   public delegate void PositionEventHandler(object sender, PositionEventArgs e);
-   public class PositionEventArgs : EventArgs
-   {
-      public string Position { get; set; }
-      public PositionEventArgs(string position)
-      {
-         this.Position = position;
-      }
-   }
-
    public partial class BlastCorpsViewer : UserControl
    {
       private BlastCorpsLevel level;
@@ -34,16 +15,45 @@ namespace BlastCorpsEditor
       private float zoom = 1;
       private int offX, offY;
 
+      // cursors
+      private Cursor cursorPlus;
+      private Cursor cursorMove;
+
+      private MouseMode mouseMode;
+
       // item selected either in list or by clicking
       private BlastCorpsItem selectedItem = null;
       // click and drag related
       private BlastCorpsItem dragItem = null;
+
+      public MouseMode Mode
+      {
+         get
+         {
+            return mouseMode;
+         }
+         set
+         {
+            mouseMode = value;
+            switch (mouseMode)
+            {
+               case MouseMode.Move: this.Cursor = cursorMove; break;
+               case MouseMode.Add: this.Cursor = cursorPlus; break;
+            }
+         }
+      }
+
+      public Type AddType { get; set; }
 
       public BlastCorpsViewer()
       {
          InitializeComponent();
          DoubleBuffered = true;
          ResizeRedraw = true;
+
+         // create cursors
+         cursorPlus = new Cursor(new MemoryStream(BlastCorpsEditor.Properties.Resources.cursor_plus));
+         cursorMove = new Cursor(new MemoryStream(BlastCorpsEditor.Properties.Resources.cursor_move));
       }
 
       // selected item changed event
@@ -347,114 +357,220 @@ namespace BlastCorpsEditor
 
       private void BlastCorpsViewer_MouseMove(object sender, MouseEventArgs e)
       {
-         if (level != null)
+         switch (Mode)
          {
-            Int16 x = (Int16)levelX(e.X);
-            Int16 z = (Int16)levelZ(e.Y);
-            string text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
-            OnPositionEvent(new PositionEventArgs(text));
-            if (dragItem != null)
-            {
-               dragItem.x = x;
-               dragItem.z = z;
-               Invalidate();
-            }
+            case MouseMode.Move:
+               if (level != null)
+               {
+                  Int16 x = (Int16)levelX(e.X);
+                  Int16 z = (Int16)levelZ(e.Y);
+                  string text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
+                  OnPositionEvent(new PositionEventArgs(text));
+                  if (dragItem != null)
+                  {
+                     dragItem.x = x;
+                     dragItem.z = z;
+                     Invalidate();
+                  }
+               }
+               break;
+            case MouseMode.Add:
+               break;
          }
       }
 
       private void BlastCorpsViewer_MouseDown(object sender, MouseEventArgs e)
       {
-         if (level != null)
+         switch (Mode)
          {
-            // find something to move
-            int x = levelX(e.X);
-            int z = levelZ(e.Y);
-            int diff = levelX(0) - levelX(4);
-
-            foreach (AmmoBox ammo in level.ammoBoxes)
-            {
-               if (Math.Abs(x - ammo.x) < diff && Math.Abs(z - ammo.z) < diff)
+            case MouseMode.Move:
+               if (level != null)
                {
-                  dragItem = ammo;
-                  break;
+                  // find something to move
+                  int x = levelX(e.X);
+                  int z = levelZ(e.Y);
+                  int diff = levelX(0) - levelX(4);
+
+                  foreach (AmmoBox ammo in level.ammoBoxes)
+                  {
+                     if (Math.Abs(x - ammo.x) < diff && Math.Abs(z - ammo.z) < diff)
+                     {
+                        dragItem = ammo;
+                        break;
+                     }
+                  }
+
+                  foreach (CommPoint comm in level.commPoints)
+                  {
+                     if (Math.Abs(x - comm.x) < diff && Math.Abs(z - comm.z) < diff)
+                     {
+                        dragItem = comm;
+                        break;
+                     }
+                  }
+
+                  foreach (RDU rdu in level.rdus)
+                  {
+                     if (Math.Abs(x - rdu.x) < diff && Math.Abs(z - rdu.z) < diff)
+                     {
+                        dragItem = rdu;
+                        break;
+                     }
+                  }
+
+                  foreach (TNTCrate tnt in level.tntCrates)
+                  {
+                     if (Math.Abs(x - tnt.x) < diff && Math.Abs(z - tnt.z) < diff)
+                     {
+                        dragItem = tnt;
+                        break;
+                     }
+                  }
+
+                  foreach (SquareBlock block in level.squareBlocks)
+                  {
+                     if (Math.Abs(x - block.x) < diff && Math.Abs(z - block.z) < diff)
+                     {
+                        dragItem = block;
+                        break;
+                     }
+                  }
+
+                  foreach (Vehicle veh in level.vehicles)
+                  {
+                     if (Math.Abs(x - veh.x) < diff && Math.Abs(z - veh.z) < diff)
+                     {
+                        dragItem = veh;
+                        break;
+                     }
+                  }
+
+                  if (Math.Abs(x - level.carrier.x) < diff && Math.Abs(z - level.carrier.z) < diff)
+                  {
+                     dragItem = level.carrier;
+                  }
+
+                  foreach (Building b in level.buildings)
+                  {
+                     if (Math.Abs(x - b.x) < diff && Math.Abs(z - b.z) < diff)
+                     {
+                        dragItem = b;
+                        break;
+                     }
+                  }
+
+                  if (dragItem != null)
+                  {
+                     Invalidate();
+                  }
                }
-            }
-
-            foreach (CommPoint comm in level.commPoints)
-            {
-               if (Math.Abs(x - comm.x) < diff && Math.Abs(z - comm.z) < diff)
-               {
-                  dragItem = comm;
-                  break;
-               }
-            }
-
-            foreach (RDU rdu in level.rdus)
-            {
-               if (Math.Abs(x - rdu.x) < diff && Math.Abs(z - rdu.z) < diff)
-               {
-                  dragItem = rdu;
-                  break;
-               }
-            }
-
-            foreach (TNTCrate tnt in level.tntCrates)
-            {
-               if (Math.Abs(x - tnt.x) < diff && Math.Abs(z - tnt.z) < diff)
-               {
-                  dragItem = tnt;
-                  break;
-               }
-            }
-
-            foreach (SquareBlock block in level.squareBlocks)
-            {
-               if (Math.Abs(x - block.x) < diff && Math.Abs(z - block.z) < diff)
-               {
-                  dragItem = block;
-                  break;
-               }
-            }
-
-            foreach (Vehicle veh in level.vehicles)
-            {
-               if (Math.Abs(x - veh.x) < diff && Math.Abs(z - veh.z) < diff)
-               {
-                  dragItem = veh;
-                  break;
-               }
-            }
-
-            if (Math.Abs(x - level.carrier.x) < diff && Math.Abs(z - level.carrier.z) < diff)
-            {
-               dragItem = level.carrier;
-            }
-
-            foreach (Building b in level.buildings)
-            {
-               if (Math.Abs(x - b.x) < diff && Math.Abs(z - b.z) < diff)
-               {
-                  dragItem = b;
-                  break;
-               }
-            }
-
-            if (dragItem != null)
-            {
-               Invalidate();
-            }
+               break;
+            case MouseMode.Add:
+               break;
          }
       }
 
       private void BlastCorpsViewer_MouseUp(object sender, MouseEventArgs e)
       {
-         if (dragItem != null)
+         switch (Mode)
          {
-            selectedItem = dragItem;
-            OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem));
-            dragItem = null;
-            Invalidate();
+            case MouseMode.Move:
+               if (dragItem != null)
+               {
+                  selectedItem = dragItem;
+                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
+                  dragItem = null;
+                  Invalidate();
+               }
+               break;
+            case MouseMode.Add:
+               Int16 x = (Int16)levelX(e.X);
+               Int16 z = (Int16)levelZ(e.Y);
+               if (AddType == typeof(AmmoBox))
+               {
+                  AmmoBox box = new AmmoBox(x, level.carrier.y, z, 0);
+                  selectedItem = box;
+                  level.ammoBoxes.Add(box);
+               }
+               else if (AddType == typeof(CommPoint))
+               {
+                  CommPoint comm = new CommPoint(x, level.carrier.y, z, 0);
+                  selectedItem = comm;
+                  level.commPoints.Add(comm);
+               }
+               else if (AddType == typeof(RDU))
+               {
+                  RDU rdu = new RDU(x, level.carrier.y, z);
+                  selectedItem = rdu;
+                  level.rdus.Add(rdu);
+               }
+               else if (AddType == typeof(TNTCrate))
+               {
+                  TNTCrate tnt = new TNTCrate(x, level.carrier.y, z, 0, 0, 0, 0);
+                  selectedItem = tnt;
+                  level.tntCrates.Add(tnt);
+               }
+               else if (AddType == typeof(SquareBlock))
+               {
+                  SquareBlock block = new SquareBlock(x, level.carrier.y, z, 0, 0);
+                  selectedItem = block;
+                  level.squareBlocks.Add(block);
+               }
+               else if (AddType == typeof(Vehicle))
+               {
+                  Vehicle vehicle = new Vehicle(0, x, level.carrier.y, z, 0);
+                  selectedItem = vehicle;
+                  level.vehicles.Add(vehicle);
+               }
+               else if (AddType == typeof(Building))
+               {
+                  Building building = new Building(x, level.carrier.y, z, 0, 0, 0, 0, 0);
+                  selectedItem = building;
+                  level.buildings.Add(building);
+               }
+               OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, true, false));
+               Invalidate();
+               break;
+         }
+      }
+
+      private void BlastCorpsViewer_KeyDown(object sender, KeyEventArgs e)
+      {
+         if (selectedItem != null)
+         {
+            if (e.KeyCode == Keys.Delete)
+            {
+               OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, true));
+               selectedItem = null;
+               Invalidate();
+            }
          }
       }
    }
+
+   public delegate void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e);
+   public class SelectionChangedEventArgs : EventArgs
+   {
+      public BlastCorpsItem SelectedItem { get; set; }
+      public bool IsAdded { get; set; }
+      public bool IsDeleted { get; set; }
+      public SelectionChangedEventArgs(BlastCorpsItem item, bool added, bool deleted)
+      {
+         this.SelectedItem = item;
+         this.IsAdded = added;
+         this.IsDeleted = deleted;
+      }
+   }
+
+   public delegate void PositionEventHandler(object sender, PositionEventArgs e);
+   public class PositionEventArgs : EventArgs
+   {
+      public string Position { get; set; }
+      public PositionEventArgs(string position)
+      {
+         this.Position = position;
+      }
+   }
+
+   public enum MouseMode { Move, Add };
 }

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
-         System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Ammo Boxes", 1, 1);
-         System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Communcation Points", 4, 4);
-         System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("RDUs", 5, 5);
-         System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TNT Crates", 6, 6);
-         System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Square Blocks", 7, 7);
-         System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Vehicles", 12, 12);
-         System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Buildings", 25, 25);
+         System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
+         System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Ammo Boxes", 1, 1);
+         System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Communcation Points", 4, 4);
+         System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RDUs", 5, 5);
+         System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("TNT Crates", 6, 6);
+         System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Square Blocks", 7, 7);
+         System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Vehicles", 12, 12);
+         System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Buildings", 25, 25);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -99,10 +99,21 @@
          this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
          this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-         this.comboBoxLevel = new System.Windows.Forms.ComboBox();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-         this.label1 = new System.Windows.Forms.Label();
+         this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+         this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+         this.toolStripComboBoxLevel = new System.Windows.Forms.ToolStripComboBox();
+         this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+         this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+         this.toolStripButtonMove = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonAmmo = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonCommPt = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonRdu = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonTnt = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonBlock = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonVehicle = new System.Windows.Forms.ToolStripButton();
+         this.toolStripButtonBuilding = new System.Windows.Forms.ToolStripButton();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
@@ -130,6 +141,7 @@
          this.splitContainer1.Panel1.SuspendLayout();
          this.splitContainer1.Panel2.SuspendLayout();
          this.splitContainer1.SuspendLayout();
+         this.toolStrip1.SuspendLayout();
          this.SuspendLayout();
          // 
          // statusStrip
@@ -306,10 +318,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.tabControlItems.Controls.Add(this.tabPageObjects);
          this.tabControlItems.Controls.Add(this.tabPageHeader);
-         this.tabControlItems.Location = new System.Drawing.Point(3, 30);
+         this.tabControlItems.Location = new System.Drawing.Point(3, 3);
          this.tabControlItems.Name = "tabControlItems";
          this.tabControlItems.SelectedIndex = 0;
-         this.tabControlItems.Size = new System.Drawing.Size(339, 633);
+         this.tabControlItems.Size = new System.Drawing.Size(339, 660);
          this.tabControlItems.TabIndex = 4;
          // 
          // tabPageObjects
@@ -318,7 +330,7 @@
          this.tabPageObjects.Controls.Add(this.groupBoxProperties);
          this.tabPageObjects.Location = new System.Drawing.Point(4, 22);
          this.tabPageObjects.Name = "tabPageObjects";
-         this.tabPageObjects.Size = new System.Drawing.Size(331, 607);
+         this.tabPageObjects.Size = new System.Drawing.Size(331, 634);
          this.tabPageObjects.TabIndex = 4;
          this.tabPageObjects.Text = "Objects";
          this.tabPageObjects.UseVisualStyleBackColor = true;
@@ -333,49 +345,50 @@
          this.treeViewObjects.ImageList = this.imageListObjects;
          this.treeViewObjects.Location = new System.Drawing.Point(4, 170);
          this.treeViewObjects.Name = "treeViewObjects";
-         treeNode1.ImageIndex = 24;
-         treeNode1.Name = "nodeCarrier";
-         treeNode1.SelectedImageIndex = 24;
-         treeNode1.Text = "Carrier";
-         treeNode2.ImageIndex = 1;
-         treeNode2.Name = "nodeAmmo";
-         treeNode2.SelectedImageIndex = 1;
-         treeNode2.Text = "Ammo Boxes";
-         treeNode3.ImageIndex = 4;
-         treeNode3.Name = "nodeCommPt";
-         treeNode3.SelectedImageIndex = 4;
-         treeNode3.Text = "Communcation Points";
-         treeNode4.ImageIndex = 5;
-         treeNode4.Name = "nodeRdu";
-         treeNode4.SelectedImageIndex = 5;
-         treeNode4.Text = "RDUs";
-         treeNode5.ImageIndex = 6;
-         treeNode5.Name = "nodeTnt";
-         treeNode5.SelectedImageIndex = 6;
-         treeNode5.Text = "TNT Crates";
-         treeNode6.ImageIndex = 7;
-         treeNode6.Name = "nodeBlock";
-         treeNode6.SelectedImageIndex = 7;
-         treeNode6.Text = "Square Blocks";
-         treeNode7.ImageIndex = 12;
-         treeNode7.Name = "nodeVehicle";
-         treeNode7.SelectedImageIndex = 12;
-         treeNode7.Text = "Vehicles";
-         treeNode8.ImageIndex = 25;
-         treeNode8.Name = "nodeBuilding";
-         treeNode8.SelectedImageIndex = 25;
-         treeNode8.Text = "Buildings";
+         treeNode9.ImageIndex = 24;
+         treeNode9.Name = "nodeCarrier";
+         treeNode9.SelectedImageIndex = 24;
+         treeNode9.Text = "Carrier";
+         treeNode10.ImageIndex = 1;
+         treeNode10.Name = "nodeAmmo";
+         treeNode10.SelectedImageIndex = 1;
+         treeNode10.Text = "Ammo Boxes";
+         treeNode11.ImageIndex = 4;
+         treeNode11.Name = "nodeCommPt";
+         treeNode11.SelectedImageIndex = 4;
+         treeNode11.Text = "Communcation Points";
+         treeNode12.ImageIndex = 5;
+         treeNode12.Name = "nodeRdu";
+         treeNode12.SelectedImageIndex = 5;
+         treeNode12.Text = "RDUs";
+         treeNode13.ImageIndex = 6;
+         treeNode13.Name = "nodeTnt";
+         treeNode13.SelectedImageIndex = 6;
+         treeNode13.Text = "TNT Crates";
+         treeNode14.ImageIndex = 7;
+         treeNode14.Name = "nodeBlock";
+         treeNode14.SelectedImageIndex = 7;
+         treeNode14.Text = "Square Blocks";
+         treeNode15.ImageIndex = 12;
+         treeNode15.Name = "nodeVehicle";
+         treeNode15.SelectedImageIndex = 12;
+         treeNode15.Text = "Vehicles";
+         treeNode16.ImageIndex = 25;
+         treeNode16.Name = "nodeBuilding";
+         treeNode16.SelectedImageIndex = 25;
+         treeNode16.Text = "Buildings";
          this.treeViewObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14,
+            treeNode15,
+            treeNode16});
          this.treeViewObjects.SelectedImageIndex = 0;
-         this.treeViewObjects.Size = new System.Drawing.Size(324, 434);
+         this.treeViewObjects.ShowLines = false;
+         this.treeViewObjects.Size = new System.Drawing.Size(324, 461);
          this.treeViewObjects.TabIndex = 24;
          this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_AfterSelect);
          // 
@@ -450,7 +463,7 @@
          this.tabPageHeader.Location = new System.Drawing.Point(4, 22);
          this.tabPageHeader.Name = "tabPageHeader";
          this.tabPageHeader.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageHeader.Size = new System.Drawing.Size(331, 607);
+         this.tabPageHeader.Size = new System.Drawing.Size(331, 634);
          this.tabPageHeader.TabIndex = 3;
          this.tabPageHeader.Text = "Header";
          this.tabPageHeader.UseVisualStyleBackColor = true;
@@ -485,7 +498,7 @@
          this.numericGravity.Size = new System.Drawing.Size(69, 20);
          this.numericGravity.TabIndex = 9;
          this.toolTip1.SetToolTip(this.numericGravity, "Values in ROM:\r\n  -2: planets\r\n  -4: for Earth levels\r\nTested range:\r\n   0: never" +
-        " drop down\r\n  -8: stuck to ground, dirving issues");
+        " drop down\r\n  -8: stuck to ground, driving problems");
          this.numericGravity.ValueChanged += new System.EventHandler(this.numericGravity_ValueChanged);
          // 
          // label43
@@ -860,7 +873,7 @@
          this.listViewHeaders.GridLines = true;
          this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
          this.listViewHeaders.Name = "listViewHeaders";
-         this.listViewHeaders.Size = new System.Drawing.Size(153, 594);
+         this.listViewHeaders.Size = new System.Drawing.Size(153, 621);
          this.listViewHeaders.TabIndex = 13;
          this.listViewHeaders.UseCompatibleStateImageBehavior = false;
          this.listViewHeaders.View = System.Windows.Forms.View.Details;
@@ -880,21 +893,6 @@
          this.columnHeader3.Text = "Length";
          this.columnHeader3.Width = 55;
          // 
-         // comboBoxLevel
-         // 
-         this.comboBoxLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.comboBoxLevel.DropDownHeight = 500;
-         this.comboBoxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.comboBoxLevel.Enabled = false;
-         this.comboBoxLevel.FormattingEnabled = true;
-         this.comboBoxLevel.IntegralHeight = false;
-         this.comboBoxLevel.Location = new System.Drawing.Point(46, 3);
-         this.comboBoxLevel.Name = "comboBoxLevel";
-         this.comboBoxLevel.Size = new System.Drawing.Size(297, 21);
-         this.comboBoxLevel.TabIndex = 8;
-         this.comboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLevel_SelectedIndexChanged);
-         // 
          // splitContainer1
          // 
          this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -905,36 +903,155 @@
          // 
          // splitContainer1.Panel1
          // 
-         this.splitContainer1.Panel1.Controls.Add(this.label1);
-         this.splitContainer1.Panel1.Controls.Add(this.comboBoxLevel);
          this.splitContainer1.Panel1.Controls.Add(this.tabControlItems);
          // 
          // splitContainer1.Panel2
          // 
+         this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
          this.splitContainer1.Panel2.Controls.Add(this.blastCorpsViewer);
          this.splitContainer1.Size = new System.Drawing.Size(1035, 666);
          this.splitContainer1.SplitterDistance = 345;
          this.splitContainer1.TabIndex = 9;
          // 
-         // label1
+         // toolStrip1
          // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(4, 6);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(36, 13);
-         this.label1.TabIndex = 9;
-         this.label1.Text = "Level:";
+         this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+         this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripComboBoxLevel,
+            this.toolStripSeparator1,
+            this.toolStripLabel2,
+            this.toolStripButtonMove,
+            this.toolStripButtonAmmo,
+            this.toolStripButtonCommPt,
+            this.toolStripButtonRdu,
+            this.toolStripButtonTnt,
+            this.toolStripButtonBlock,
+            this.toolStripButtonVehicle,
+            this.toolStripButtonBuilding});
+         this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+         this.toolStrip1.Name = "toolStrip1";
+         this.toolStrip1.Size = new System.Drawing.Size(686, 25);
+         this.toolStrip1.TabIndex = 8;
+         this.toolStrip1.Text = "toolStrip1";
+         // 
+         // toolStripLabel1
+         // 
+         this.toolStripLabel1.Name = "toolStripLabel1";
+         this.toolStripLabel1.Size = new System.Drawing.Size(37, 22);
+         this.toolStripLabel1.Text = "Level:";
+         // 
+         // toolStripComboBoxLevel
+         // 
+         this.toolStripComboBoxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.toolStripComboBoxLevel.Enabled = false;
+         this.toolStripComboBoxLevel.Name = "toolStripComboBoxLevel";
+         this.toolStripComboBoxLevel.Size = new System.Drawing.Size(200, 25);
+         this.toolStripComboBoxLevel.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxLevel_SelectedIndexChanged);
+         // 
+         // toolStripSeparator1
+         // 
+         this.toolStripSeparator1.Name = "toolStripSeparator1";
+         this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+         // 
+         // toolStripLabel2
+         // 
+         this.toolStripLabel2.Name = "toolStripLabel2";
+         this.toolStripLabel2.Size = new System.Drawing.Size(39, 22);
+         this.toolStripLabel2.Text = "Tools:";
+         // 
+         // toolStripButtonMove
+         // 
+         this.toolStripButtonMove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonMove.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonMove.Image")));
+         this.toolStripButtonMove.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonMove.Name = "toolStripButtonMove";
+         this.toolStripButtonMove.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonMove.Text = "Move";
+         this.toolStripButtonMove.Click += new System.EventHandler(this.toolStripButtonMove_Click);
+         // 
+         // toolStripButtonAmmo
+         // 
+         this.toolStripButtonAmmo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonAmmo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAmmo.Image")));
+         this.toolStripButtonAmmo.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonAmmo.Name = "toolStripButtonAmmo";
+         this.toolStripButtonAmmo.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonAmmo.Text = "Add Ammo Box";
+         this.toolStripButtonAmmo.Click += new System.EventHandler(this.toolStripButtonAmmo_Click);
+         // 
+         // toolStripButtonCommPt
+         // 
+         this.toolStripButtonCommPt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonCommPt.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCommPt.Image")));
+         this.toolStripButtonCommPt.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonCommPt.Name = "toolStripButtonCommPt";
+         this.toolStripButtonCommPt.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonCommPt.Text = "Add Communication Point";
+         this.toolStripButtonCommPt.Click += new System.EventHandler(this.toolStripButtonCommPt_Click);
+         // 
+         // toolStripButtonRdu
+         // 
+         this.toolStripButtonRdu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonRdu.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRdu.Image")));
+         this.toolStripButtonRdu.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonRdu.Name = "toolStripButtonRdu";
+         this.toolStripButtonRdu.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonRdu.Text = "Add RDU";
+         this.toolStripButtonRdu.Click += new System.EventHandler(this.toolStripButtonRdu_Click);
+         // 
+         // toolStripButtonTnt
+         // 
+         this.toolStripButtonTnt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonTnt.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonTnt.Image")));
+         this.toolStripButtonTnt.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonTnt.Name = "toolStripButtonTnt";
+         this.toolStripButtonTnt.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonTnt.Text = "Add TNT Crate";
+         this.toolStripButtonTnt.Click += new System.EventHandler(this.toolStripButtonTnt_Click);
+         // 
+         // toolStripButtonBlock
+         // 
+         this.toolStripButtonBlock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonBlock.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonBlock.Image")));
+         this.toolStripButtonBlock.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonBlock.Name = "toolStripButtonBlock";
+         this.toolStripButtonBlock.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonBlock.Text = "Add Square Block";
+         this.toolStripButtonBlock.Click += new System.EventHandler(this.toolStripButtonBlock_Click);
+         // 
+         // toolStripButtonVehicle
+         // 
+         this.toolStripButtonVehicle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonVehicle.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonVehicle.Image")));
+         this.toolStripButtonVehicle.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonVehicle.Name = "toolStripButtonVehicle";
+         this.toolStripButtonVehicle.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonVehicle.Text = "Add Vehicle";
+         this.toolStripButtonVehicle.Click += new System.EventHandler(this.toolStripButtonVehicle_Click);
+         // 
+         // toolStripButtonBuilding
+         // 
+         this.toolStripButtonBuilding.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonBuilding.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonBuilding.Image")));
+         this.toolStripButtonBuilding.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonBuilding.Name = "toolStripButtonBuilding";
+         this.toolStripButtonBuilding.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonBuilding.Text = "Add Building";
+         this.toolStripButtonBuilding.Click += new System.EventHandler(this.toolStripButtonBuilding_Click);
          // 
          // blastCorpsViewer
          // 
-         this.blastCorpsViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.blastCorpsViewer.Location = new System.Drawing.Point(0, 0);
+         this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.blastCorpsViewer.Location = new System.Drawing.Point(0, 28);
          this.blastCorpsViewer.Name = "blastCorpsViewer";
          this.blastCorpsViewer.SelectedItem = null;
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
          this.blastCorpsViewer.ShowBoundingBoxes44 = false;
          this.blastCorpsViewer.ShowGridLines = false;
-         this.blastCorpsViewer.Size = new System.Drawing.Size(686, 666);
+         this.blastCorpsViewer.Size = new System.Drawing.Size(686, 638);
          this.blastCorpsViewer.TabIndex = 7;
          // 
          // BlastCorpsEditorForm
@@ -976,10 +1093,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.numericHeader0C)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.numericHeader0A)).EndInit();
          this.splitContainer1.Panel1.ResumeLayout(false);
-         this.splitContainer1.Panel1.PerformLayout();
          this.splitContainer1.Panel2.ResumeLayout(false);
+         this.splitContainer1.Panel2.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
          this.splitContainer1.ResumeLayout(false);
+         this.toolStrip1.ResumeLayout(false);
+         this.toolStrip1.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -1004,7 +1123,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridLinesToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPageHeader;
-        private System.Windows.Forms.ComboBox comboBoxLevel;
         private System.Windows.Forms.TabPage tabPageObjects;
         private System.Windows.Forms.ToolStripMenuItem boundingBoxes0x40ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem boundingBoxes0x44ToolStripMenuItem;
@@ -1050,9 +1168,21 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBoxProperties;
         private System.Windows.Forms.TreeView treeViewObjects;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutProperties;
         private System.Windows.Forms.ImageList imageListObjects;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCommPt;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRdu;
+        private System.Windows.Forms.ToolStripButton toolStripButtonTnt;
+        private System.Windows.Forms.ToolStripButton toolStripButtonBlock;
+        private System.Windows.Forms.ToolStripButton toolStripButtonVehicle;
+        private System.Windows.Forms.ToolStripButton toolStripButtonBuilding;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLevel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAmmo;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMove;
     }
 }
 

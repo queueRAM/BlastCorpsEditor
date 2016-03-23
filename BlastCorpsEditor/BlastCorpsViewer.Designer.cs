@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // BlastCorpsViewer
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "BlastCorpsViewer";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.BlastCorpsViewer_Paint);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseUp);
-            this.Resize += new System.EventHandler(this.BlastCorpsViewer_Resize);
-            this.ResumeLayout(false);
+         this.SuspendLayout();
+         // 
+         // BlastCorpsViewer
+         // 
+         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+         this.Name = "BlastCorpsViewer";
+         this.Paint += new System.Windows.Forms.PaintEventHandler(this.BlastCorpsViewer_Paint);
+         this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BlastCorpsViewer_KeyDown);
+         this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseDown);
+         this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseMove);
+         this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BlastCorpsViewer_MouseUp);
+         this.Resize += new System.EventHandler(this.BlastCorpsViewer_Resize);
+         this.ResumeLayout(false);
 
         }
 

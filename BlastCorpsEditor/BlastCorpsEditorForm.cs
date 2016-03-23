@@ -14,6 +14,14 @@ namespace BlastCorpsEditor
 
       private BlastCorpsItem itemSel;
 
+      // TreeView
+      private const int ICON_AMMO = 2;
+      private const int ICON_COMM = 4;
+      private const int ICON_RDU = 5;
+      private const int ICON_TNT = 6;
+      private const int ICON_BLOCK = 7;
+      private const int ICON_VEHICLE = 8;
+      private const int ICON_BUILDING = 25;
       // top level tree view nodes
       private TreeNode treeNodeCarrier;
       private TreeNode treeNodeAmmo;
@@ -61,14 +69,88 @@ namespace BlastCorpsEditor
       public BlastCorpsEditorForm()
       {
          InitializeComponent();
-         comboBoxLevel.DataSource = BlastCorpsRom.levelMeta;
+         toolStripComboBoxLevel.ComboBox.DataSource = BlastCorpsRom.levelMeta;
          blastCorpsViewer.PositionEvent += delegate(Object sender, PositionEventArgs e)
          {
             statusStripMessage.Text = e.Position;
          };
          blastCorpsViewer.SelectionChangedEvent += delegate(Object sender, SelectionChangedEventArgs e)
          {
-            SelectItem(e.SelectedItem);
+            // if new object, add it to the tree
+            if (e.IsAdded)
+            {
+               if (e.SelectedItem is AmmoBox)
+               {
+                  addAmmoNode((AmmoBox)e.SelectedItem);
+               }
+               else if (e.SelectedItem is CommPoint)
+               {
+                  addCommPtNode((CommPoint)e.SelectedItem);
+               }
+               else if (e.SelectedItem is RDU)
+               {
+                  addRduNode((RDU)e.SelectedItem);
+               }
+               else if (e.SelectedItem is TNTCrate)
+               {
+                  addTntNode((TNTCrate)e.SelectedItem);
+               }
+               else if (e.SelectedItem is SquareBlock)
+               {
+                  addBlockNode((SquareBlock)e.SelectedItem);
+               }
+               else if (e.SelectedItem is Vehicle)
+               {
+                  addVehicleNode((Vehicle)e.SelectedItem);
+               }
+               else if (e.SelectedItem is Building)
+               {
+                  addBuildingNode((Building)e.SelectedItem);
+               }
+            }
+            if (e.IsDeleted)
+            {
+               if (e.SelectedItem is AmmoBox)
+               {
+                  level.ammoBoxes.Remove((AmmoBox)e.SelectedItem);
+                  deleteNode(treeNodeAmmo, e.SelectedItem);
+               }
+               else if (e.SelectedItem is CommPoint)
+               {
+                  level.commPoints.Remove((CommPoint)e.SelectedItem);
+                  deleteNode(treeNodeCommPt, e.SelectedItem);
+               }
+               else if (e.SelectedItem is RDU)
+               {
+                  level.rdus.Remove((RDU)e.SelectedItem);
+                  deleteNode(treeNodeRdu, e.SelectedItem);
+               }
+               else if (e.SelectedItem is TNTCrate)
+               {
+                  level.tntCrates.Remove((TNTCrate)e.SelectedItem);
+                  deleteNode(treeNodeTnt, e.SelectedItem);
+               }
+               else if (e.SelectedItem is SquareBlock)
+               {
+                  level.squareBlocks.Remove((SquareBlock)e.SelectedItem);
+                  deleteNode(treeNodeBlock, e.SelectedItem);
+               }
+               else if (e.SelectedItem is Vehicle)
+               {
+                  level.vehicles.Remove((Vehicle)e.SelectedItem);
+                  deleteNode(treeNodeVehicle, e.SelectedItem);
+               }
+               else if (e.SelectedItem is Building)
+               {
+                  level.buildings.Remove((Building)e.SelectedItem);
+                  deleteNode(treeNodeBuilding, e.SelectedItem);
+               }
+               SelectItem(null);
+            }
+            else
+            {
+               SelectItem(e.SelectedItem);
+            }
          };
 
          // populate header NumericUpDowns
@@ -543,7 +625,7 @@ namespace BlastCorpsEditor
          blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
          blastCorpsViewer.SetLevel(level);
 
-         comboBoxLevel.Enabled = true;
+         toolStripComboBoxLevel.Enabled = true;
          saveToolStripMenuItem.Enabled = true;
          saveRunToolStripMenuItem.Enabled = true;
          exportLevelToolStripMenuItem.Enabled = true;
@@ -554,109 +636,148 @@ namespace BlastCorpsEditor
          SetSelectedItem(null);
       }
 
+      private void deleteNode(TreeNode root, BlastCorpsItem item)
+      {
+         foreach (TreeNode node in root.Nodes)
+         {
+            if (node.Tag == item)
+            {
+               root.Nodes.Remove(node);
+               break;
+            }
+         }
+      }
+
+      private void addAmmoNode(AmmoBox ammo)
+      {
+         int icon = ICON_AMMO + ammo.type;
+         TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
+         ammoNode.Tag = ammo;
+         treeNodeAmmo.Nodes.Add(ammoNode);
+         treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
+      }
+
+      private void addCommPtNode(CommPoint comm)
+      {
+         TreeNode commNode = new TreeNode(comm.ToString(), ICON_COMM, ICON_COMM);
+         commNode.Tag = comm;
+         treeNodeCommPt.Nodes.Add(commNode);
+         treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
+      }
+
+      private void addRduNode(RDU rdu)
+      {
+         TreeNode rduNode = new TreeNode(rdu.ToString(), ICON_RDU, ICON_RDU);
+         rduNode.Tag = rdu;
+         treeNodeRdu.Nodes.Add(rduNode);
+         treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
+      }
+
+      private void addTntNode(TNTCrate tnt)
+      {
+         TreeNode tntNode = new TreeNode(tnt.ToString(), ICON_TNT, ICON_TNT);
+         tntNode.Tag = tnt;
+         treeNodeTnt.Nodes.Add(tntNode);
+         treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
+      }
+
+      private void addBlockNode(SquareBlock block)
+      {
+         // TODO: diff icon for type?
+         TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
+         blockNode.Tag = block;
+         treeNodeBlock.Nodes.Add(blockNode);
+         treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
+      }
+
+      private void addVehicleNode(Vehicle vehicle)
+      {
+         int vehicleImage = 0;
+         switch (vehicle.type)
+         {
+            case 0x00: vehicleImage = ICON_VEHICLE; break;      // 00 Player          driver
+            case 0x01: vehicleImage = ICON_VEHICLE + 1; break;  // 01 Sideswipe       sideswipe
+            case 0x02: vehicleImage = ICON_VEHICLE + 2; break;  // 02 Thunderfist     magoo
+            case 0x03: vehicleImage = ICON_VEHICLE + 3; break;  // 03 Skyfall         buggy
+            case 0x04: vehicleImage = ICON_VEHICLE + 4; break;  // 04 Ramdozer        ramdozer
+            case 0x05: vehicleImage = ICON_VEHICLE + 5; break;  // 05 Backlash        truck
+            case 0x06: vehicleImage = ICON_VEHICLE + 6; break;  // 06 Crane           crane
+            case 0x07: vehicleImage = ICON_VEHICLE + 7; break;  // 07 Train           train
+            case 0x08: vehicleImage = ICON_VEHICLE + 8; break;  // 08 American Dream  hotrod
+            case 0x09: vehicleImage = ICON_VEHICLE + 9; break;  // 09 J-Bomb          jetpack
+            case 0x0A: vehicleImage = ICON_VEHICLE + 10; break; // 0A Ballista        bike
+            case 0x0B: vehicleImage = ICON_VEHICLE + 11; break; // 0B Boat 1          barge
+            // 0C - - -
+            case 0x0D: vehicleImage = ICON_VEHICLE + 12; break; // 0D Police Car      police
+            case 0x0E: vehicleImage = ICON_VEHICLE + 13; break; // 0E A-Team Van      ateam
+            case 0x0F: vehicleImage = ICON_VEHICLE + 14; break; // 0F Red Car         starski
+            case 0x10: vehicleImage = ICON_VEHICLE + 15; break; // 10 Cyclone Suit    minimagoo
+            case 0x11: vehicleImage = ICON_VEHICLE + 11; break; // 11 Boat 2          barge
+            case 0x12: vehicleImage = ICON_VEHICLE + 11; break; // 12 Boat 3          barge
+         }
+         TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
+         vehicleNode.Tag = vehicle;
+         treeNodeVehicle.Nodes.Add(vehicleNode);
+         treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
+      }
+
+      private void addBuildingNode(Building building)
+      {
+         TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
+         buildingNode.Tag = building;
+         treeNodeBuilding.Nodes.Add(buildingNode);
+         treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
+      }
+
       private void populateObjectTreeView()
       {
-         const int ICON_AMMO = 2;
-         const int ICON_COMM = 4;
-         const int ICON_RDU = 5;
-         const int ICON_TNT = 6;
-         const int ICON_BLOCK = 7;
-         const int ICON_VEHICLE = 8;
-         const int ICON_BUILDING = 25;
-
          treeNodeCarrier.Tag = level.carrier;
 
          treeNodeAmmo.Nodes.Clear();
-         treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
          foreach (AmmoBox ammo in level.ammoBoxes)
          {
-            int icon = ICON_AMMO + ammo.type;
-            TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
-            ammoNode.Tag = ammo;
-            treeNodeAmmo.Nodes.Add(ammoNode);
+            addAmmoNode(ammo);
          }
          treeNodeAmmo.Expand();
 
          treeNodeCommPt.Nodes.Clear();
-         treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
          foreach (CommPoint comm in level.commPoints)
          {
-            TreeNode commNode = new TreeNode(comm.ToString(), ICON_COMM, ICON_COMM);
-            commNode.Tag = comm;
-            treeNodeCommPt.Nodes.Add(commNode);
+            addCommPtNode(comm);
          }
          treeNodeCommPt.Expand();
 
          treeNodeRdu.Nodes.Clear();
-         treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
          foreach (RDU rdu in level.rdus)
          {
-            TreeNode rduNode = new TreeNode(rdu.ToString(), ICON_RDU, ICON_RDU);
-            rduNode.Tag = rdu;
-            treeNodeRdu.Nodes.Add(rduNode);
+            addRduNode(rdu);
          }
 
          treeNodeTnt.Nodes.Clear();
-         treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
          foreach (TNTCrate tnt in level.tntCrates)
          {
-            TreeNode tntNode = new TreeNode(tnt.ToString(), ICON_TNT, ICON_TNT);
-            tntNode.Tag = tnt;
-            treeNodeTnt.Nodes.Add(tntNode);
+            addTntNode(tnt);
          }
          treeNodeTnt.Expand();
 
          treeNodeBlock.Nodes.Clear();
-         treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
          foreach (SquareBlock block in level.squareBlocks)
          {
-            // TODO: diff icon for type?
-            TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
-            blockNode.Tag = block;
-            treeNodeBlock.Nodes.Add(blockNode);
+            addBlockNode(block);
          }
          treeNodeBlock.Expand();
 
          treeNodeVehicle.Nodes.Clear();
-         treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
          foreach (Vehicle vehicle in level.vehicles)
          {
-            int vehicleImage = 0;
-            switch (vehicle.type)
-            {
-               case 0x00: vehicleImage = ICON_VEHICLE; break;      // 00 Player          driver
-               case 0x01: vehicleImage = ICON_VEHICLE + 1; break;  // 01 Sideswipe       sideswipe
-               case 0x02: vehicleImage = ICON_VEHICLE + 2; break;  // 02 Thunderfist     magoo
-               case 0x03: vehicleImage = ICON_VEHICLE + 3; break;  // 03 Skyfall         buggy
-               case 0x04: vehicleImage = ICON_VEHICLE + 4; break;  // 04 Ramdozer        ramdozer
-               case 0x05: vehicleImage = ICON_VEHICLE + 5; break;  // 05 Backlash        truck
-               case 0x06: vehicleImage = ICON_VEHICLE + 6; break;  // 06 Crane           crane
-               case 0x07: vehicleImage = ICON_VEHICLE + 7; break;  // 07 Train           train
-               case 0x08: vehicleImage = ICON_VEHICLE + 8; break;  // 08 American Dream  hotrod
-               case 0x09: vehicleImage = ICON_VEHICLE + 9; break;  // 09 J-Bomb          jetpack
-               case 0x0A: vehicleImage = ICON_VEHICLE + 10; break; // 0A Ballista        bike
-               case 0x0B: vehicleImage = ICON_VEHICLE + 11; break; // 0B Boat 1          barge
-                                                                   // 0C - - -
-               case 0x0D: vehicleImage = ICON_VEHICLE + 12; break; // 0D Police Car      police
-               case 0x0E: vehicleImage = ICON_VEHICLE + 13; break; // 0E A-Team Van      ateam
-               case 0x0F: vehicleImage = ICON_VEHICLE + 14; break; // 0F Red Car         starski
-               case 0x10: vehicleImage = ICON_VEHICLE + 15; break; // 10 Cyclone Suit    minimagoo
-               case 0x11: vehicleImage = ICON_VEHICLE + 11; break; // 11 Boat 2          barge
-               case 0x12: vehicleImage = ICON_VEHICLE + 11; break; // 12 Boat 3          barge
-            }
-            TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
-            vehicleNode.Tag = vehicle;
-            treeNodeVehicle.Nodes.Add(vehicleNode);
+            addVehicleNode(vehicle);
          }
          treeNodeVehicle.Expand();
 
          treeNodeBuilding.Nodes.Clear();
-         treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
          foreach (Building building in level.buildings)
          {
-            TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
-            buildingNode.Tag = building;
-            treeNodeBuilding.Nodes.Add(buildingNode);
+            addBuildingNode(building);
          }
       }
 
@@ -849,9 +970,9 @@ namespace BlastCorpsEditor
          blastCorpsViewer.SelectedItem = itemSel;
       }
 
-      private void comboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)
+      private void toolStripComboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)
       {
-         BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)comboBoxLevel.SelectedItem;
+         BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)toolStripComboBoxLevel.SelectedItem;
          if (rom != null && levelMeta != null)
          {
             // write current level out to rom structure first
@@ -1182,7 +1303,7 @@ namespace BlastCorpsEditor
                      statusStripFile.ForeColor = Color.Black;
                      statusStripFile.Text = openFileDialog1.FileName;
                   }
-                  BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)comboBoxLevel.SelectedItem;
+                  BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)toolStripComboBoxLevel.SelectedItem;
                   if (levelMeta != null)
                   {
                      levelId = levelMeta.id;
@@ -1292,6 +1413,75 @@ namespace BlastCorpsEditor
             "  \u2022 SubDrag for the Universal N64 Compressor and notes\n" +
             "  \u2022 Everyone else who has helped along the way";
          MessageBox.Show(appName + " v" + version + "\n" + copyright + "\n\n" + thanks, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+      }
+
+      // Toolstrip Buttons
+      private void setAddTool(object sender)
+      {
+         ToolStripButton senderButton = (ToolStripButton)sender;
+         if (senderButton == toolStripButtonMove)
+         {
+            blastCorpsViewer.Mode = MouseMode.Move;
+         }
+         else
+         {
+            blastCorpsViewer.Mode = MouseMode.Add;
+         }
+         foreach (ToolStripItem item in ((ToolStripButton)sender).GetCurrentParent().Items)
+         {
+            if (item is ToolStripButton)
+            {
+               ToolStripButton button = (ToolStripButton)item;
+               button.Checked = (button == sender);
+            }
+         }
+      }
+
+      private void toolStripButtonMove_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+      }
+
+      private void toolStripButtonAmmo_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(AmmoBox);
+      }
+
+      private void toolStripButtonCommPt_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(CommPoint);
+      }
+
+      private void toolStripButtonRdu_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(RDU);
+      }
+
+      private void toolStripButtonTnt_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(TNTCrate);
+      }
+
+      private void toolStripButtonBlock_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(SquareBlock);
+      }
+
+      private void toolStripButtonVehicle_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(Vehicle);
+      }
+
+      private void toolStripButtonBuilding_Click(object sender, EventArgs e)
+      {
+         setAddTool(sender);
+         blastCorpsViewer.AddType = typeof(Building);
       }
    }
 }
