@@ -391,6 +391,9 @@ namespace BlastCorpsEditor
       // 0x00-0x20: Header
       private void decodeHeader(byte[] data)
       {
+         // save offset of display list which will be used for header offset 0x78 and up
+         UInt32 dlOffset = (UInt32)data.Length;
+
          // read in 12 u16s
          for (uint i = 0; i < header.u16s.Length; i++)
          {
@@ -403,6 +406,11 @@ namespace BlastCorpsEditor
          for (uint i = 0; i < header.offsets.Length; i++)
          {
             header.offsets[i] = BE.U32(data, 0x20 + i * 4);
+            // for 0x78 and up, save offset relative to display list
+            if (0x20 + i * 4 >= 0x78)
+            {
+               header.offsets[i] -= dlOffset;
+            }
          }
       }
 
@@ -934,16 +942,7 @@ namespace BlastCorpsEditor
          offset += BE.ToBytes(header.gravity, data, offset);
          offset += BE.ToBytes(header.u1C, data, offset);
 
-         // TODO: real offsets
-         offset = 0x78;
-         for (int i = 0; i < header.offsets.Length; i++)
-         {
-            if (i * 4 + 0x20 >= 0x78)
-            {
-               offset += BE.ToBytes(header.offsets[i], data, offset);
-            }
-         }
-
+         // data starts at 0xC8, fill in header offsets as we go
          offset = 0xC8;
          Array.Copy(vertData, 0, data, offset, vertData.Length);
          offset += vertData.Length;
@@ -1248,8 +1247,21 @@ namespace BlastCorpsEditor
          BE.ToBytes(offset, data, 0x74);
          offset += AppendArray(data, offset, copy74);
 
-         byte[] copy = new byte[offset];
-         Array.Copy(data, copy, offset);
+         int startDL = offset;
+
+         // update display list header offsets
+         offset = 0x78;
+         for (int i = 0; i < header.offsets.Length; i++)
+         {
+            if (i * 4 + 0x20 >= 0x78)
+            {
+               UInt32 dlOffset = (UInt32)(header.offsets[i] + startDL);
+               offset += BE.ToBytes(dlOffset, data, offset);
+            }
+         }
+
+         byte[] copy = new byte[startDL];
+         Array.Copy(data, copy, startDL);
 
          return copy;
       }
@@ -1282,7 +1294,7 @@ namespace BlastCorpsEditor
          level.decodeCollision6C(levelData);     // 0x6C
          level.decodeCollision70(levelData);     // 0x70
          level.decode74(levelData);              // 0x74 TODO
-         // TODO: 0x78-0x9C are beyond level length and may be in display list
+         // 0x78-0x9C are located in the display list data
          level.copyLevelData = levelData;
          level.displayList = displayListData;
          return level;
