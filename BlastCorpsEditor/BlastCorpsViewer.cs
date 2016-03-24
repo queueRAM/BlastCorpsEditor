@@ -143,6 +143,87 @@ namespace BlastCorpsEditor
          return (int)((Height - pixelY - offY) * zoom) + level.bounds.z1;
       }
 
+      private BlastCorpsItem FindNearbyItem(int pixelX, int pixelY)
+      {
+         BlastCorpsItem itemFound = null;
+         if (level != null)
+         {
+            // find something to select
+            int x = levelX(pixelX);
+            int z = levelZ(pixelY);
+            int diff = levelX(0) - levelX(4);
+
+            foreach (AmmoBox ammo in level.ammoBoxes)
+            {
+               if (Math.Abs(x - ammo.x) < diff && Math.Abs(z - ammo.z) < diff)
+               {
+                  itemFound = ammo;
+                  break;
+               }
+            }
+
+            foreach (CommPoint comm in level.commPoints)
+            {
+               if (Math.Abs(x - comm.x) < diff && Math.Abs(z - comm.z) < diff)
+               {
+                  itemFound = comm;
+                  break;
+               }
+            }
+
+            foreach (RDU rdu in level.rdus)
+            {
+               if (Math.Abs(x - rdu.x) < diff && Math.Abs(z - rdu.z) < diff)
+               {
+                  itemFound = rdu;
+                  break;
+               }
+            }
+
+            foreach (TNTCrate tnt in level.tntCrates)
+            {
+               if (Math.Abs(x - tnt.x) < diff && Math.Abs(z - tnt.z) < diff)
+               {
+                  itemFound = tnt;
+                  break;
+               }
+            }
+
+            foreach (SquareBlock block in level.squareBlocks)
+            {
+               if (Math.Abs(x - block.x) < diff && Math.Abs(z - block.z) < diff)
+               {
+                  itemFound = block;
+                  break;
+               }
+            }
+
+            foreach (Vehicle veh in level.vehicles)
+            {
+               if (Math.Abs(x - veh.x) < diff && Math.Abs(z - veh.z) < diff)
+               {
+                  itemFound = veh;
+                  break;
+               }
+            }
+
+            if (Math.Abs(x - level.carrier.x) < diff && Math.Abs(z - level.carrier.z) < diff)
+            {
+               itemFound = level.carrier;
+            }
+
+            foreach (Building b in level.buildings)
+            {
+               if (Math.Abs(x - b.x) < diff && Math.Abs(z - b.z) < diff)
+               {
+                  itemFound = b;
+                  break;
+               }
+            }
+         }
+         return itemFound;
+      }
+
       private void BlastCorpsViewer_Paint(object sender, PaintEventArgs e)
       {
          Brush ammoBrush = new SolidBrush(Color.LightBlue);
@@ -378,87 +459,6 @@ namespace BlastCorpsEditor
             case MouseMode.Add:
                break;
          }
-      }
-
-      private BlastCorpsItem FindNearbyItem(int pixelX, int pixelY)
-      {
-         BlastCorpsItem itemFound = null;
-         if (level != null)
-         {
-            // find something to select
-            int x = levelX(pixelX);
-            int z = levelZ(pixelY);
-            int diff = levelX(0) - levelX(4);
-
-            foreach (AmmoBox ammo in level.ammoBoxes)
-            {
-               if (Math.Abs(x - ammo.x) < diff && Math.Abs(z - ammo.z) < diff)
-               {
-                  itemFound = ammo;
-                  break;
-               }
-            }
-
-            foreach (CommPoint comm in level.commPoints)
-            {
-               if (Math.Abs(x - comm.x) < diff && Math.Abs(z - comm.z) < diff)
-               {
-                  itemFound = comm;
-                  break;
-               }
-            }
-
-            foreach (RDU rdu in level.rdus)
-            {
-               if (Math.Abs(x - rdu.x) < diff && Math.Abs(z - rdu.z) < diff)
-               {
-                  itemFound = rdu;
-                  break;
-               }
-            }
-
-            foreach (TNTCrate tnt in level.tntCrates)
-            {
-               if (Math.Abs(x - tnt.x) < diff && Math.Abs(z - tnt.z) < diff)
-               {
-                  itemFound = tnt;
-                  break;
-               }
-            }
-
-            foreach (SquareBlock block in level.squareBlocks)
-            {
-               if (Math.Abs(x - block.x) < diff && Math.Abs(z - block.z) < diff)
-               {
-                  itemFound = block;
-                  break;
-               }
-            }
-
-            foreach (Vehicle veh in level.vehicles)
-            {
-               if (Math.Abs(x - veh.x) < diff && Math.Abs(z - veh.z) < diff)
-               {
-                  itemFound = veh;
-                  break;
-               }
-            }
-
-            if (Math.Abs(x - level.carrier.x) < diff && Math.Abs(z - level.carrier.z) < diff)
-            {
-               itemFound = level.carrier;
-            }
-
-            foreach (Building b in level.buildings)
-            {
-               if (Math.Abs(x - b.x) < diff && Math.Abs(z - b.z) < diff)
-               {
-                  itemFound = b;
-                  break;
-               }
-            }
-         }
-         return itemFound;
       }
 
       private void BlastCorpsViewer_MouseDown(object sender, MouseEventArgs e)
