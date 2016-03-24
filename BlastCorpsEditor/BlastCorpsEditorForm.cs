@@ -123,7 +123,7 @@ namespace BlastCorpsEditor
             }
             else
             {
-               SelectItem(e.SelectedItem);
+               SetSelectedItem(e.SelectedItem);
             }
          };
 
@@ -817,14 +817,19 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void SelectItem(BlastCorpsItem item)
+      private void SetSelectedItem(BlastCorpsItem item)
       {
          bool itemChanged = !Object.ReferenceEquals(itemSel, item);
          itemSel = item;
+         blastCorpsViewer.SelectedItem = itemSel;
          if (itemChanged)
          {
             tableLayoutProperties.Controls.Clear();
-            if (itemSel != null)
+            if (itemSel == null)
+            {
+               groupBoxProperties.Text = "Object Properties:";
+            }
+            else
             {
                int row = 0;
                numericX.Value = itemSel.x;
@@ -1004,7 +1009,7 @@ namespace BlastCorpsEditor
             deleteNode(treeNodeBuilding, item);
             updateBuildingRoot();
          }
-         SelectItem(null);
+         SetSelectedItem(null);
       }
 
       private void LoadRom(string filename)
@@ -1090,12 +1095,6 @@ namespace BlastCorpsEditor
                rom.SaveRom(rom.savePath);
             }
          }
-      }
-
-      private void SetSelectedItem(BlastCorpsItem item)
-      {
-         itemSel = item;
-         blastCorpsViewer.SelectedItem = itemSel;
       }
 
       private void toolStripComboBoxLevel_SelectedIndexChanged(object sender, EventArgs e)
@@ -1519,7 +1518,6 @@ namespace BlastCorpsEditor
          if (node != null && node.Tag != null)
          {
             BlastCorpsItem item = (BlastCorpsItem)node.Tag;
-            SelectItem(item);
             SetSelectedItem(item);
          }
       }
