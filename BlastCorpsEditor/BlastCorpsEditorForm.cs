@@ -1442,15 +1442,6 @@ namespace BlastCorpsEditor
       // Toolstrip Buttons
       private void setAddTool(object sender)
       {
-         ToolStripButton senderButton = (ToolStripButton)sender;
-         if (senderButton == toolStripButtonMove)
-         {
-            blastCorpsViewer.Mode = MouseMode.Move;
-         }
-         else
-         {
-            blastCorpsViewer.Mode = MouseMode.Add;
-         }
          foreach (ToolStripItem item in ((ToolStripButton)sender).GetCurrentParent().Items)
          {
             if (item is ToolStripButton)
@@ -1461,50 +1452,64 @@ namespace BlastCorpsEditor
          }
       }
 
+      private void toolStripButtonSelect_Click(object sender, EventArgs e)
+      {
+         blastCorpsViewer.Mode = MouseMode.Select;
+         setAddTool(sender);
+      }
+
       private void toolStripButtonMove_Click(object sender, EventArgs e)
       {
+         blastCorpsViewer.Mode = MouseMode.Move;
          setAddTool(sender);
       }
 
       private void toolStripButtonAmmo_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(AmmoBox);
       }
 
       private void toolStripButtonCommPt_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(CommPoint);
       }
 
       private void toolStripButtonRdu_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(RDU);
       }
 
       private void toolStripButtonTnt_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(TNTCrate);
       }
 
       private void toolStripButtonBlock_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(SquareBlock);
       }
 
       private void toolStripButtonVehicle_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(Vehicle);
       }
 
       private void toolStripButtonBuilding_Click(object sender, EventArgs e)
       {
          setAddTool(sender);
+         blastCorpsViewer.Mode = MouseMode.Add;
          blastCorpsViewer.AddType = typeof(Building);
       }
 

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
-         System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
-         System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
-         System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
-         System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
-         System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
-         System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Vehicles [0]", 12, 12);
-         System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Buildings [0]", 25, 25);
+         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
+         System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
+         System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
+         System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
+         System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
+         System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
+         System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Vehicles [0]", 12, 12);
+         System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Buildings [0]", 25, 25);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -106,6 +106,7 @@
          this.toolStripComboBoxLevel = new System.Windows.Forms.ToolStripComboBox();
          this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
          this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+         this.toolStripButtonSelect = new System.Windows.Forms.ToolStripButton();
          this.toolStripButtonMove = new System.Windows.Forms.ToolStripButton();
          this.toolStripButtonAmmo = new System.Windows.Forms.ToolStripButton();
          this.toolStripButtonCommPt = new System.Windows.Forms.ToolStripButton();
@@ -345,47 +346,47 @@
          this.treeViewObjects.ImageList = this.imageListObjects;
          this.treeViewObjects.Location = new System.Drawing.Point(4, 170);
          this.treeViewObjects.Name = "treeViewObjects";
-         treeNode9.ImageIndex = 24;
-         treeNode9.Name = "nodeCarrier";
-         treeNode9.SelectedImageIndex = 24;
-         treeNode9.Text = "Carrier";
-         treeNode10.ImageIndex = 1;
-         treeNode10.Name = "nodeAmmo";
-         treeNode10.SelectedImageIndex = 1;
-         treeNode10.Text = "Ammo Boxes [0]";
-         treeNode11.ImageIndex = 4;
-         treeNode11.Name = "nodeCommPt";
-         treeNode11.SelectedImageIndex = 4;
-         treeNode11.Text = "Communcation Points [0]";
-         treeNode12.ImageIndex = 5;
-         treeNode12.Name = "nodeRdu";
-         treeNode12.SelectedImageIndex = 5;
-         treeNode12.Text = "RDUs [0]";
-         treeNode13.ImageIndex = 6;
-         treeNode13.Name = "nodeTnt";
-         treeNode13.SelectedImageIndex = 6;
-         treeNode13.Text = "TNT Crates [0]";
-         treeNode14.ImageIndex = 7;
-         treeNode14.Name = "nodeBlock";
-         treeNode14.SelectedImageIndex = 7;
-         treeNode14.Text = "Square Blocks [0]";
-         treeNode15.ImageIndex = 12;
-         treeNode15.Name = "nodeVehicle";
-         treeNode15.SelectedImageIndex = 12;
-         treeNode15.Text = "Vehicles [0]";
-         treeNode16.ImageIndex = 25;
-         treeNode16.Name = "nodeBuilding";
-         treeNode16.SelectedImageIndex = 25;
-         treeNode16.Text = "Buildings [0]";
+         treeNode1.ImageIndex = 24;
+         treeNode1.Name = "nodeCarrier";
+         treeNode1.SelectedImageIndex = 24;
+         treeNode1.Text = "Carrier";
+         treeNode2.ImageIndex = 1;
+         treeNode2.Name = "nodeAmmo";
+         treeNode2.SelectedImageIndex = 1;
+         treeNode2.Text = "Ammo Boxes [0]";
+         treeNode3.ImageIndex = 4;
+         treeNode3.Name = "nodeCommPt";
+         treeNode3.SelectedImageIndex = 4;
+         treeNode3.Text = "Communcation Points [0]";
+         treeNode4.ImageIndex = 5;
+         treeNode4.Name = "nodeRdu";
+         treeNode4.SelectedImageIndex = 5;
+         treeNode4.Text = "RDUs [0]";
+         treeNode5.ImageIndex = 6;
+         treeNode5.Name = "nodeTnt";
+         treeNode5.SelectedImageIndex = 6;
+         treeNode5.Text = "TNT Crates [0]";
+         treeNode6.ImageIndex = 7;
+         treeNode6.Name = "nodeBlock";
+         treeNode6.SelectedImageIndex = 7;
+         treeNode6.Text = "Square Blocks [0]";
+         treeNode7.ImageIndex = 12;
+         treeNode7.Name = "nodeVehicle";
+         treeNode7.SelectedImageIndex = 12;
+         treeNode7.Text = "Vehicles [0]";
+         treeNode8.ImageIndex = 25;
+         treeNode8.Name = "nodeBuilding";
+         treeNode8.SelectedImageIndex = 25;
+         treeNode8.Text = "Buildings [0]";
          this.treeViewObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode13,
-            treeNode14,
-            treeNode15,
-            treeNode16});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
          this.treeViewObjects.SelectedImageIndex = 0;
          this.treeViewObjects.ShowLines = false;
          this.treeViewObjects.Size = new System.Drawing.Size(324, 461);
@@ -922,6 +923,7 @@
             this.toolStripComboBoxLevel,
             this.toolStripSeparator1,
             this.toolStripLabel2,
+            this.toolStripButtonSelect,
             this.toolStripButtonMove,
             this.toolStripButtonAmmo,
             this.toolStripButtonCommPt,
@@ -960,6 +962,18 @@
          this.toolStripLabel2.Name = "toolStripLabel2";
          this.toolStripLabel2.Size = new System.Drawing.Size(39, 22);
          this.toolStripLabel2.Text = "Tools:";
+         // 
+         // toolStripButtonSelect
+         // 
+         this.toolStripButtonSelect.Checked = true;
+         this.toolStripButtonSelect.CheckState = System.Windows.Forms.CheckState.Checked;
+         this.toolStripButtonSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+         this.toolStripButtonSelect.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSelect.Image")));
+         this.toolStripButtonSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+         this.toolStripButtonSelect.Name = "toolStripButtonSelect";
+         this.toolStripButtonSelect.Size = new System.Drawing.Size(23, 22);
+         this.toolStripButtonSelect.Text = "Select";
+         this.toolStripButtonSelect.Click += new System.EventHandler(this.toolStripButtonSelect_Click);
          // 
          // toolStripButtonMove
          // 
@@ -1047,8 +1061,9 @@
          this.blastCorpsViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+         this.blastCorpsViewer.Cursor = System.Windows.Forms.Cursors.Default;
          this.blastCorpsViewer.Location = new System.Drawing.Point(0, 28);
-         this.blastCorpsViewer.Mode = BlastCorpsEditor.MouseMode.Move;
+         this.blastCorpsViewer.Mode = BlastCorpsEditor.MouseMode.Select;
          this.blastCorpsViewer.Name = "blastCorpsViewer";
          this.blastCorpsViewer.SelectedItem = null;
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
@@ -1186,6 +1201,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripButton toolStripButtonAmmo;
         private System.Windows.Forms.ToolStripButton toolStripButtonMove;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSelect;
     }
 }
 
