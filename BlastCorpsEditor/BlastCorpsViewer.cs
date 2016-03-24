@@ -64,6 +64,13 @@ namespace BlastCorpsEditor
          SelectionChangedEvent(this, e);
       }
 
+      // item moved
+      public event ItemMovedEventHandler ItemMovedEvent;
+      protected virtual void OnItemMovedEvent(ItemMovedEventArgs e)
+      {
+         ItemMovedEvent(this, e);
+      }
+
       // mouse position change event
       public event PositionEventHandler PositionEvent;
       protected virtual void OnPositionEvent(PositionEventArgs e)
@@ -452,6 +459,7 @@ namespace BlastCorpsEditor
                   {
                      dragItem.x = x;
                      dragItem.z = z;
+                     OnItemMovedEvent(new ItemMovedEventArgs(dragItem));
                      Invalidate();
                   }
                }
@@ -476,8 +484,10 @@ namespace BlastCorpsEditor
                break;
             case MouseMode.Move:
                dragItem = FindNearbyItem(e.X, e.Y);
-               if (dragItem != null)
+               if (dragItem != selectedItem)
                {
+                  selectedItem = dragItem;
+                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
                   Invalidate();
                }
                break;
@@ -564,6 +574,7 @@ namespace BlastCorpsEditor
       }
    }
 
+   // Event Handlers
    public delegate void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e);
    public class SelectionChangedEventArgs : EventArgs
    {
@@ -575,6 +586,16 @@ namespace BlastCorpsEditor
          this.SelectedItem = item;
          this.IsAdded = added;
          this.IsDeleted = deleted;
+      }
+   }
+
+   public delegate void ItemMovedEventHandler(object sender, ItemMovedEventArgs e);
+   public class ItemMovedEventArgs : EventArgs
+   {
+      public BlastCorpsItem SelectedItem { get; set; }
+      public ItemMovedEventArgs(BlastCorpsItem item)
+      {
+         this.SelectedItem = item;
       }
    }
 

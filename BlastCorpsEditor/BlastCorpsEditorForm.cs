@@ -74,6 +74,13 @@ namespace BlastCorpsEditor
          {
             statusStripMessage.Text = e.Position;
          };
+         blastCorpsViewer.ItemMovedEvent += delegate(Object sender, ItemMovedEventArgs e)
+         {
+            updateNode(e.SelectedItem);
+            numericX.Value = e.SelectedItem.x;
+            numericY.Value = e.SelectedItem.y;
+            numericZ.Value = e.SelectedItem.z;
+         };
          blastCorpsViewer.SelectionChangedEvent += delegate(Object sender, SelectionChangedEventArgs e)
          {
             // if new object, add it to the tree
