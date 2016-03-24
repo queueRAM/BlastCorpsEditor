@@ -308,8 +308,8 @@
          // aboutToolStripMenuItem
          // 
          this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-         this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-         this.aboutToolStripMenuItem.Text = "About";
+         this.aboutToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+         this.aboutToolStripMenuItem.Text = "About Blast Corps Editor";
          this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
          // 
          // tabControlItems
