@@ -9,6 +9,7 @@ namespace BlastCorpsEditor
       public Int32 gravity;
       public Int32 u1C; // TODO: identify
       public UInt32[] offsets = new UInt32[42];
+      public UInt32 dlOffset;
    }
 
    public class BlastCorpsItem
@@ -392,7 +393,7 @@ namespace BlastCorpsEditor
       private void decodeHeader(byte[] data)
       {
          // save offset of display list which will be used for header offset 0x78 and up
-         UInt32 dlOffset = (UInt32)data.Length;
+         header.dlOffset = (UInt32)data.Length;
 
          // read in 12 u16s
          for (uint i = 0; i < header.u16s.Length; i++)
@@ -406,11 +407,6 @@ namespace BlastCorpsEditor
          for (uint i = 0; i < header.offsets.Length; i++)
          {
             header.offsets[i] = BE.U32(data, 0x20 + i * 4);
-            // for 0x78 and up, save offset relative to display list
-            if (0x20 + i * 4 >= 0x78)
-            {
-               header.offsets[i] -= dlOffset;
-            }
          }
       }
 
@@ -1255,7 +1251,7 @@ namespace BlastCorpsEditor
          {
             if (i * 4 + 0x20 >= 0x78)
             {
-               UInt32 dlOffset = (UInt32)(header.offsets[i] + startDL);
+               UInt32 dlOffset = (UInt32)(header.offsets[i] + startDL - header.dlOffset);
                offset += BE.ToBytes(dlOffset, data, offset);
             }
          }
