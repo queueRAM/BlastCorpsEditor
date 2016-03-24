@@ -633,7 +633,6 @@ namespace BlastCorpsEditor
          TreeNode ammoNode = new TreeNode(ammo.ToString(), icon, icon);
          ammoNode.Tag = ammo;
          treeNodeAmmo.Nodes.Add(ammoNode);
-         treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
       }
 
       private void addCommPtNode(CommPoint comm)
@@ -641,7 +640,6 @@ namespace BlastCorpsEditor
          TreeNode commNode = new TreeNode(comm.ToString(), ICON_COMM, ICON_COMM);
          commNode.Tag = comm;
          treeNodeCommPt.Nodes.Add(commNode);
-         treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
       }
 
       private void addRduNode(RDU rdu)
@@ -649,7 +647,6 @@ namespace BlastCorpsEditor
          TreeNode rduNode = new TreeNode(rdu.ToString(), ICON_RDU, ICON_RDU);
          rduNode.Tag = rdu;
          treeNodeRdu.Nodes.Add(rduNode);
-         treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
       }
 
       private void addTntNode(TNTCrate tnt)
@@ -657,7 +654,6 @@ namespace BlastCorpsEditor
          TreeNode tntNode = new TreeNode(tnt.ToString(), ICON_TNT, ICON_TNT);
          tntNode.Tag = tnt;
          treeNodeTnt.Nodes.Add(tntNode);
-         treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
       }
 
       private void addBlockNode(SquareBlock block)
@@ -666,7 +662,6 @@ namespace BlastCorpsEditor
          TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
          blockNode.Tag = block;
          treeNodeBlock.Nodes.Add(blockNode);
-         treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
       }
 
       private int vehicleTypeToInt(byte type)
@@ -703,14 +698,46 @@ namespace BlastCorpsEditor
          TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
          vehicleNode.Tag = vehicle;
          treeNodeVehicle.Nodes.Add(vehicleNode);
-         treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
       }
-
       private void addBuildingNode(Building building)
       {
          TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
          buildingNode.Tag = building;
          treeNodeBuilding.Nodes.Add(buildingNode);
+      }
+
+      private void updateAmmoRoot()
+      {
+         treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
+      }
+
+      private void updateCommPointRoot()
+      {
+         treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
+      }
+
+      private void updateRduRoot()
+      {
+         treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
+      }
+
+      private void updateBlockRoot()
+      {
+         treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
+      }
+
+      private void updateTntRoot()
+      {
+         treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
+      }
+
+      private void updateVehicleRoot()
+      {
+         treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
+      }
+
+      private void updateBuildingRoot()
+      {
          treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
       }
 
@@ -723,6 +750,7 @@ namespace BlastCorpsEditor
          {
             addAmmoNode(ammo);
          }
+         updateAmmoRoot();
          treeNodeAmmo.Expand();
 
          treeNodeCommPt.Nodes.Clear();
@@ -730,6 +758,7 @@ namespace BlastCorpsEditor
          {
             addCommPtNode(comm);
          }
+         updateCommPointRoot();
          treeNodeCommPt.Expand();
 
          treeNodeRdu.Nodes.Clear();
@@ -737,12 +766,14 @@ namespace BlastCorpsEditor
          {
             addRduNode(rdu);
          }
+         updateRduRoot();
 
          treeNodeTnt.Nodes.Clear();
          foreach (TNTCrate tnt in level.tntCrates)
          {
             addTntNode(tnt);
          }
+         updateTntRoot();
          treeNodeTnt.Expand();
 
          treeNodeBlock.Nodes.Clear();
@@ -750,6 +781,7 @@ namespace BlastCorpsEditor
          {
             addBlockNode(block);
          }
+         updateBlockRoot();
          treeNodeBlock.Expand();
 
          treeNodeVehicle.Nodes.Clear();
@@ -758,12 +790,14 @@ namespace BlastCorpsEditor
             addVehicleNode(vehicle);
          }
          treeNodeVehicle.Expand();
+         updateVehicleRoot();
 
          treeNodeBuilding.Nodes.Clear();
          foreach (Building building in level.buildings)
          {
             addBuildingNode(building);
          }
+         updateBuildingRoot();
       }
 
       private void SelectNode(TreeNode root, BlastCorpsItem item)
@@ -926,43 +960,43 @@ namespace BlastCorpsEditor
          {
             level.ammoBoxes.Remove((AmmoBox)item);
             deleteNode(treeNodeAmmo, item);
-            treeNodeAmmo.Text = "Ammo Boxes [" + level.ammoBoxes.Count + "]";
+            updateAmmoRoot();
          }
          else if (item is CommPoint)
          {
             level.commPoints.Remove((CommPoint)item);
             deleteNode(treeNodeCommPt, item);
-            treeNodeCommPt.Text = "Communication Points [" + level.commPoints.Count + "]";
+            updateCommPointRoot();
          }
          else if (item is RDU)
          {
             level.rdus.Remove((RDU)item);
             deleteNode(treeNodeRdu, item);
-            treeNodeRdu.Text = "RDUs [" + level.rdus.Count + "]";
+            updateRduRoot();
          }
          else if (item is TNTCrate)
          {
             level.tntCrates.Remove((TNTCrate)item);
             deleteNode(treeNodeTnt, item);
-            treeNodeTnt.Text = "TNT Crates [" + level.tntCrates.Count + "]";
+            updateTntRoot();
          }
          else if (item is SquareBlock)
          {
             level.squareBlocks.Remove((SquareBlock)item);
             deleteNode(treeNodeBlock, item);
-            treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
+            updateBlockRoot();
          }
          else if (item is Vehicle)
          {
             level.vehicles.Remove((Vehicle)item);
             deleteNode(treeNodeVehicle, item);
-            treeNodeVehicle.Text = "Vehicles [" + level.vehicles.Count + "]";
+            updateVehicleRoot();
          }
          else if (item is Building)
          {
             level.buildings.Remove((Building)item);
             deleteNode(treeNodeBuilding, item);
-            treeNodeBuilding.Text = "Buildings [" + level.buildings.Count + "]";
+            updateBuildingRoot();
          }
          SelectItem(null);
       }
