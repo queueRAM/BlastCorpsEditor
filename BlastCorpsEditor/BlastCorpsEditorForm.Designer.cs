@@ -540,7 +540,7 @@
          this.toolTip1.SetToolTip(this.numeric1C, "Values in ROM:\r\n  0: Glory Crossing, Crystal Rift, Beeton Tracks, Jade Plateau, O" +
         "rion Plaza, Mercury\r\n  1: All other levels\r\nOther tested values:\r\n  2+: caused m" +
         "icrocode errors in emulation");
-         this.numeric1C.ValueChanged += new System.EventHandler(this.numericFriction_ValueChanged);
+         this.numeric1C.ValueChanged += new System.EventHandler(this.numericU1C_ValueChanged);
          // 
          // groupBox2
          // 

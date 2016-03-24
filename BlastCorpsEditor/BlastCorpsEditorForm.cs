@@ -662,10 +662,10 @@ namespace BlastCorpsEditor
          treeNodeBlock.Text = "Square Blocks [" + level.squareBlocks.Count + "]";
       }
 
-      private void addVehicleNode(Vehicle vehicle)
+      private int vehicleTypeToInt(byte type)
       {
          int vehicleImage = 0;
-         switch (vehicle.type)
+         switch (type)
          {
             case 0x00: vehicleImage = ICON_VEHICLE; break;      // 00 Player          driver
             case 0x01: vehicleImage = ICON_VEHICLE + 1; break;  // 01 Sideswipe       sideswipe
@@ -687,6 +687,12 @@ namespace BlastCorpsEditor
             case 0x11: vehicleImage = ICON_VEHICLE + 11; break; // 11 Boat 2          barge
             case 0x12: vehicleImage = ICON_VEHICLE + 11; break; // 12 Boat 3          barge
          }
+         return vehicleImage;
+      }
+
+      private void addVehicleNode(Vehicle vehicle)
+      {
+         int vehicleImage = vehicleTypeToInt(vehicle.type);
          TreeNode vehicleNode = new TreeNode(vehicle.ToString(), vehicleImage, vehicleImage);
          vehicleNode.Tag = vehicle;
          treeNodeVehicle.Nodes.Add(vehicleNode);
@@ -1081,7 +1087,7 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericFriction_ValueChanged(object sender, EventArgs e)
+      private void numericU1C_ValueChanged(object sender, EventArgs e)
       {
          if (level != null)
          {
@@ -1090,12 +1096,45 @@ namespace BlastCorpsEditor
       }
 
       // Object X/Y/Z
+      private void updateNode(BlastCorpsItem item)
+      {
+         if (item is AmmoBox)
+         {
+            updateAmmoNode((AmmoBox)item);
+         }
+         else if (item is CommPoint)
+         {
+            updateCommPointNode((CommPoint)item);
+         }
+         else if (item is RDU)
+         {
+            updateRduNode((RDU)item);
+         }
+         else if (item is TNTCrate)
+         {
+            updateTntNode((TNTCrate)item);
+         }
+         else if (item is SquareBlock)
+         {
+            updateBlockNode((SquareBlock)item);
+         }
+         else if (item is Vehicle)
+         {
+            updateVehicleNode((Vehicle)item);
+         }
+         else if (item is Building)
+         {
+            updateBuildingNode((Building)item);
+         }
+      }
+
       private void numericX_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null)
          {
             itemSel.x = (Int16)numericX.Value;
             blastCorpsViewer.Invalidate();
+            updateNode(itemSel);
          }
       }
 
@@ -1105,6 +1144,7 @@ namespace BlastCorpsEditor
          {
             itemSel.y = (Int16)numericY.Value;
             blastCorpsViewer.Invalidate();
+            updateNode(itemSel);
          }
       }
 
@@ -1114,10 +1154,26 @@ namespace BlastCorpsEditor
          {
             itemSel.z = (Int16)numericZ.Value;
             blastCorpsViewer.Invalidate();
+            updateNode(itemSel);
          }
       }
 
       // Ammo boxes
+      private void updateAmmoNode(AmmoBox ammo)
+      {
+         foreach (TreeNode node in treeNodeAmmo.Nodes)
+         {
+            if (node.Tag == ammo)
+            {
+               node.Text = ammo.ToString();
+               int ammoImage = ICON_AMMO + ammo.type;
+               node.SelectedImageIndex = ammoImage;
+               node.ImageIndex = ammoImage;
+               break;
+            }
+         }
+      }
+
       private void comboBoxAmmo_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is AmmoBox)
@@ -1125,10 +1181,23 @@ namespace BlastCorpsEditor
             AmmoBox ammo = (AmmoBox)itemSel;
             ammo.type = (UInt16)comboBoxAmmo.SelectedIndex;
             blastCorpsViewer.Invalidate();
+            updateAmmoNode(ammo);
          }
       }
 
       // Communication point
+      private void updateCommPointNode(CommPoint comm)
+      {
+         foreach (TreeNode node in treeNodeCommPt.Nodes)
+         {
+            if (node.Tag == comm)
+            {
+               node.Text = comm.ToString();
+               break;
+            }
+         }
+      }
+
       private void numericCommPtH6_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is CommPoint)
@@ -1136,10 +1205,36 @@ namespace BlastCorpsEditor
             CommPoint comm = (CommPoint)itemSel;
             comm.h6 = (UInt16)numericCommPtH6.Value;
             blastCorpsViewer.Invalidate();
+            updateCommPointNode(comm);
+         }
+      }
+
+      // RDU
+      private void updateRduNode(RDU rdu)
+      {
+         foreach (TreeNode node in treeNodeRdu.Nodes)
+         {
+            if (node.Tag == rdu)
+            {
+               node.Text = rdu.ToString();
+               break;
+            }
          }
       }
 
       // TNT crates
+      private void updateTntNode(TNTCrate tnt)
+      {
+         foreach (TreeNode node in treeNodeTnt.Nodes)
+         {
+            if (node.Tag == tnt)
+            {
+               node.Text = tnt.ToString();
+               break;
+            }
+         }
+      }
+
       private void numericTntB6_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is TNTCrate)
@@ -1147,6 +1242,7 @@ namespace BlastCorpsEditor
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.b6 = (byte)numericTntB6.Value;
             blastCorpsViewer.Invalidate();
+            updateTntNode(tnt);
          }
       }
 
@@ -1157,6 +1253,7 @@ namespace BlastCorpsEditor
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.timer = (byte)numericTntTimer.Value;
             blastCorpsViewer.Invalidate();
+            updateTntNode(tnt);
          }
       }
 
@@ -1167,6 +1264,7 @@ namespace BlastCorpsEditor
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.h8 = (Int16)numericTntH8.Value;
             blastCorpsViewer.Invalidate();
+            updateTntNode(tnt);
          }
       }
 
@@ -1177,10 +1275,23 @@ namespace BlastCorpsEditor
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.hA = (Int16)numericTntHA.Value;
             blastCorpsViewer.Invalidate();
+            updateTntNode(tnt);
          }
       }
 
       // Blocks
+      private void updateBlockNode(SquareBlock block)
+      {
+         foreach (TreeNode node in treeNodeBlock.Nodes)
+         {
+            if (node.Tag == block)
+            {
+               node.Text = block.ToString();
+               break;
+            }
+         }
+      }
+
       private void comboBoxBlockType1_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
@@ -1188,6 +1299,7 @@ namespace BlastCorpsEditor
             SquareBlock block = (SquareBlock)itemSel;
             block.type = (byte)comboBoxBlockType1.SelectedIndex;
             blastCorpsViewer.Invalidate();
+            updateBlockNode(block);
          }
       }
 
@@ -1205,6 +1317,7 @@ namespace BlastCorpsEditor
                // TODO: toggle T3 based on this value
             }
             blastCorpsViewer.Invalidate();
+            updateBlockNode(block);
          }
       }
 
@@ -1215,10 +1328,26 @@ namespace BlastCorpsEditor
             SquareBlock block = (SquareBlock)itemSel;
             block.extra = (UInt16)numericBlockType3.Value;
             blastCorpsViewer.Invalidate();
+            updateBlockNode(block);
          }
       }
 
       // Vehicles
+      private void updateVehicleNode(Vehicle vehicle)
+      {
+         foreach (TreeNode node in treeNodeVehicle.Nodes)
+         {
+            if (node.Tag == vehicle)
+            {
+               node.Text = vehicle.ToString();
+               int vehicleImage = vehicleTypeToInt(vehicle.type);
+               node.SelectedImageIndex = vehicleImage;
+               node.ImageIndex = vehicleImage;
+               break;
+            }
+         }
+      }
+
       private void numericCarrierSpeed_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Carrier)
@@ -1246,6 +1375,7 @@ namespace BlastCorpsEditor
             Vehicle veh = (Vehicle)itemSel;
             veh.type = (byte)comboBoxVehicle.SelectedIndex;
             blastCorpsViewer.Invalidate();
+            updateVehicleNode(veh);
          }
       }
 
@@ -1258,6 +1388,7 @@ namespace BlastCorpsEditor
                Vehicle veh = (Vehicle)itemSel;
                veh.heading = (Int16)numericHeading.Value;
                blastCorpsViewer.Invalidate();
+               updateVehicleNode(veh);
             }
             else if (itemSel is Carrier)
             {
@@ -1268,6 +1399,18 @@ namespace BlastCorpsEditor
       }
 
       // Buildings
+      private void updateBuildingNode(Building building)
+      {
+         foreach (TreeNode node in treeNodeBuilding.Nodes)
+         {
+            if (node.Tag == building)
+            {
+               node.Text = building.ToString();
+               break;
+            }
+         }
+      }
+      
       private void comboBoxBuildingType_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
@@ -1275,6 +1418,7 @@ namespace BlastCorpsEditor
             Building b = (Building)itemSel;
             b.type = (UInt16)comboBoxBuildingType.SelectedIndex;
             blastCorpsViewer.Invalidate();
+            updateBuildingNode(b);
          }
       }
 
@@ -1285,6 +1429,7 @@ namespace BlastCorpsEditor
             Building b = (Building)itemSel;
             b.counter = (byte)numericBuildingCounter.Value;
             blastCorpsViewer.Invalidate();
+            updateBuildingNode(b);
          }
       }
 
@@ -1295,6 +1440,7 @@ namespace BlastCorpsEditor
             Building b = (Building)itemSel;
             b.b9 = (byte)numericBuildingB9.Value;
             blastCorpsViewer.Invalidate();
+            updateBuildingNode(b);
          }
       }
 
@@ -1305,6 +1451,7 @@ namespace BlastCorpsEditor
             Building b = (Building)itemSel;
             b.movement = (UInt16)comboBoxBuildingMovement.SelectedIndex;
             blastCorpsViewer.Invalidate();
+            updateBuildingNode(b);
          }
       }
 
@@ -1315,6 +1462,7 @@ namespace BlastCorpsEditor
             Building b = (Building)itemSel;
             b.speed = (UInt16)numericBuildingSpeed.Value;
             blastCorpsViewer.Invalidate();
+            updateBuildingNode(b);
          }
       }
 
