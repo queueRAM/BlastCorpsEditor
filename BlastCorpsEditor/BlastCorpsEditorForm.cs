@@ -151,6 +151,13 @@ namespace BlastCorpsEditor
 
          // generate controls for the object properties
          generatePropertyControls();
+
+         // handle arguments passed in the command line
+         string[] args = Environment.GetCommandLineArgs();
+         if (args.Length > 1)
+         {
+            LoadRom(args[1]);
+         }
       }
 
       private void generatePropertyControls()
@@ -947,6 +954,62 @@ namespace BlastCorpsEditor
          SelectItem(null);
       }
 
+      private void LoadRom(string filename)
+      {
+         rom = new BlastCorpsRom();
+         if (rom.LoadRom(filename))
+         {
+            if (rom.type == BlastCorpsRom.RomType.Invalid || rom.region == BlastCorpsRom.Region.Invalid || rom.version == BlastCorpsRom.Version.Invalid)
+            {
+               MessageBox.Show("Error, this does not appear to be a valid Blast Corps ROM.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (rom.type == BlastCorpsRom.RomType.Vanilla && rom.region != BlastCorpsRom.Region.US)
+            {
+               MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.0 or V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+               if (rom.type == BlastCorpsRom.RomType.Vanilla)
+               {
+                  MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.", "Vanilla ROM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  rom.ExtendRom();
+                  statusStripFile.ForeColor = Color.Blue;
+                  string description = "Vanilla ROM";
+                  switch (rom.region)
+                  {
+                     case BlastCorpsRom.Region.Europe: description += " (E)"; break;
+                     case BlastCorpsRom.Region.Japan: description += " (J)"; break;
+                     case BlastCorpsRom.Region.US: description += " (U)"; break;
+                  }
+                  switch (rom.version)
+                  {
+                     case BlastCorpsRom.Version.Ver1p0: description += " (V1.0)"; break;
+                     case BlastCorpsRom.Version.Ver1p1: description += " (V1.1)"; break;
+                  }
+                  statusStripFile.Text = description;
+               }
+               else
+               {
+                  statusStripFile.ForeColor = Color.Black;
+                  statusStripFile.Text = filename;
+               }
+               BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)toolStripComboBoxLevel.SelectedItem;
+               if (levelMeta != null)
+               {
+                  levelId = levelMeta.id;
+                  byte[] levelData = rom.GetLevelData(levelId);
+                  byte[] displayList = rom.GetDisplayList(levelId);
+                  readData(levelData, displayList);
+               }
+            }
+         }
+         else
+         {
+            statusStripFile.ForeColor = Color.Red;
+            statusStripFile.Text = "Error loading " + filename;
+         }
+      }
+
       private void SaveFile()
       {
          if (rom != null)
@@ -1278,58 +1341,7 @@ namespace BlastCorpsEditor
 
          if (dresult == DialogResult.OK)
          {
-            rom = new BlastCorpsRom();
-            if (rom.LoadRom(openFileDialog1.FileName))
-            {
-               if (rom.type == BlastCorpsRom.RomType.Invalid || rom.region == BlastCorpsRom.Region.Invalid || rom.version == BlastCorpsRom.Version.Invalid)
-               {
-                  MessageBox.Show("Error, this does not appear to be a valid Blast Corps ROM.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-               }
-               else if (rom.type == BlastCorpsRom.RomType.Vanilla && rom.region != BlastCorpsRom.Region.US)
-               {
-                  MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.0 or V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-               }
-               else
-               {
-                  if (rom.type == BlastCorpsRom.RomType.Vanilla)
-                  {
-                     MessageBox.Show("Vanilla ROM detected. The ROM will be extended to allow editing and when saving, you will be prompted with a \"Save As...\" dialog so this ROM is not overwritten.", "Vanilla ROM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                     rom.ExtendRom();
-                     statusStripFile.ForeColor = Color.Blue;
-                     string description = "Vanilla ROM";
-                     switch (rom.region)
-                     {
-                        case BlastCorpsRom.Region.Europe: description += " (E)"; break;
-                        case BlastCorpsRom.Region.Japan:  description += " (J)"; break;
-                        case BlastCorpsRom.Region.US:     description += " (U)"; break;
-                     }
-                     switch (rom.version)
-                     {
-                        case BlastCorpsRom.Version.Ver1p0: description += " (V1.0)"; break;
-                        case BlastCorpsRom.Version.Ver1p1: description += " (V1.1)"; break;
-                     }
-                     statusStripFile.Text = description;
-                  }
-                  else
-                  {
-                     statusStripFile.ForeColor = Color.Black;
-                     statusStripFile.Text = openFileDialog1.FileName;
-                  }
-                  BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)toolStripComboBoxLevel.SelectedItem;
-                  if (levelMeta != null)
-                  {
-                     levelId = levelMeta.id;
-                     byte[] levelData = rom.GetLevelData(levelId);
-                     byte[] displayList = rom.GetDisplayList(levelId);
-                     readData(levelData, displayList);
-                  }
-               }
-            }
-            else
-            {
-               statusStripFile.ForeColor = Color.Red;
-               statusStripFile.Text = "Error loading " + openFileDialog1.FileName;
-            }
+            LoadRom(openFileDialog1.FileName);
          }
       }
 
