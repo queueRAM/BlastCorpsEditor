@@ -65,6 +65,8 @@ namespace BlastCorpsEditor
       private NumericUpDown numericBuildingB9;
       private ComboBox comboBoxBuildingMovement;
       private NumericUpDown numericBuildingSpeed;
+      // Dummy control for spacing
+      private Label labelDummy;
 
       public BlastCorpsEditorForm()
       {
@@ -529,6 +531,8 @@ namespace BlastCorpsEditor
             "4: Following Player",
             "5: Rotation 90°"}, new System.EventHandler(this.comboBoxBuildingMovement_SelectedIndexChanged));
          numericBuildingSpeed = createNumeric(0, 65535, new System.EventHandler(this.numericBuildingSpeed_ValueChanged));
+
+         labelDummy = new Label();
       }
 
       private Label createLabel(string text)
@@ -699,6 +703,7 @@ namespace BlastCorpsEditor
          vehicleNode.Tag = vehicle;
          treeNodeVehicle.Nodes.Add(vehicleNode);
       }
+
       private void addBuildingNode(Building building)
       {
          TreeNode buildingNode = new TreeNode(building.ToString(), ICON_BUILDING, ICON_BUILDING);
@@ -950,6 +955,7 @@ namespace BlastCorpsEditor
                   tableLayoutProperties.Controls.Add(numericBuildingSpeed, 3, row++);
                   SelectNode(treeNodeBuilding, itemSel);
                }
+               tableLayoutProperties.Controls.Add(labelDummy, 4, row);
             }
          }
       }
