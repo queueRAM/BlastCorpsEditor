@@ -1111,37 +1111,51 @@ namespace BlastCorpsEditor
          BE.ToBytes(offset, data, 0x3C);
          if (squareBlocks.Count > 1)
          {
-            bool first8 = false;
-            // TODO: assuming blocks match holes and are in order
-            // it might be better to store them in two separate lists
-            offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
+            // separate holes from blocks
+            List<SquareBlock> blocks = new List<SquareBlock>();
+            List<SquareBlock> holes = new List<SquareBlock>();
             foreach (SquareBlock block in squareBlocks)
             {
-               if (block.hole == 8 && !first8)
+               if (block.hole == 8)
                {
-                  offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
-                  first8 = true;
+                  holes.Add(block);
                }
+               else
+               {
+                  blocks.Add(block);
+               }
+            }
+
+            offset += BE.ToBytes((UInt16)blocks.Count, data, offset);
+            foreach (SquareBlock block in blocks)
+            {
                offset += BE.ToBytes(block.x, data, offset);
                offset += BE.ToBytes(block.y, data, offset);
                offset += BE.ToBytes(block.z, data, offset);
                data[offset++] = block.type;
                data[offset++] = block.hole;
-               if (block.hole == 8)
+            }
+
+            offset += BE.ToBytes((UInt16)holes.Count, data, offset);
+            foreach (SquareBlock block in holes)
+            {
+               offset += BE.ToBytes(block.x, data, offset);
+               offset += BE.ToBytes(block.y, data, offset);
+               offset += BE.ToBytes(block.z, data, offset);
+               data[offset++] = block.type;
+               data[offset++] = block.hole;
+               block.computeNodes();
+               offset += BE.ToBytes(block.extra, data, offset);
+               foreach (SquareBlock.Node node in block.nodes)
                {
-                  block.computeNodes();
-                  offset += BE.ToBytes(block.extra, data, offset);
-                  foreach (SquareBlock.Node node in block.nodes)
+                  for (int i = 0; i < 3; i++)
                   {
-                     for (int i = 0; i < 3; i++)
-                     {
-                        offset += BE.ToBytes(node.x[i], data, offset);
-                        offset += BE.ToBytes(node.y[i], data, offset);
-                        offset += BE.ToBytes(node.z[i], data, offset);
-                     }
-                     Array.Copy(node.other, 0, data, offset, node.other.Length);
-                     offset += node.other.Length;
+                     offset += BE.ToBytes(node.x[i], data, offset);
+                     offset += BE.ToBytes(node.y[i], data, offset);
+                     offset += BE.ToBytes(node.z[i], data, offset);
                   }
+                  Array.Copy(node.other, 0, data, offset, node.other.Length);
+                  offset += node.other.Length;
                }
             }
          }
