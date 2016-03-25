@@ -232,7 +232,7 @@ namespace BlastCorpsEditor
          nodes.Add(n);
       }
 
-      Node[][] nodeOffsets0 = new Node[][] {
+      static readonly Node[][] nodeOffsets0 = new Node[][] {
          new Node[] {
             new Node( 38, -15, -36, -40, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
             new Node( 38,  15, -36,  38, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
