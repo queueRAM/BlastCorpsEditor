@@ -195,7 +195,24 @@ namespace BlastCorpsEditor
          public Int16[] x;
          public Int16[] y;
          public Int16[] z;
-         public byte[] other = new byte[4];
+         public byte[] other;
+
+         public Node(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte[] other)
+         {
+            x = new Int16[] { x1, x2, x3 };
+            y = new Int16[] { y1, y2, y3 };
+            z = new Int16[] { z1, z2, z3 };
+            this.other = other;
+         }
+         public Node(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3) : this(x1, y1, z1, x2, y2, z2, x3, y3, z3, new byte[4])
+         {
+         }
+
+         public override string ToString()
+         {
+            string byteStr = string.Format("{0:X02} {1:X02} {2:X02} {3:X02}", other[0], other[1], other[2], other[3]);
+            return string.Format("({0}, {1}, {2}), ({3}, {4}, {5}), ({6}, {7}, {8}), {9}", x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2], byteStr);
+         }
       }
       public List<Node> nodes = new List<Node>();
 
@@ -210,17 +227,73 @@ namespace BlastCorpsEditor
 
       public void addNode(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte[] data, int index)
       {
-         Node n = new Node();
-         n.x = new Int16[] { x1, x2, x3 };
-         n.y = new Int16[] { y1, y2, y3 };
-         n.z = new Int16[] { z1, z2, z3 };
+         Node n = new Node(x1, y1, z1, x2, y2, z2, x3, y3, z3);
          Array.Copy(data, index, n.other, 0, 4);
          nodes.Add(n);
+      }
+
+      Node[][] nodeOffsets0 = new Node[][] {
+         new Node[] {
+            new Node( 38, -15, -36, -40, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
+            new Node( 38,  15, -36,  38, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
+            new Node( 38, -15,  42,  38, -15, -36,  38, 15, -36, new byte[] { 0x0B, 0xFF, 0x00, 0x00 }),
+            new Node( 38,  15,  42,  38, -15,  42,  38, 15, -36, new byte[] { 0x0B, 0xFF, 0x00, 0x00 }),
+            new Node(-40, -15, -36, -40, -15,  42, -40, 15,  42, new byte[] { 0x0B, 0xFE, 0x01, 0x00 }),
+            new Node(-40,  15, -36, -40, -15, -36, -40, 15,  42, new byte[] { 0x0B, 0xFE, 0x01, 0x00 }),
+            new Node(-40, -15,  42,  38, -15,  42,  38, 15,  42, new byte[] { 0x07, 0xFD, 0x00, 0x00 }),
+            new Node(-40,  15,  42, -40, -15,  42,  38, 15,  42, new byte[] { 0x07, 0xFD, 0x00, 0x00 })
+         },
+         new Node[] {
+            new Node(  1, -15, -45, -44, -15,   0, -44, 15,   0, new byte[] { 0x09, 0xFC, 0x01, 0x00 }),
+            new Node(  1,  15, -45,   1, -15, -45, -44, 15,   0, new byte[] { 0x09, 0xFC, 0x01, 0x00 }),
+            new Node( 45, -15,   0,   1, -15, -45,   1, 15, -45, new byte[] { 0x0D, 0xFF, 0x00, 0x00 }),
+            new Node( 45,  15,   0,  45, -15,   0,   1, 15, -45, new byte[] { 0x0D, 0xFF, 0x00, 0x00 }),
+            new Node(-44, -15,   0,   0, -15,  44,   0, 15,  44, new byte[] { 0x0D, 0xFE, 0x01, 0x00 }),
+            new Node(-44,  15,   0, -44, -15,   0,   0, 15,  44, new byte[] { 0x0D, 0xFE, 0x01, 0x00 }),
+            new Node(  0, -15,  44,  45, -15,   0,  45, 15,   0, new byte[] { 0x09, 0xFD, 0x00, 0x00 }),
+            new Node(  0,  15,  44,   0, -15,  44,  45, 15,   0, new byte[] { 0x09, 0xFD, 0x00, 0x00 })
+         },
+         new Node[] {
+            new Node( -9, -30, -55, -64, -30,   0, -64,  0,   0, new byte[] { 0x09, 0xFD, 0x01, 0x00 }),
+            new Node( -9,   0, -55,  -9, -30, -55, -64,  0,   0, new byte[] { 0x09, 0xFD, 0x01, 0x00 }),
+            new Node( 46,   0,   0,  48,   0, -51,  48, 30, -51, new byte[] { 0x0B, 0xE6, 0x00, 0x00 }),
+            new Node( 46,  30,   0,  46,   0,   0,  48, 30, -51, new byte[] { 0x0B, 0xE6, 0x00, 0x00 }),
+            new Node(-64, -30,   0,  -9, -30,  55,  -9,  0,  55, new byte[] { 0x0D, 0xFE, 0x01, 0x00 }),
+            new Node(-64,   0,   0, -64, -30,   0,  -9,  0,  55, new byte[] { 0x0D, 0xFE, 0x01, 0x00 }),
+            new Node( 48,   0,  49,  46,   0,   0,  46, 30,   0, new byte[] { 0x0C, 0x19, 0x00, 0x00 }),
+            new Node( 48,  30,  49,  48,   0,  49,  46, 30,   0, new byte[] { 0x0C, 0x19, 0x00, 0x00 })
+         }
+      };
+
+      // update nodes' positions depending on hole type and position
+      public void computeNodes()
+      {
+         if (hole == 8)
+         {
+            nodes.Clear();
+            if (type < nodeOffsets0.Length)
+            {
+               foreach (var n in nodeOffsets0[type])
+               {
+                  nodes.Add(new Node((Int16)(x + n.x[0]), (Int16)(y + n.y[0]), (Int16)(z + n.z[0]), (Int16)(x + n.x[1]), (Int16)(y + n.y[1]), (Int16)(z + n.z[1]), (Int16)(x + n.x[2]), (Int16)(y + n.y[2]), (Int16)(z + n.z[2]), n.other));
+               }
+            }
+         }
       }
 
       public override string ToString()
       {
          return base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
+      }
+
+      public string ToStringFull()
+      {
+         string retString = base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
+         foreach (Node node in nodes)
+         {
+            retString += string.Format("\n  {0}", node) + string.Format("  ({0}, {1}, {2}), ({3}, {4}, {5}), ({6}, {7}, {8})", node.x[0] - x, node.y[0] - y, node.z[0] - z, node.x[1] - x, node.y[1] - y, node.z[1] - z, node.x[2] - x, node.y[2] - y, node.z[2] - z);
+         }
+         return retString;
       }
    }
 
@@ -1044,7 +1117,7 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
             foreach (SquareBlock block in squareBlocks)
             {
-               if (block.hole == 8  && !first8)
+               if (block.hole == 8 && !first8)
                {
                   offset += BE.ToBytes((UInt16)(squareBlocks.Count / 2), data, offset);
                   first8 = true;
@@ -1056,6 +1129,7 @@ namespace BlastCorpsEditor
                data[offset++] = block.hole;
                if (block.hole == 8)
                {
+                  block.computeNodes();
                   offset += BE.ToBytes(block.extra, data, offset);
                   foreach (SquareBlock.Node node in block.nodes)
                   {
