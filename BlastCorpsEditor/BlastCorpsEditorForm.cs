@@ -48,9 +48,9 @@ namespace BlastCorpsEditor
       private NumericUpDown numericTntB6, numericTntTimer, numericTntH8, numericTntHA;
       private Label labelTntB6, labelTntTimer, labelTntHA, labelTntH8;
       // Blocks
-      private Label labelBlockType1, labelBlockType2, labelBlockType3;
+      private Label labelBlockType1, labelBlockType2, labelBlockCount;
       private ComboBox comboBoxBlockType1, comboBoxBlockType2;
-      private NumericUpDown numericBlockType3;
+      private NumericUpDown numericBlockCount;
       // Vehicle
       private ComboBox comboBoxVehicle;
       private NumericUpDown numericHeading;
@@ -206,8 +206,8 @@ namespace BlastCorpsEditor
             "1: Diamond (Block)",
             "2: Diamond (Block)",
             "8: Hole"}, new System.EventHandler(this.comboBoxBlockType2_SelectedIndexChanged));
-         labelBlockType3 = createLabel("Type3:");
-         numericBlockType3 = createNumeric(0, 65535, new System.EventHandler(this.numericBlockType3_ValueChanged));
+         labelBlockCount = createLabel("Count:");
+         numericBlockCount = createNumeric(0, 65535, new System.EventHandler(this.numericBlockType3_ValueChanged));
 
          comboBoxVehicle = createComboBox(new object[] {
             "00: Player",
@@ -895,21 +895,21 @@ namespace BlastCorpsEditor
                      case 2:
                         comboBoxBlockType1.SelectedIndex = 0;
                         comboBoxBlockType2.SelectedIndex = block.hole;
-                        numericBlockType3.Enabled = false;
+                        numericBlockCount.Enabled = false;
                         break;
                      case 8:
                         comboBoxBlockType1.SelectedIndex = block.type;
                         comboBoxBlockType2.SelectedIndex = 3;
-                        numericBlockType3.Enabled = true;
+                        numericBlockCount.Enabled = true;
                         break;
                   }
-                  numericBlockType3.Value = block.extra;
+                  numericBlockCount.Value = block.count;
                   tableLayoutProperties.Controls.Add(labelBlockType1, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxBlockType1, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBlockType2, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxBlockType2, 3, row++);
-                  tableLayoutProperties.Controls.Add(labelBlockType3, 2, row);
-                  tableLayoutProperties.Controls.Add(numericBlockType3, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBlockCount, 2, row);
+                  tableLayoutProperties.Controls.Add(numericBlockCount, 3, row++);
                   SelectNode(treeNodeBlock, itemSel);
                }
                else if (itemSel is Vehicle)
@@ -1354,14 +1354,18 @@ namespace BlastCorpsEditor
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
+            bool blockCountEnable = false;
             switch (comboBoxBlockType2.SelectedIndex)
             {
                case 0: block.hole = 0; break;
                case 1: block.hole = 1; break;
                case 2: block.hole = 2; break;
-               case 3: block.hole = 8; break;
-               // TODO: toggle T3 based on this value
+               case 3:
+                  block.hole = 8;
+                  blockCountEnable = true;
+                  break;
             }
+            numericBlockCount.Enabled = blockCountEnable;
             blastCorpsViewer.Invalidate();
             updateBlockNode(block);
          }
@@ -1372,7 +1376,7 @@ namespace BlastCorpsEditor
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            block.extra = (UInt16)numericBlockType3.Value;
+            block.count = (UInt16)numericBlockCount.Value;
             blastCorpsViewer.Invalidate();
             updateBlockNode(block);
          }

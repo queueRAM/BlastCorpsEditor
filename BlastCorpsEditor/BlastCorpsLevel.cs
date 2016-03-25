@@ -189,7 +189,7 @@ namespace BlastCorpsEditor
    {
       public byte type;
       public byte hole;
-      public UInt16 extra;
+      public UInt16 count;
       public class Node
       {
          public Int16[] x;
@@ -283,12 +283,12 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
+         return base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + count) : "");
       }
 
       public string ToStringFull()
       {
-         string retString = base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + extra) : "");
+         string retString = base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + count) : "");
          foreach (Node node in nodes)
          {
             retString += string.Format("\n  {0}", node) + string.Format("  ({0}, {1}, {2}), ({3}, {4}, {5}), ({6}, {7}, {8})", node.x[0] - x, node.y[0] - y, node.z[0] - z, node.x[1] - x, node.y[1] - y, node.z[1] - z, node.x[2] - x, node.y[2] - y, node.z[2] - z);
@@ -648,7 +648,7 @@ namespace BlastCorpsEditor
       }
 
       // 0x3C: Square blocks and holes
-      // [NN NN] {[XX XX] [YY YY] [ZZ ZZ] [T1] [T2] (HH HH) {[X1 X1] [Y1 Y1] [Z1 Z1]... [AA] [BB] [CC] [DD]}}
+      // [NN NN] {[XX XX] [YY YY] [ZZ ZZ] [T1] [T2] (CC CC) {[X1 X1] [Y1 Y1] [Z1 Z1]... [AA] [BB] [CC] [DD]}}
       private void decodeSquareBlocks(byte[] data)
       {
          uint start = BE.U32(data, 0x3C);
@@ -677,7 +677,7 @@ namespace BlastCorpsEditor
                idx += 8;
                if (hole == 8)
                {
-                  block.extra = BE.U16(data, idx);
+                  block.count = BE.U16(data, idx);
                   idx += 2;
                   for (int i = 0; i < 8; i++)
                   {
@@ -1145,7 +1145,7 @@ namespace BlastCorpsEditor
                data[offset++] = block.type;
                data[offset++] = block.hole;
                block.computeNodes();
-               offset += BE.ToBytes(block.extra, data, offset);
+               offset += BE.ToBytes(block.count, data, offset);
                foreach (SquareBlock.Node node in block.nodes)
                {
                   for (int i = 0; i < 3; i++)
