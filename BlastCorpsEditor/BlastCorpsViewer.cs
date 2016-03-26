@@ -471,92 +471,98 @@ namespace BlastCorpsEditor
 
       private void BlastCorpsViewer_MouseDown(object sender, MouseEventArgs e)
       {
-         switch (Mode)
+         if (e.Button == System.Windows.Forms.MouseButtons.Left)
          {
-            case MouseMode.Select:
-               BlastCorpsItem item = FindNearbyItem(e.X, e.Y);
-               if (item != selectedItem)
-               {
-                  selectedItem = item;
-                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
-                  Invalidate();
-               }
-               break;
-            case MouseMode.Move:
-               dragItem = FindNearbyItem(e.X, e.Y);
-               if (dragItem != selectedItem)
-               {
-                  selectedItem = dragItem;
-                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
-                  Invalidate();
-               }
-               break;
-            case MouseMode.Add:
-               break;
+            switch (Mode)
+            {
+               case MouseMode.Select:
+                  BlastCorpsItem item = FindNearbyItem(e.X, e.Y);
+                  if (item != selectedItem)
+                  {
+                     selectedItem = item;
+                     OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
+                     Invalidate();
+                  }
+                  break;
+               case MouseMode.Move:
+                  dragItem = FindNearbyItem(e.X, e.Y);
+                  if (dragItem != selectedItem)
+                  {
+                     selectedItem = dragItem;
+                     OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
+                     Invalidate();
+                  }
+                  break;
+               case MouseMode.Add:
+                  break;
+            }
          }
       }
 
       private void BlastCorpsViewer_MouseUp(object sender, MouseEventArgs e)
       {
-         switch (Mode)
+         if (level != null && e.Button == System.Windows.Forms.MouseButtons.Left)
          {
-            case MouseMode.Move:
-               if (dragItem != null)
-               {
-                  selectedItem = dragItem;
-                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
-                  dragItem = null;
+            switch (Mode)
+            {
+               case MouseMode.Move:
+                  if (dragItem != null)
+                  {
+                     selectedItem = dragItem;
+                     OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, false, false));
+                     dragItem = null;
+                     Invalidate();
+                  }
+                  break;
+               case MouseMode.Add:
+                  Int16 x = (Int16)levelX(e.X);
+                  Int16 z = (Int16)levelZ(e.Y);
+                  if (AddType == typeof(AmmoBox))
+                  {
+                     AmmoBox box = new AmmoBox(x, level.carrier.y, z, 0);
+                     selectedItem = box;
+                     level.ammoBoxes.Add(box);
+                  }
+                  else if (AddType == typeof(CommPoint))
+                  {
+                     CommPoint comm = new CommPoint(x, level.carrier.y, z, 0);
+                     selectedItem = comm;
+                     level.commPoints.Add(comm);
+                  }
+                  else if (AddType == typeof(RDU))
+                  {
+                     RDU rdu = new RDU(x, level.carrier.y, z);
+                     selectedItem = rdu;
+                     level.rdus.Add(rdu);
+                  }
+                  else if (AddType == typeof(TNTCrate))
+                  {
+                     TNTCrate tnt = new TNTCrate(x, level.carrier.y, z, 0, 0, 0, 0);
+                     selectedItem = tnt;
+                     level.tntCrates.Add(tnt);
+                  }
+                  else if (AddType == typeof(SquareBlock))
+                  {
+                     SquareBlock block = new SquareBlock(x, level.carrier.y, z, 0, 0);
+                     selectedItem = block;
+                     level.squareBlocks.Add(block);
+                  }
+                  else if (AddType == typeof(Vehicle))
+                  {
+                     Vehicle vehicle = new Vehicle(0, x, level.carrier.y, z, 0);
+                     selectedItem = vehicle;
+                     level.vehicles.Add(vehicle);
+                  }
+                  else if (AddType == typeof(Building))
+                  {
+                     Building building = new Building(x, level.carrier.y, z, 0, 0, 0, 0, 0);
+                     selectedItem = building;
+                     level.buildings.Add(building);
+                  }
+                  OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, true, false));
                   Invalidate();
-               }
-               break;
-            case MouseMode.Add:
-               Int16 x = (Int16)levelX(e.X);
-               Int16 z = (Int16)levelZ(e.Y);
-               if (AddType == typeof(AmmoBox))
-               {
-                  AmmoBox box = new AmmoBox(x, level.carrier.y, z, 0);
-                  selectedItem = box;
-                  level.ammoBoxes.Add(box);
-               }
-               else if (AddType == typeof(CommPoint))
-               {
-                  CommPoint comm = new CommPoint(x, level.carrier.y, z, 0);
-                  selectedItem = comm;
-                  level.commPoints.Add(comm);
-               }
-               else if (AddType == typeof(RDU))
-               {
-                  RDU rdu = new RDU(x, level.carrier.y, z);
-                  selectedItem = rdu;
-                  level.rdus.Add(rdu);
-               }
-               else if (AddType == typeof(TNTCrate))
-               {
-                  TNTCrate tnt = new TNTCrate(x, level.carrier.y, z, 0, 0, 0, 0);
-                  selectedItem = tnt;
-                  level.tntCrates.Add(tnt);
-               }
-               else if (AddType == typeof(SquareBlock))
-               {
-                  SquareBlock block = new SquareBlock(x, level.carrier.y, z, 0, 0);
-                  selectedItem = block;
-                  level.squareBlocks.Add(block);
-               }
-               else if (AddType == typeof(Vehicle))
-               {
-                  Vehicle vehicle = new Vehicle(0, x, level.carrier.y, z, 0);
-                  selectedItem = vehicle;
-                  level.vehicles.Add(vehicle);
-               }
-               else if (AddType == typeof(Building))
-               {
-                  Building building = new Building(x, level.carrier.y, z, 0, 0, 0, 0, 0);
-                  selectedItem = building;
-                  level.buildings.Add(building);
-               }
-               OnSelectionChangedEvent(new SelectionChangedEventArgs(selectedItem, true, false));
-               Invalidate();
-               break;
+                  break;
+            }
          }
       }
 
