@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 25, 25);
+         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 27, 27);
          System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
          System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
          System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
@@ -346,9 +346,9 @@
          this.treeViewObjects.ImageList = this.imageListObjects;
          this.treeViewObjects.Location = new System.Drawing.Point(4, 170);
          this.treeViewObjects.Name = "treeViewObjects";
-         treeNode1.ImageIndex = 25;
+         treeNode1.ImageIndex = 27;
          treeNode1.Name = "nodeCarrier";
-         treeNode1.SelectedImageIndex = 25;
+         treeNode1.SelectedImageIndex = 27;
          treeNode1.Text = "Carrier";
          treeNode2.ImageIndex = 1;
          treeNode2.Name = "nodeAmmo";
