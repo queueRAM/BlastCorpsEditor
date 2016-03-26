@@ -91,30 +91,37 @@ namespace BlastCorpsEditor
                if (e.SelectedItem is AmmoBox)
                {
                   addAmmoNode((AmmoBox)e.SelectedItem);
+                  updateAmmoRoot();
                }
                else if (e.SelectedItem is CommPoint)
                {
                   addCommPtNode((CommPoint)e.SelectedItem);
+                  updateCommPointRoot();
                }
                else if (e.SelectedItem is RDU)
                {
                   addRduNode((RDU)e.SelectedItem);
+                  updateRduRoot();
                }
                else if (e.SelectedItem is TNTCrate)
                {
                   addTntNode((TNTCrate)e.SelectedItem);
+                  updateTntRoot();
                }
                else if (e.SelectedItem is SquareBlock)
                {
                   addBlockNode((SquareBlock)e.SelectedItem);
+                  updateBlockRoot();
                }
                else if (e.SelectedItem is Vehicle)
                {
                   addVehicleNode((Vehicle)e.SelectedItem);
+                  updateVehicleRoot();
                }
                else if (e.SelectedItem is Building)
                {
                   addBuildingNode((Building)e.SelectedItem);
+                  updateBuildingRoot();
                }
             }
             if (e.IsDeleted)
