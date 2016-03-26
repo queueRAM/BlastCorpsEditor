@@ -164,16 +164,16 @@ namespace BlastCorpsEditor
 
    public class TNTCrate : BlastCorpsItem
    {
-      public byte b6; // TODO
+      public byte texture;
       public byte timer;
       public Int16 h8, hA; // TODO
 
-      public TNTCrate(Int16 x, Int16 y, Int16 z, byte b6, byte timer, Int16 h8, Int16 hA)
+      public TNTCrate(Int16 x, Int16 y, Int16 z, byte texture, byte timer, Int16 h8, Int16 hA)
       {
          this.x = x;
          this.y = y;
          this.z = z;
-         this.b6 = b6;
+         this.texture = texture;
          this.timer = timer;
          this.h8 = h8;
          this.hA = hA;
@@ -181,7 +181,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + b6.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + hA.ToString("X4");
+         return base.ToString() + ", " + texture.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + hA.ToString("X4");
       }
    }
 
@@ -699,7 +699,7 @@ namespace BlastCorpsEditor
       }
 
       // 0x38: TNT crates
-      // [XX XX] [YY YY] [ZZ ZZ] [B6] [TT] [H8 H8] [HA HA]
+      // [XX XX] [YY YY] [ZZ ZZ] [TE] [TY] [H8 H8] [HA HA]
       private void decodeTNTCrates(byte[] data)
       {
          uint start = BE.U32(data, 0x38);
@@ -1172,7 +1172,7 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(tnt.x, data, offset);
             offset += BE.ToBytes(tnt.y, data, offset);
             offset += BE.ToBytes(tnt.z, data, offset);
-            data[offset++] = tnt.b6;
+            data[offset++] = tnt.texture;
             data[offset++] = tnt.timer;
             offset += BE.ToBytes(tnt.h8, data, offset);
             offset += BE.ToBytes(tnt.hA, data, offset);
