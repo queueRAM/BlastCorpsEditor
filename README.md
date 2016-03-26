@@ -16,6 +16,7 @@ Tools for hacking the Blast Corps ROM for N64.
 * add tools to add and remove objects from level
 * add select and move tools
 * handle filename passed in through command line argument
+* update square hole bounds and fields
 
 0.0.3: More details on comm points and buildings
 * add control for comm point H6 value to control animation
