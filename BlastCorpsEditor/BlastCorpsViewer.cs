@@ -383,11 +383,11 @@ namespace BlastCorpsEditor
                if ((block.hole == 8 && block.type > 0) || (block.hole != 8 && block.hole > 0))
                {
                   e.Graphics.RotateTransform(45);
-                  e.Graphics.TranslateTransform(pixelX(block.x), pixelY(block.z)-4, MatrixOrder.Append);
+                  e.Graphics.TranslateTransform(pixelX(block.x), pixelY(block.z)-6, MatrixOrder.Append);
                }
                else
                {
-                  e.Graphics.TranslateTransform(pixelX(block.x)-4, pixelY(block.z), MatrixOrder.Append);
+                  e.Graphics.TranslateTransform(pixelX(block.x)-4, pixelY(block.z)-4, MatrixOrder.Append);
                }
                if (block.hole == 8)
                {
