@@ -832,6 +832,7 @@ namespace BlastCorpsEditor
          blastCorpsViewer.SelectedItem = itemSel;
          if (itemChanged)
          {
+            tableLayoutProperties.SuspendLayout();
             tableLayoutProperties.Controls.Clear();
             if (itemSel == null)
             {
@@ -970,6 +971,7 @@ namespace BlastCorpsEditor
                }
                tableLayoutProperties.Controls.Add(labelDummy, 4, row);
             }
+            tableLayoutProperties.ResumeLayout();
          }
       }
 
