@@ -61,7 +61,7 @@ namespace BlastCorpsEditor
       // Buildings
       private Label labelBuildingCount, labelBuildingB9, labelBuildingMovement;
       private ComboBox comboBoxBuildingType;
-      private NumericUpDown numericBuildingCounter;
+      private CheckBox checkBoxBuildingCount;
       private NumericUpDown numericBuildingB9;
       private ComboBox comboBoxBuildingMovement;
       private NumericUpDown numericBuildingSpeed;
@@ -525,7 +525,8 @@ namespace BlastCorpsEditor
          comboBoxBuildingType.DropDownWidth = 400;
          comboBoxBuildingType.Width = 150;
          labelBuildingCount = createLabel("Count:");
-         numericBuildingCounter = createNumeric(0, 255, new System.EventHandler(this.numericBuildingCounter_ValueChanged));
+         checkBoxBuildingCount = new CheckBox();
+         checkBoxBuildingCount.CheckedChanged += new System.EventHandler(this.checkBoxBuildingCount_CheckedChanged);
          labelBuildingB9 = createLabel("U8_9:");
          numericBuildingB9 = createNumeric(0, 255, new System.EventHandler(this.numericBuildingB9_ValueChanged));
          labelBuildingMovement = createLabel("Movement:");
@@ -966,14 +967,14 @@ namespace BlastCorpsEditor
                   groupBoxProperties.Text = "Building Properties:";
                   Building building = (Building)itemSel;
                   comboBoxBuildingType.SelectedIndex = building.type;
-                  numericBuildingCounter.Value = building.counter;
+                  checkBoxBuildingCount.Checked = building.isCounted;
                   numericBuildingB9.Value = building.b9;
                   comboBoxBuildingMovement.SelectedIndex = building.movement;
                   numericBuildingSpeed.Value = building.speed;
                   tableLayoutProperties.Controls.Add(labelType, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxBuildingType, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBuildingCount, 2, row);
-                  tableLayoutProperties.Controls.Add(numericBuildingCounter, 3, row++);
+                  tableLayoutProperties.Controls.Add(checkBoxBuildingCount, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBuildingB9, 2, row);
                   tableLayoutProperties.Controls.Add(numericBuildingB9, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBuildingMovement, 2, row);
@@ -1501,12 +1502,12 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericBuildingCounter_ValueChanged(object sender, EventArgs e)
+      private void checkBoxBuildingCount_CheckedChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is Building)
          {
             Building b = (Building)itemSel;
-            b.counter = (byte)numericBuildingCounter.Value;
+            b.isCounted = checkBoxBuildingCount.Checked;
             blastCorpsViewer.Invalidate();
             updateBuildingNode(b);
          }

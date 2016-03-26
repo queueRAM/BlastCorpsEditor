@@ -423,9 +423,8 @@ namespace BlastCorpsEditor
    public class Building : BlastCorpsItem
    {
       public UInt16 type;
-      // TODO: what are these?
-      public byte counter;
-      public byte b9;
+      public bool isCounted;
+      public byte b9; // TODO
       public UInt16 movement;
       public UInt16 speed;
 
@@ -435,7 +434,7 @@ namespace BlastCorpsEditor
          this.y = y;
          this.z = z;
          this.type = type;
-         this.counter = counter;
+         this.isCounted = counter > 0;
          this.b9 = b9;
          this.movement = movement;
          this.speed = speed;
@@ -443,7 +442,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + type + ", " + counter + ", " + b9 + ", " + movement + ", " + speed;
+         return base.ToString() + ", " + type + ", " + isCounted + ", " + b9 + ", " + movement + ", " + speed;
       }
    }
 
@@ -1295,7 +1294,7 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(b.y, data, offset);
             offset += BE.ToBytes(b.z, data, offset);
             offset += BE.ToBytes(b.type, data, offset);
-            data[offset++] = b.counter;
+            data[offset++] = (byte)(b.isCounted ? 1 : 0);
             data[offset++] = b.b9;
             offset += BE.ToBytes(b.movement, data, offset);
             offset += BE.ToBytes(b.speed, data, offset);
