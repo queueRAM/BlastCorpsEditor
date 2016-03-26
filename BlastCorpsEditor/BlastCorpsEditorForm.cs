@@ -48,9 +48,9 @@ namespace BlastCorpsEditor
       private NumericUpDown numericTntB6, numericTntTimer, numericTntH8, numericTntHA;
       private Label labelTntB6, labelTntTimer, labelTntHA, labelTntH8;
       // Blocks
-      private Label labelBlockType1, labelBlockType2, labelBlockCount;
-      private ComboBox comboBoxBlockType1, comboBoxBlockType2;
-      private NumericUpDown numericBlockCount;
+      private Label labelBlockType, labelBlockShape, labelBlockCount;
+      private ComboBox comboBoxBlockType, comboBoxBlockShape;
+      private CheckBox checkBoxBlockCount;
       // Vehicle
       private ComboBox comboBoxVehicle;
       private NumericUpDown numericHeading;
@@ -202,19 +202,18 @@ namespace BlastCorpsEditor
          numericTntH8 = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntH8_ValueChanged));
          numericTntHA = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntHA_ValueChanged));
 
-         labelBlockType1 = createLabel("Type1:");
-         comboBoxBlockType1 = createComboBox(new object[] {
-            "0: Normal",
-            "1: Diamond (Hole)",
-            "2: Diamond (Hole)"}, new System.EventHandler(this.comboBoxBlockType1_SelectedIndexChanged));
-         labelBlockType2 = createLabel("Type2:");
-         comboBoxBlockType2 = createComboBox(new object[] {
-            "0: Normal (Block)",
-            "1: Diamond (Block)",
-            "2: Diamond (Block)",
-            "8: Hole"}, new System.EventHandler(this.comboBoxBlockType2_SelectedIndexChanged));
+         labelBlockType = createLabel("Type:");
+         comboBoxBlockType = createComboBox(new object[] {
+            "Block",
+            "Hole"}, new System.EventHandler(this.comboBoxBlockType_SelectedIndexChanged));
+         labelBlockShape = createLabel("Shape:");
+         comboBoxBlockShape = createComboBox(new object[] {
+            "Square",
+            "Diamond 1",
+            "Diamond 2"}, new System.EventHandler(this.comboBoxBlockShape_SelectedIndexChanged));
          labelBlockCount = createLabel("Count:");
-         numericBlockCount = createNumeric(0, 65535, new System.EventHandler(this.numericBlockType3_ValueChanged));
+         checkBoxBlockCount = new CheckBox();
+         checkBoxBlockCount.CheckedChanged += new EventHandler(this.checkBoxBlockCount_CheckedChanged);
 
          comboBoxVehicle = createComboBox(new object[] {
             "00: Player",
@@ -667,17 +666,23 @@ namespace BlastCorpsEditor
          treeNodeTnt.Nodes.Add(tntNode);
       }
 
-      private void addBlockNode(SquareBlock block)
+      private int blockTypeToInt(SquareBlock block)
       {
-         int icon = ICON_BLOCK;
-         if (block.hole == 8)
+         int blockImage = 0;
+         if (block.type == SquareBlock.Type.Hole)
          {
-            icon = (block.type == 0) ? ICON_BLOCK + 2 : ICON_BLOCK + 3;
+            blockImage = (block.shape == SquareBlock.Shape.Square) ? ICON_BLOCK + 2 : ICON_BLOCK + 3;
          }
          else
          {
-            icon = (block.hole == 0) ? ICON_BLOCK : ICON_BLOCK + 1;
+            blockImage = (block.shape == SquareBlock.Shape.Square) ? ICON_BLOCK : ICON_BLOCK + 1;
          }
+         return blockImage;
+      }
+
+      private void addBlockNode(SquareBlock block)
+      {
+         int icon = blockTypeToInt(block);
          TreeNode blockNode = new TreeNode(block.ToString(), icon, icon);
          blockNode.Tag = block;
          treeNodeBlock.Nodes.Add(blockNode);
@@ -903,29 +908,30 @@ namespace BlastCorpsEditor
                {
                   groupBoxProperties.Text = "Square Block Properties:";
                   SquareBlock block = (SquareBlock)itemSel;
-                  comboBoxBlockType1.SelectedIndex = block.type;
-                  switch (block.hole)
+                  switch (block.type)
                   {
-                     case 0:
-                     case 1:
-                     case 2:
-                        comboBoxBlockType1.SelectedIndex = 0;
-                        comboBoxBlockType2.SelectedIndex = block.hole;
-                        numericBlockCount.Enabled = false;
+                     case SquareBlock.Type.Block:
+                        comboBoxBlockType.SelectedIndex = 0;
+                        checkBoxBlockCount.Enabled = false;
                         break;
-                     case 8:
-                        comboBoxBlockType1.SelectedIndex = block.type;
-                        comboBoxBlockType2.SelectedIndex = 3;
-                        numericBlockCount.Enabled = true;
+                     case SquareBlock.Type.Hole:
+                        comboBoxBlockType.SelectedIndex = 1;
+                        checkBoxBlockCount.Enabled = true;
                         break;
                   }
-                  numericBlockCount.Value = block.count;
-                  tableLayoutProperties.Controls.Add(labelBlockType1, 2, row);
-                  tableLayoutProperties.Controls.Add(comboBoxBlockType1, 3, row++);
-                  tableLayoutProperties.Controls.Add(labelBlockType2, 2, row);
-                  tableLayoutProperties.Controls.Add(comboBoxBlockType2, 3, row++);
+                  switch (block.shape)
+                  {
+                     case SquareBlock.Shape.Square: comboBoxBlockShape.SelectedIndex = 0; break;
+                     case SquareBlock.Shape.Diamond1: comboBoxBlockShape.SelectedIndex = 1; break;
+                     case SquareBlock.Shape.Diamond2: comboBoxBlockShape.SelectedIndex = 2; break;
+                  }
+                  checkBoxBlockCount.Checked = block.isCounted;
+                  tableLayoutProperties.Controls.Add(labelBlockType, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBlockType, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelBlockShape, 2, row);
+                  tableLayoutProperties.Controls.Add(comboBoxBlockShape, 3, row++);
                   tableLayoutProperties.Controls.Add(labelBlockCount, 2, row);
-                  tableLayoutProperties.Controls.Add(numericBlockCount, 3, row++);
+                  tableLayoutProperties.Controls.Add(checkBoxBlockCount, 3, row++);
                   SelectNode(treeNodeBlock, itemSel);
                }
                else if (itemSel is Vehicle)
@@ -1349,51 +1355,57 @@ namespace BlastCorpsEditor
          {
             if (node.Tag == block)
             {
+               int icon = blockTypeToInt(block);
                node.Text = block.ToString();
+               node.ImageIndex = icon;
+               node.SelectedImageIndex = icon;
                break;
             }
          }
       }
 
-      private void comboBoxBlockType1_SelectedIndexChanged(object sender, EventArgs e)
+      private void comboBoxBlockType_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            block.type = (byte)comboBoxBlockType1.SelectedIndex;
-            blastCorpsViewer.Invalidate();
-            updateBlockNode(block);
-         }
-      }
-
-      private void comboBoxBlockType2_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         if (itemSel != null && itemSel is SquareBlock)
-         {
-            SquareBlock block = (SquareBlock)itemSel;
-            bool blockCountEnable = false;
-            switch (comboBoxBlockType2.SelectedIndex)
+            if (comboBoxBlockType.SelectedIndex == 0)
             {
-               case 0: block.hole = 0; break;
-               case 1: block.hole = 1; break;
-               case 2: block.hole = 2; break;
-               case 3:
-                  block.hole = 8;
-                  blockCountEnable = true;
-                  break;
+               block.type = SquareBlock.Type.Block;
+               checkBoxBlockCount.Enabled = false;
             }
-            numericBlockCount.Enabled = blockCountEnable;
+            else
+            {
+               block.type = SquareBlock.Type.Hole;
+               checkBoxBlockCount.Enabled = true;
+            }
             blastCorpsViewer.Invalidate();
             updateBlockNode(block);
          }
       }
 
-      private void numericBlockType3_ValueChanged(object sender, EventArgs e)
+      private void comboBoxBlockShape_SelectedIndexChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is SquareBlock)
          {
             SquareBlock block = (SquareBlock)itemSel;
-            block.count = (UInt16)numericBlockCount.Value;
+            switch (comboBoxBlockShape.SelectedIndex)
+            {
+               case 0: block.shape = SquareBlock.Shape.Square; break;
+               case 1: block.shape = SquareBlock.Shape.Diamond1; break;
+               case 2: block.shape = SquareBlock.Shape.Diamond2; break;
+            }
+            blastCorpsViewer.Invalidate();
+            updateBlockNode(block);
+         }
+      }
+
+      private void checkBoxBlockCount_CheckedChanged(object sender, EventArgs e)
+      {
+         if (itemSel != null && itemSel is SquareBlock)
+         {
+            SquareBlock block = (SquareBlock)itemSel;
+            block.isCounted = checkBoxBlockCount.Checked;
             blastCorpsViewer.Invalidate();
             updateBlockNode(block);
          }

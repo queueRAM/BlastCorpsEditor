@@ -187,9 +187,11 @@ namespace BlastCorpsEditor
 
    public class SquareBlock : BlastCorpsItem
    {
-      public byte type;
-      public byte hole;
-      public UInt16 count;
+      public enum Type { Block, Hole }
+      public enum Shape { Square, Diamond1, Diamond2 }
+      public Type type;
+      public Shape shape;
+      public bool isCounted;
       public class Node
       {
          public Int16[] x;
@@ -216,13 +218,81 @@ namespace BlastCorpsEditor
       }
       public List<Node> nodes = new List<Node>();
 
-      public SquareBlock(Int16 x, Int16 y, Int16 z, byte type, byte hole)
+      public SquareBlock(Int16 x, Int16 y, Int16 z, byte type1, byte type2)
+      {
+         this.x = x;
+         this.y = y;
+         this.z = z;
+         if (type2 == 8)
+         {
+            this.type = Type.Hole;
+            switch (type1)
+            {
+               case 0: this.shape = Shape.Square; break;
+               case 1: this.shape = Shape.Diamond1; break;
+               case 2: this.shape = Shape.Diamond2; break;
+            }
+         }
+         else
+         {
+            this.type = Type.Block;
+            switch (type2)
+            {
+               case 0: this.shape = Shape.Square; break;
+               case 1: this.shape = Shape.Diamond1; break;
+               case 2: this.shape = Shape.Diamond2; break;
+            }
+         }
+      }
+
+      public SquareBlock(Int16 x, Int16 y, Int16 z, Type type, Shape shape)
       {
          this.x = x;
          this.y = y;
          this.z = z;
          this.type = type;
-         this.hole = hole;
+         this.shape = shape;
+      }
+
+      public byte Type1()
+      {
+         if (type == Type.Block)
+         {
+            return 0;
+         }
+         else
+         {
+            switch (shape)
+            {
+               case Shape.Square: return 0;
+               case Shape.Diamond1: return 1;
+               case Shape.Diamond2: return 2;
+            }
+         }
+         return 0;
+      }
+
+      public byte Type2()
+      {
+         if (type == Type.Hole)
+         {
+            return 8;
+         }
+         else
+         {
+            switch (shape)
+            {
+               case Shape.Square: return 0;
+               case Shape.Diamond1: return 1;
+               case Shape.Diamond2: return 2;
+            }
+         }
+         return 0;
+      }
+
+      public UInt16 GetCount()
+      {
+         return (UInt16)(isCounted ? 1 : 0);
       }
 
       public void addNode(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, byte[] data, int index)
@@ -232,7 +302,7 @@ namespace BlastCorpsEditor
          nodes.Add(n);
       }
 
-      static readonly Node[][] nodeOffsets0 = new Node[][] {
+      static readonly Node[][] nodeOffsets = new Node[][] {
          new Node[] {
             new Node( 38, -15, -36, -40, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
             new Node( 38,  15, -36,  38, -15, -36, -40, 15, -36, new byte[] { 0x07, 0xFD, 0x01, 0x00 }),
@@ -268,12 +338,13 @@ namespace BlastCorpsEditor
       // update nodes' positions depending on hole type and position
       public void computeNodes()
       {
-         if (hole == 8)
+         if (type == Type.Hole)
          {
             nodes.Clear();
-            if (type < nodeOffsets0.Length)
+            byte holeType = Type1();
+            if (Type1() < nodeOffsets.Length)
             {
-               foreach (var n in nodeOffsets0[type])
+               foreach (var n in nodeOffsets[holeType])
                {
                   nodes.Add(new Node((Int16)(x + n.x[0]), (Int16)(y + n.y[0]), (Int16)(z + n.z[0]), (Int16)(x + n.x[1]), (Int16)(y + n.y[1]), (Int16)(z + n.z[1]), (Int16)(x + n.x[2]), (Int16)(y + n.y[2]), (Int16)(z + n.z[2]), n.other));
                }
@@ -283,12 +354,12 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + count) : "");
+         return base.ToString() + ", " + Type1() + ", " + Type2() + ((type == Type.Hole) ? (", " + isCounted) : "");
       }
 
       public string ToStringFull()
       {
-         string retString = base.ToString() + ", " + type + ", " + hole + ((hole == 8) ? (", " + count) : "");
+         string retString = base.ToString() + ", " + type + ", " + Type2() + ((type == Type.Hole) ? (", " + isCounted) : "");
          foreach (Node node in nodes)
          {
             retString += string.Format("\n  {0}", node) + string.Format("  ({0}, {1}, {2}), ({3}, {4}, {5}), ({6}, {7}, {8})", node.x[0] - x, node.y[0] - y, node.z[0] - z, node.x[1] - x, node.y[1] - y, node.z[1] - z, node.x[2] - x, node.y[2] - y, node.z[2] - z);
@@ -666,18 +737,18 @@ namespace BlastCorpsEditor
             for (int g = 0; g < num; g++)
             {
                Int16 x, y, z;
-               byte type, hole;
+               byte type1, type2;
                x = BE.I16(data, idx);
                y = BE.I16(data, idx + 2);
                z = BE.I16(data, idx + 4);
-               type = data[idx + 6];
-               hole = data[idx + 7];
-               SquareBlock block = new SquareBlock(x, y, z, type, hole);
+               type1 = data[idx + 6];
+               type2 = data[idx + 7];
+               SquareBlock block = new SquareBlock(x, y, z, type1, type2);
                squareBlocks.Add(block);
                idx += 8;
-               if (hole == 8)
+               if (block.type == SquareBlock.Type.Hole)
                {
-                  block.count = BE.U16(data, idx);
+                  block.isCounted = BE.U16(data, idx) > 0;
                   idx += 2;
                   for (int i = 0; i < 8; i++)
                   {
@@ -1116,7 +1187,7 @@ namespace BlastCorpsEditor
             List<SquareBlock> holes = new List<SquareBlock>();
             foreach (SquareBlock block in squareBlocks)
             {
-               if (block.hole == 8)
+               if (block.type == SquareBlock.Type.Hole)
                {
                   holes.Add(block);
                }
@@ -1132,8 +1203,8 @@ namespace BlastCorpsEditor
                offset += BE.ToBytes(block.x, data, offset);
                offset += BE.ToBytes(block.y, data, offset);
                offset += BE.ToBytes(block.z, data, offset);
-               data[offset++] = block.type;
-               data[offset++] = block.hole;
+               data[offset++] = block.Type1();
+               data[offset++] = block.Type2();
             }
 
             offset += BE.ToBytes((UInt16)holes.Count, data, offset);
@@ -1142,10 +1213,10 @@ namespace BlastCorpsEditor
                offset += BE.ToBytes(block.x, data, offset);
                offset += BE.ToBytes(block.y, data, offset);
                offset += BE.ToBytes(block.z, data, offset);
-               data[offset++] = block.type;
-               data[offset++] = block.hole;
+               data[offset++] = block.Type1();
+               data[offset++] = block.Type2();
                block.computeNodes();
-               offset += BE.ToBytes(block.count, data, offset);
+               offset += BE.ToBytes((UInt16)(block.isCounted ? 1 : 0), data, offset);
                foreach (SquareBlock.Node node in block.nodes)
                {
                   for (int i = 0; i < 3; i++)

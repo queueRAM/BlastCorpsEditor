@@ -380,7 +380,7 @@ namespace BlastCorpsEditor
             }
             foreach (SquareBlock block in level.squareBlocks)
             {
-               if ((block.hole == 8 && block.type > 0) || (block.hole != 8 && block.hole > 0))
+               if (block.shape == SquareBlock.Shape.Diamond1 || block.shape == SquareBlock.Shape.Diamond2)
                {
                   e.Graphics.RotateTransform(45);
                   e.Graphics.TranslateTransform(pixelX(block.x), pixelY(block.z)-6, MatrixOrder.Append);
@@ -389,7 +389,7 @@ namespace BlastCorpsEditor
                {
                   e.Graphics.TranslateTransform(pixelX(block.x)-4, pixelY(block.z)-4, MatrixOrder.Append);
                }
-               if (block.hole == 8)
+               if (block.type == SquareBlock.Type.Hole)
                {
                   e.Graphics.DrawRectangle(blockPen, 0, 0, 9, 9);
                }
@@ -543,7 +543,7 @@ namespace BlastCorpsEditor
                   }
                   else if (AddType == typeof(SquareBlock))
                   {
-                     SquareBlock block = new SquareBlock(x, level.carrier.y, z, 0, 0);
+                     SquareBlock block = new SquareBlock(x, level.carrier.y, z, SquareBlock.Type.Block, SquareBlock.Shape.Square);
                      selectedItem = block;
                      level.squareBlocks.Add(block);
                   }
