@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 24, 24);
+         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 25, 25);
          System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
          System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
          System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
          System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
          System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
-         System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Vehicles [0]", 12, 12);
-         System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Buildings [0]", 25, 25);
+         System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Vehicles [0]", 15, 15);
+         System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Buildings [0]", 28, 28);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -346,9 +346,9 @@
          this.treeViewObjects.ImageList = this.imageListObjects;
          this.treeViewObjects.Location = new System.Drawing.Point(4, 170);
          this.treeViewObjects.Name = "treeViewObjects";
-         treeNode1.ImageIndex = 24;
+         treeNode1.ImageIndex = 25;
          treeNode1.Name = "nodeCarrier";
-         treeNode1.SelectedImageIndex = 24;
+         treeNode1.SelectedImageIndex = 25;
          treeNode1.Text = "Carrier";
          treeNode2.ImageIndex = 1;
          treeNode2.Name = "nodeAmmo";
@@ -370,13 +370,13 @@
          treeNode6.Name = "nodeBlock";
          treeNode6.SelectedImageIndex = 7;
          treeNode6.Text = "Square Blocks [0]";
-         treeNode7.ImageIndex = 12;
+         treeNode7.ImageIndex = 15;
          treeNode7.Name = "nodeVehicle";
-         treeNode7.SelectedImageIndex = 12;
+         treeNode7.SelectedImageIndex = 15;
          treeNode7.Text = "Vehicles [0]";
-         treeNode8.ImageIndex = 25;
+         treeNode8.ImageIndex = 28;
          treeNode8.Name = "nodeBuilding";
-         treeNode8.SelectedImageIndex = 25;
+         treeNode8.SelectedImageIndex = 28;
          treeNode8.Text = "Buildings [0]";
          this.treeViewObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
@@ -405,25 +405,29 @@
          this.imageListObjects.Images.SetKeyName(4, "comm_point.png");
          this.imageListObjects.Images.SetKeyName(5, "rdu.png");
          this.imageListObjects.Images.SetKeyName(6, "tnt.png");
-         this.imageListObjects.Images.SetKeyName(7, "block.png");
-         this.imageListObjects.Images.SetKeyName(8, "veh_player.png");
-         this.imageListObjects.Images.SetKeyName(9, "veh_sideswipe.png");
-         this.imageListObjects.Images.SetKeyName(10, "veh_thunderfist.png");
-         this.imageListObjects.Images.SetKeyName(11, "veh_skyfall.png");
-         this.imageListObjects.Images.SetKeyName(12, "veh_bulldozer.png");
-         this.imageListObjects.Images.SetKeyName(13, "veh_backlash.png");
-         this.imageListObjects.Images.SetKeyName(14, "veh_crane.png");
-         this.imageListObjects.Images.SetKeyName(15, "veh_train.png");
-         this.imageListObjects.Images.SetKeyName(16, "veh_hotrod.png");
-         this.imageListObjects.Images.SetKeyName(17, "veh_jbomb.png");
-         this.imageListObjects.Images.SetKeyName(18, "veh_ballista.png");
-         this.imageListObjects.Images.SetKeyName(19, "veh_barge.png");
-         this.imageListObjects.Images.SetKeyName(20, "veh_police.png");
-         this.imageListObjects.Images.SetKeyName(21, "veh_ateam.png");
-         this.imageListObjects.Images.SetKeyName(22, "veh_starski.png");
-         this.imageListObjects.Images.SetKeyName(23, "veh_cyclone.png");
-         this.imageListObjects.Images.SetKeyName(24, "veh_carrier.png");
-         this.imageListObjects.Images.SetKeyName(25, "building.png");
+         this.imageListObjects.Images.SetKeyName(7, "block_square.png");
+         this.imageListObjects.Images.SetKeyName(8, "block_diamond.png");
+         this.imageListObjects.Images.SetKeyName(9, "hole_square.png");
+         this.imageListObjects.Images.SetKeyName(10, "hole_diamond.png");
+         this.imageListObjects.Images.SetKeyName(11, "veh_player.png");
+         this.imageListObjects.Images.SetKeyName(12, "veh_sideswipe.png");
+         this.imageListObjects.Images.SetKeyName(13, "veh_thunderfist.png");
+         this.imageListObjects.Images.SetKeyName(14, "veh_skyfall.png");
+         this.imageListObjects.Images.SetKeyName(15, "veh_bulldozer.png");
+         this.imageListObjects.Images.SetKeyName(16, "veh_backlash.png");
+         this.imageListObjects.Images.SetKeyName(17, "veh_crane.png");
+         this.imageListObjects.Images.SetKeyName(18, "veh_train.png");
+         this.imageListObjects.Images.SetKeyName(19, "veh_hotrod.png");
+         this.imageListObjects.Images.SetKeyName(20, "veh_jbomb.png");
+         this.imageListObjects.Images.SetKeyName(21, "veh_ballista.png");
+         this.imageListObjects.Images.SetKeyName(22, "veh_barge.png");
+         this.imageListObjects.Images.SetKeyName(23, "veh_police.png");
+         this.imageListObjects.Images.SetKeyName(24, "veh_ateam.png");
+         this.imageListObjects.Images.SetKeyName(25, "veh_starski.png");
+         this.imageListObjects.Images.SetKeyName(26, "veh_cyclone.png");
+         this.imageListObjects.Images.SetKeyName(27, "veh_carrier.png");
+         this.imageListObjects.Images.SetKeyName(28, "building.png");
+         this.imageListObjects.Images.SetKeyName(29, "hole_diamond.png");
          // 
          // groupBoxProperties
          // 

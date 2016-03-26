@@ -20,8 +20,8 @@ namespace BlastCorpsEditor
       private const int ICON_RDU = 5;
       private const int ICON_TNT = 6;
       private const int ICON_BLOCK = 7;
-      private const int ICON_VEHICLE = 8;
-      private const int ICON_BUILDING = 25;
+      private const int ICON_VEHICLE = 11;
+      private const int ICON_BUILDING = 28;
       // top level tree view nodes
       private TreeNode treeNodeCarrier;
       private TreeNode treeNodeAmmo;
@@ -662,8 +662,16 @@ namespace BlastCorpsEditor
 
       private void addBlockNode(SquareBlock block)
       {
-         // TODO: diff icon for type?
-         TreeNode blockNode = new TreeNode(block.ToString(), ICON_BLOCK, ICON_BLOCK);
+         int icon = ICON_BLOCK;
+         if (block.hole == 8)
+         {
+            icon = (block.type == 0) ? ICON_BLOCK + 2 : ICON_BLOCK + 3;
+         }
+         else
+         {
+            icon = (block.hole == 0) ? ICON_BLOCK : ICON_BLOCK + 1;
+         }
+         TreeNode blockNode = new TreeNode(block.ToString(), icon, icon);
          blockNode.Tag = block;
          treeNodeBlock.Nodes.Add(blockNode);
       }
