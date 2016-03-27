@@ -231,14 +231,14 @@ namespace BlastCorpsEditor
             "08: American Dream",
             "09: J-Bomb",
             "10: Ballista",
-            "11: barge 0",
-            "12: INVALID",
-            "13: police",
+            "11: Barge 0",
+            "12: !! INVALID !!",
+            "13: Police",
             "14: A-Team Van",
             "15: Hotrod",
             "16: Cyclone Suit",
-            "17: barge 1",
-            "18: barge 2"}, new System.EventHandler(this.comboBoxVehicle_SelectedIndexChanged));
+            "17: Barge 1",
+            "18: Barge 2"}, new System.EventHandler(this.comboBoxVehicle_SelectedIndexChanged));
          labelHeading = createLabel("Heading:");
          numericHeading = createNumeric(0, 65535, new System.EventHandler(this.numericHeading_ValueChanged));
 
