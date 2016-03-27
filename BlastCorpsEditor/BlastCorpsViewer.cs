@@ -446,15 +446,15 @@ namespace BlastCorpsEditor
 
       private void BlastCorpsViewer_MouseMove(object sender, MouseEventArgs e)
       {
-         switch (Mode)
+         if (level != null)
          {
-            case MouseMode.Move:
-               if (level != null)
-               {
-                  Int16 x = (Int16)levelX(e.X);
-                  Int16 z = (Int16)levelZ(e.Y);
-                  string text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
-                  OnPositionEvent(new PositionEventArgs(text));
+            Int16 x = (Int16)levelX(e.X);
+            Int16 z = (Int16)levelZ(e.Y);
+            string text = x + "," + z + " ( " + x.ToString("X4") + "," + z.ToString("X4") + " )";
+            OnPositionEvent(new PositionEventArgs(text));
+            switch (Mode)
+            {
+               case MouseMode.Move:
                   if (dragItem != null)
                   {
                      dragItem.x = x;
@@ -462,10 +462,10 @@ namespace BlastCorpsEditor
                      OnItemMovedEvent(new ItemMovedEventArgs(dragItem));
                      Invalidate();
                   }
-               }
-               break;
-            case MouseMode.Add:
-               break;
+                  break;
+               case MouseMode.Add:
+                  break;
+            }
          }
       }
 
