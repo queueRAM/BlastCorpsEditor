@@ -322,7 +322,7 @@
          this.tabControlItems.Location = new System.Drawing.Point(3, 3);
          this.tabControlItems.Name = "tabControlItems";
          this.tabControlItems.SelectedIndex = 0;
-         this.tabControlItems.Size = new System.Drawing.Size(339, 660);
+         this.tabControlItems.Size = new System.Drawing.Size(375, 660);
          this.tabControlItems.TabIndex = 4;
          // 
          // tabPageObjects
@@ -331,7 +331,7 @@
          this.tabPageObjects.Controls.Add(this.groupBoxProperties);
          this.tabPageObjects.Location = new System.Drawing.Point(4, 22);
          this.tabPageObjects.Name = "tabPageObjects";
-         this.tabPageObjects.Size = new System.Drawing.Size(331, 634);
+         this.tabPageObjects.Size = new System.Drawing.Size(367, 634);
          this.tabPageObjects.TabIndex = 4;
          this.tabPageObjects.Text = "Objects";
          this.tabPageObjects.UseVisualStyleBackColor = true;
@@ -389,7 +389,7 @@
             treeNode8});
          this.treeViewObjects.SelectedImageIndex = 0;
          this.treeViewObjects.ShowLines = false;
-         this.treeViewObjects.Size = new System.Drawing.Size(324, 461);
+         this.treeViewObjects.Size = new System.Drawing.Size(360, 461);
          this.treeViewObjects.TabIndex = 24;
          this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_AfterSelect);
          this.treeViewObjects.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewObjects_KeyDown);
@@ -436,7 +436,7 @@
          this.groupBoxProperties.Controls.Add(this.tableLayoutProperties);
          this.groupBoxProperties.Location = new System.Drawing.Point(6, 4);
          this.groupBoxProperties.Name = "groupBoxProperties";
-         this.groupBoxProperties.Size = new System.Drawing.Size(322, 160);
+         this.groupBoxProperties.Size = new System.Drawing.Size(358, 160);
          this.groupBoxProperties.TabIndex = 23;
          this.groupBoxProperties.TabStop = false;
          this.groupBoxProperties.Text = "Object Properties:";
@@ -458,7 +458,7 @@
          this.tableLayoutProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.tableLayoutProperties.Size = new System.Drawing.Size(316, 141);
+         this.tableLayoutProperties.Size = new System.Drawing.Size(352, 141);
          this.tableLayoutProperties.TabIndex = 106;
          // 
          // tabPageHeader
@@ -469,7 +469,7 @@
          this.tabPageHeader.Location = new System.Drawing.Point(4, 22);
          this.tabPageHeader.Name = "tabPageHeader";
          this.tabPageHeader.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageHeader.Size = new System.Drawing.Size(331, 634);
+         this.tabPageHeader.Size = new System.Drawing.Size(356, 634);
          this.tabPageHeader.TabIndex = 3;
          this.tabPageHeader.Text = "Header";
          this.tabPageHeader.UseVisualStyleBackColor = true;
@@ -879,7 +879,7 @@
          this.listViewHeaders.GridLines = true;
          this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
          this.listViewHeaders.Name = "listViewHeaders";
-         this.listViewHeaders.Size = new System.Drawing.Size(153, 621);
+         this.listViewHeaders.Size = new System.Drawing.Size(178, 621);
          this.listViewHeaders.TabIndex = 13;
          this.listViewHeaders.UseCompatibleStateImageBehavior = false;
          this.listViewHeaders.View = System.Windows.Forms.View.Details;
@@ -916,7 +916,7 @@
          this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
          this.splitContainer1.Panel2.Controls.Add(this.blastCorpsViewer);
          this.splitContainer1.Size = new System.Drawing.Size(1035, 666);
-         this.splitContainer1.SplitterDistance = 345;
+         this.splitContainer1.SplitterDistance = 381;
          this.splitContainer1.TabIndex = 9;
          // 
          // toolStrip1
@@ -938,7 +938,7 @@
             this.toolStripButtonBuilding});
          this.toolStrip1.Location = new System.Drawing.Point(0, 0);
          this.toolStrip1.Name = "toolStrip1";
-         this.toolStrip1.Size = new System.Drawing.Size(686, 25);
+         this.toolStrip1.Size = new System.Drawing.Size(650, 25);
          this.toolStrip1.TabIndex = 8;
          this.toolStrip1.Text = "toolStrip1";
          // 
@@ -1073,7 +1073,7 @@
          this.blastCorpsViewer.ShowBoundingBoxes40 = false;
          this.blastCorpsViewer.ShowBoundingBoxes44 = false;
          this.blastCorpsViewer.ShowGridLines = false;
-         this.blastCorpsViewer.Size = new System.Drawing.Size(686, 638);
+         this.blastCorpsViewer.Size = new System.Drawing.Size(650, 638);
          this.blastCorpsViewer.TabIndex = 7;
          // 
          // BlastCorpsEditorForm
