@@ -2,10 +2,15 @@
 Tools for hacking the Blast Corps ROM for N64.
 
 ## Current Features
-* Change vehicle types and positions
 * Change carrier position, heading, and speed
-* Change TNT position and timer
-* Move RDUs, ammo boxes, communication points, buildings
+* Add, remove, and change properties of the following objects:
+   * Ammo boxes
+   * Communication Points
+   * RDUs
+   * TNT crates
+   * Square blocks
+   * Vehicles
+   * Buildings
 * View train/barge platforms, collision modifiers, and bounds
 * Edit gravity and other level header data
 
@@ -17,6 +22,7 @@ Tools for hacking the Blast Corps ROM for N64.
 * add select and move tools
 * handle filename passed in through command line argument
 * update square hole bounds and fields
+* add TNT texture drop down
 
 0.0.3: More details on comm points and buildings
 * add control for comm point H6 value to control animation
