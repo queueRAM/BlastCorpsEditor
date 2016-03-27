@@ -1405,12 +1405,30 @@ namespace BlastCorpsEditor
 
          // update display list header offsets
          offset = 0x78;
+         UInt32 minCheckOffset = (UInt32)header.dlOffset;
          for (int i = 0; i < header.offsets.Length; i++)
          {
             if (i * 4 + 0x20 >= 0x78)
             {
+               // keep track of the min offset that is not zero
+               if (header.offsets[i] != 0 && header.offsets[i] < minCheckOffset)
+               {
+                  minCheckOffset = header.offsets[i];
+               }
                UInt32 dlOffset = (UInt32)(header.offsets[i] + startDL - header.dlOffset);
                offset += BE.ToBytes(dlOffset, data, offset);
+            }
+         }
+
+         // update lists of pointers into the display list data at the end of the level data
+         // TODO: figure out the structure of this data
+         for (UInt32 off = (UInt32)(minCheckOffset - header.dlOffset + startDL); off < startDL; off += 4)
+         {
+            UInt32 val = BE.U32(data, off);
+            if (val >= header.dlOffset)
+            {
+               UInt32 newVal = (UInt32)(val + startDL - header.dlOffset);
+               BE.ToBytes(newVal, data, (int)off);
             }
          }
 
