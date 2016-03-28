@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace BlastCorpsEditor
 {
@@ -1658,16 +1657,7 @@ namespace BlastCorpsEditor
       // Help menu
       private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
-         var version = versionInfo.ProductVersion;
-         var copyright = versionInfo.LegalCopyright;
-         var assembly = Assembly.GetExecutingAssembly();
-         var appName = "Blast Corps Editor";
-         var thanks = "Special thanks to :\n" +
-            "  \u2022 SunakazeKun / Aurum for Blast Corps documentation and testing\n" +
-            "  \u2022 SubDrag for the Universal N64 Compressor and notes\n" +
-            "  \u2022 Everyone else who has helped along the way";
-         MessageBox.Show(appName + " v" + version + "\n" + copyright + "\n\n" + thanks, appName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+         new AboutBox().ShowDialog(this);
       }
 
       // Toolstrip Buttons

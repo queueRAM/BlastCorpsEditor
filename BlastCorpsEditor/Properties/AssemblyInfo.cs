@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Blast Corps Editor")]
-[assembly: AssemblyDescription("Blast Corps Level Editor")]
+[assembly: AssemblyDescription("Blast Corps Editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("queueRAM")]
-[assembly: AssemblyProduct("")]
+[assembly: AssemblyProduct("Blast Corps Editor")]
 [assembly: AssemblyCopyright("Copyright ©queueRAM 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
