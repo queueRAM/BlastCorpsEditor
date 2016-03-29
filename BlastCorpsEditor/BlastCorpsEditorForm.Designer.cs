@@ -56,6 +56,7 @@
          this.gridLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.boundingBoxes0x40ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.boundingBoxes0x44ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.textureViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.tabControlItems = new System.Windows.Forms.TabControl();
@@ -266,7 +267,8 @@
          this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gridLinesToolStripMenuItem,
             this.boundingBoxes0x40ToolStripMenuItem,
-            this.boundingBoxes0x44ToolStripMenuItem});
+            this.boundingBoxes0x44ToolStripMenuItem,
+            this.textureViewerToolStripMenuItem});
          this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
          this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
          this.viewToolStripMenuItem.Text = "View";
@@ -277,7 +279,7 @@
          this.gridLinesToolStripMenuItem.CheckOnClick = true;
          this.gridLinesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
          this.gridLinesToolStripMenuItem.Name = "gridLinesToolStripMenuItem";
-         this.gridLinesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+         this.gridLinesToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
          this.gridLinesToolStripMenuItem.Text = "Grid Lines";
          this.gridLinesToolStripMenuItem.Click += new System.EventHandler(this.gridLinesToolStripMenuItem_Click);
          // 
@@ -285,7 +287,7 @@
          // 
          this.boundingBoxes0x40ToolStripMenuItem.CheckOnClick = true;
          this.boundingBoxes0x40ToolStripMenuItem.Name = "boundingBoxes0x40ToolStripMenuItem";
-         this.boundingBoxes0x40ToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+         this.boundingBoxes0x40ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
          this.boundingBoxes0x40ToolStripMenuItem.Text = "Bounding Boxes 0x40";
          this.boundingBoxes0x40ToolStripMenuItem.Click += new System.EventHandler(this.boundingBoxes0x40ToolStripMenuItem_Click);
          // 
@@ -293,9 +295,17 @@
          // 
          this.boundingBoxes0x44ToolStripMenuItem.CheckOnClick = true;
          this.boundingBoxes0x44ToolStripMenuItem.Name = "boundingBoxes0x44ToolStripMenuItem";
-         this.boundingBoxes0x44ToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+         this.boundingBoxes0x44ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
          this.boundingBoxes0x44ToolStripMenuItem.Text = "Bounding Boxes 0x44";
          this.boundingBoxes0x44ToolStripMenuItem.Click += new System.EventHandler(this.boundingBoxes0x44ToolStripMenuItem_Click);
+         // 
+         // textureViewerToolStripMenuItem
+         // 
+         this.textureViewerToolStripMenuItem.Name = "textureViewerToolStripMenuItem";
+         this.textureViewerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+         this.textureViewerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+         this.textureViewerToolStripMenuItem.Text = "Texture Viewer...";
+         this.textureViewerToolStripMenuItem.Click += new System.EventHandler(this.textureViewerToolStripMenuItem_Click);
          // 
          // helpToolStripMenuItem
          // 
@@ -469,7 +479,7 @@
          this.tabPageHeader.Location = new System.Drawing.Point(4, 22);
          this.tabPageHeader.Name = "tabPageHeader";
          this.tabPageHeader.Padding = new System.Windows.Forms.Padding(3);
-         this.tabPageHeader.Size = new System.Drawing.Size(356, 634);
+         this.tabPageHeader.Size = new System.Drawing.Size(367, 634);
          this.tabPageHeader.TabIndex = 3;
          this.tabPageHeader.Text = "Header";
          this.tabPageHeader.UseVisualStyleBackColor = true;
@@ -879,7 +889,7 @@
          this.listViewHeaders.GridLines = true;
          this.listViewHeaders.Location = new System.Drawing.Point(172, 7);
          this.listViewHeaders.Name = "listViewHeaders";
-         this.listViewHeaders.Size = new System.Drawing.Size(178, 621);
+         this.listViewHeaders.Size = new System.Drawing.Size(189, 621);
          this.listViewHeaders.TabIndex = 13;
          this.listViewHeaders.UseCompatibleStateImageBehavior = false;
          this.listViewHeaders.View = System.Windows.Forms.View.Details;
@@ -1206,6 +1216,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonAmmo;
         private System.Windows.Forms.ToolStripButton toolStripButtonMove;
         private System.Windows.Forms.ToolStripButton toolStripButtonSelect;
+        private System.Windows.Forms.ToolStripMenuItem textureViewerToolStripMenuItem;
     }
 }
 

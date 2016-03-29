@@ -1748,5 +1748,11 @@ namespace BlastCorpsEditor
             blastCorpsViewer.Invalidate();
          }
       }
+
+      private void textureViewerToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         TextureForm form = new TextureForm(rom);
+         form.Show();
+      }
    }
 }

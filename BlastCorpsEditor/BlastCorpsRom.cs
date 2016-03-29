@@ -393,6 +393,11 @@ namespace BlastCorpsEditor
          return null;
       }
 
+      public byte[] GetRawData()
+      {
+         return romData;
+      }
+
       public void UpdateLevel(int levelId, byte[] levelData, byte[] dlData)
       {
          if (levelId < levels.Length)
