@@ -1080,9 +1080,6 @@
          this.blastCorpsViewer.Mode = BlastCorpsEditor.MouseMode.Select;
          this.blastCorpsViewer.Name = "blastCorpsViewer";
          this.blastCorpsViewer.SelectedItem = null;
-         this.blastCorpsViewer.ShowBoundingBoxes40 = false;
-         this.blastCorpsViewer.ShowBoundingBoxes44 = false;
-         this.blastCorpsViewer.ShowGridLines = false;
          this.blastCorpsViewer.Size = new System.Drawing.Size(650, 638);
          this.blastCorpsViewer.TabIndex = 7;
          // 
@@ -1098,6 +1095,8 @@
          this.MainMenuStrip = this.menuStrip1;
          this.Name = "BlastCorpsEditorForm";
          this.Text = "Blast Corps Editor";
+         this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BlastCorpsEditorForm_FormClosed);
+         this.Load += new System.EventHandler(this.BlastCorpsEditorForm_Load);
          this.statusStrip.ResumeLayout(false);
          this.statusStrip.PerformLayout();
          this.menuStrip1.ResumeLayout(false);

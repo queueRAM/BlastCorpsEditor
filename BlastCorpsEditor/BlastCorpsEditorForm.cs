@@ -613,9 +613,6 @@ namespace BlastCorpsEditor
 
          statusStripMessage.Text = level.bounds.ToString();
 
-         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
-         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
-         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
          blastCorpsViewer.SetLevel(level);
 
          toolStripComboBoxLevel.Enabled = true;
@@ -1559,6 +1556,19 @@ namespace BlastCorpsEditor
          }
       }
 
+      // Form actions
+      private void BlastCorpsEditorForm_Load(object sender, EventArgs e)
+      {
+         gridLinesToolStripMenuItem.Checked = Properties.Settings.Default.ViewGridLines;
+         boundingBoxes0x40ToolStripMenuItem.Checked = Properties.Settings.Default.ViewBoxes40;
+         boundingBoxes0x44ToolStripMenuItem.Checked = Properties.Settings.Default.ViewBoxes44;
+      }
+
+      private void BlastCorpsEditorForm_FormClosed(object sender, FormClosedEventArgs e)
+      {
+         Properties.Settings.Default.Save();
+      }
+
       // File menu
       private void openToolStripMenuItem_Click(object sender, EventArgs e)
       {
@@ -1641,17 +1651,20 @@ namespace BlastCorpsEditor
       // View menu
       private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         blastCorpsViewer.ShowGridLines = gridLinesToolStripMenuItem.Checked;
+         Properties.Settings.Default.ViewGridLines = gridLinesToolStripMenuItem.Checked;
+         blastCorpsViewer.Invalidate();
       }
 
       private void boundingBoxes0x40ToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         blastCorpsViewer.ShowBoundingBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+         Properties.Settings.Default.ViewBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
+         blastCorpsViewer.Invalidate();
       }
 
       private void boundingBoxes0x44ToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         blastCorpsViewer.ShowBoundingBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+         Properties.Settings.Default.ViewBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
+         blastCorpsViewer.Invalidate();
       }
 
       // Help menu

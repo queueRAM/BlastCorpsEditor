@@ -9,9 +9,6 @@ namespace BlastCorpsEditor
    public partial class BlastCorpsViewer : UserControl
    {
       private BlastCorpsLevel level;
-      private bool showGridLines;
-      private bool showBoundingBoxes40;
-      private bool showBoundingBoxes44;
       private float zoom = 1;
       private int offX, offY;
 
@@ -82,24 +79,6 @@ namespace BlastCorpsEditor
       {
          get { return selectedItem; }
          set { selectedItem = value; Invalidate(); }
-      }
-
-      public bool ShowGridLines
-      {
-         get { return showGridLines; }
-         set { showGridLines = value; Invalidate(); }
-      }
-
-      public bool ShowBoundingBoxes40
-      {
-         get { return showBoundingBoxes40; }
-         set { showBoundingBoxes40 = value; Invalidate(); }
-      }
-
-      public bool ShowBoundingBoxes44
-      {
-         get { return showBoundingBoxes44; }
-         set { showBoundingBoxes44 = value; Invalidate(); }
       }
 
       public void SetLevel(BlastCorpsLevel level)
@@ -263,7 +242,7 @@ namespace BlastCorpsEditor
          if (level != null)
          {
             e.Graphics.FillRectangle(new SolidBrush(Color.White), offX, offY, Width - 2*offX, Height - 2*offY);
-            if (showGridLines)
+            if (Properties.Settings.Default.ViewGridLines)
             {
                // every 500 level units
                Pen linePen = new Pen(Color.Black);
@@ -284,7 +263,7 @@ namespace BlastCorpsEditor
                   e.Graphics.DrawLine(linePen, offX, py, Width-offX, py);
                }
             }
-            if (showBoundingBoxes40)
+            if (Properties.Settings.Default.ViewBoxes40)
             {
                foreach (Bounds bounds in level.bounds40)
                {
@@ -299,7 +278,7 @@ namespace BlastCorpsEditor
                   }
                }
             }
-            if (showBoundingBoxes44)
+            if (Properties.Settings.Default.ViewBoxes44)
             {
                foreach (Bounds bounds in level.bounds44)
                {
