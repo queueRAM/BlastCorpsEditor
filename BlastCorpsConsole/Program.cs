@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BlastCorpsEditor;
+using System;
 using System.IO;
-using BlastCorpsEditor;
 
 namespace BlastCorpsConsole
 {
@@ -13,86 +13,6 @@ namespace BlastCorpsConsole
          System.Console.Write(colorMessage);
          System.Console.ForegroundColor = orig;
          System.Console.WriteLine(": " + plainMessage);
-      }
-
-      static void OutputLevelTxt(string filename, BlastCorpsLevelMeta levelMeta, BlastCorpsLevel level)
-      {
-         int offset;
-         using (StreamWriter file = new StreamWriter(filename))
-         {
-            file.WriteLine("Level {0}: {1} [{2}]", levelMeta.id, levelMeta.name, levelMeta.filename);
-            file.WriteLine();
-            file.WriteLine("Header:");
-            offset = 0;
-            foreach (UInt16 val in level.header.u16s)
-            {
-               file.WriteLine("{0:X2}: {1:X}", offset, val);
-               offset += 2;
-            }
-            file.WriteLine("{0:X2}: {1}", offset, level.header.gravity);
-            offset += 4;
-            file.WriteLine("{0:X2}: {1}", offset, level.header.u1C);
-            offset += 4;
-            foreach (UInt32 val in level.header.offsets)
-            {
-               file.WriteLine("{0:X2}: {1:X}", offset, val);
-               offset += 4;
-            }
-            file.WriteLine();
-
-
-            file.WriteLine("Carrier: {0}", level.carrier);
-            file.WriteLine();
-
-            file.WriteLine("Ammo [{0}]:", level.ammoBoxes.Count);
-            foreach (AmmoBox ammo in level.ammoBoxes)
-            {
-               file.WriteLine(ammo);
-            }
-            file.WriteLine();
-
-            file.WriteLine("Communication Points [{0}]:", level.commPoints.Count);
-            foreach (CommPoint comm in level.commPoints)
-            {
-               file.WriteLine(comm);
-            }
-            file.WriteLine();
-
-            file.WriteLine("RDUs [{0}]:", level.rdus.Count);
-            foreach (RDU rdu in level.rdus)
-            {
-               file.WriteLine(rdu);
-            }
-            file.WriteLine();
-
-            file.WriteLine("TNT Crates [{0}]:", level.tntCrates.Count);
-            foreach (TNTCrate tnt in level.tntCrates)
-            {
-               file.WriteLine(tnt);
-            }
-            file.WriteLine();
-
-            file.WriteLine("Square Blocks [{0}]:", level.squareBlocks.Count);
-            foreach (SquareBlock block in level.squareBlocks)
-            {
-               file.WriteLine(block.ToStringFull());
-            }
-            file.WriteLine();
-
-            file.WriteLine("Vehicles [{0}]:", level.vehicles.Count);
-            foreach (Vehicle vehicle in level.vehicles)
-            {
-               file.WriteLine(vehicle);
-            }
-            file.WriteLine();
-
-            file.WriteLine("Buildings [{0}]:", level.buildings.Count);
-            foreach (Building building in level.buildings)
-            {
-               file.WriteLine(building);
-            }
-            file.WriteLine();
-         }
       }
 
       static void Main(string[] args)
@@ -127,7 +47,10 @@ namespace BlastCorpsConsole
             if (outputDir != null)
             {
                string txtFile = Path.Combine(outputDir, levelMeta.filename + ".txt");
-               OutputLevelTxt(txtFile, levelMeta, level);
+               using (StreamWriter writer = new StreamWriter(txtFile))
+               {
+                  level.Write(writer, levelMeta);
+               }
             }
 
             byte[] outData = level.ToBytes();

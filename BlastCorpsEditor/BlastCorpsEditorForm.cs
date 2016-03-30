@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace BlastCorpsEditor
@@ -1604,16 +1605,28 @@ namespace BlastCorpsEditor
       private void exportLevelToolStripMenuItem_Click(object sender, EventArgs e)
       {
          SaveFileDialog saveFileDialog = new SaveFileDialog();
-         saveFileDialog.Filter = "Blast Corps RAW Level(*.raw)|*.raw";
+         saveFileDialog.Filter = "Blast Corps raw level (*.raw)|*.raw|Text files (*.txt)|*.txt";
          saveFileDialog.Title = "Export Blast Corps Raw Level";
-         saveFileDialog.ShowDialog();
+         DialogResult result = saveFileDialog.ShowDialog();
 
-         if (saveFileDialog.FileName != "")
+         if (result == DialogResult.OK && saveFileDialog.FileName != "")
          {
-            System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog.OpenFile();
-            byte[] data = level.ToBytes();
-            fs.Write(data, 0, data.Length);
-            fs.Close();
+            switch (saveFileDialog.FilterIndex)
+            {
+               case 1: // .raw file
+                  FileStream fs = (FileStream)saveFileDialog.OpenFile();
+                  byte[] data = level.ToBytes();
+                  fs.Write(data, 0, data.Length);
+                  fs.Close();
+                  break;
+               case 2: // .txt file
+                  using (StreamWriter writer = new StreamWriter(saveFileDialog.OpenFile()))
+                  {
+                     BlastCorpsLevelMeta levelMeta = (BlastCorpsLevelMeta)toolStripComboBoxLevel.SelectedItem;
+                     level.Write(writer, levelMeta);
+                  }
+                  break;
+            }
          }
       }
 

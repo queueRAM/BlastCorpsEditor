@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BlastCorpsEditor
 {
@@ -1438,6 +1439,82 @@ namespace BlastCorpsEditor
          return copy;
       }
 
+      public void Write(StreamWriter writer, BlastCorpsLevelMeta levelMeta)
+      {
+         int offset;
+         writer.WriteLine("Level {0}: {1} [{2}]", levelMeta.id, levelMeta.name, levelMeta.filename);
+         writer.WriteLine();
+         writer.WriteLine("Header:");
+         offset = 0;
+         foreach (UInt16 val in header.u16s)
+         {
+            writer.WriteLine("{0:X2}: {1:X}", offset, val);
+            offset += 2;
+         }
+         writer.WriteLine("{0:X2}: {1}", offset, header.gravity);
+         offset += 4;
+         writer.WriteLine("{0:X2}: {1}", offset, header.u1C);
+         offset += 4;
+         foreach (UInt32 val in header.offsets)
+         {
+            writer.WriteLine("{0:X2}: {1:X}", offset, val);
+            offset += 4;
+         }
+         writer.WriteLine();
+
+
+         writer.WriteLine("Carrier: {0}", carrier);
+         writer.WriteLine();
+
+         writer.WriteLine("Ammo [{0}]:", ammoBoxes.Count);
+         foreach (AmmoBox ammo in ammoBoxes)
+         {
+            writer.WriteLine(ammo);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("Communication Points [{0}]:", commPoints.Count);
+         foreach (CommPoint comm in commPoints)
+         {
+            writer.WriteLine(comm);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("RDUs [{0}]:", rdus.Count);
+         foreach (RDU rdu in rdus)
+         {
+            writer.WriteLine(rdu);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("TNT Crates [{0}]:", tntCrates.Count);
+         foreach (TNTCrate tnt in tntCrates)
+         {
+            writer.WriteLine(tnt);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("Square Blocks [{0}]:", squareBlocks.Count);
+         foreach (SquareBlock block in squareBlocks)
+         {
+            writer.WriteLine(block.ToStringFull());
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("Vehicles [{0}]:", vehicles.Count);
+         foreach (Vehicle vehicle in vehicles)
+         {
+            writer.WriteLine(vehicle);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("Buildings [{0}]:", buildings.Count);
+         foreach (Building building in buildings)
+         {
+            writer.WriteLine(building);
+         }
+         writer.WriteLine();
+      }
 
       static public BlastCorpsLevel decodeLevel(byte[] levelData, byte[] displayListData)
       {
