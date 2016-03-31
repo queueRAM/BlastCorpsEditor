@@ -239,8 +239,11 @@ namespace BlastCorpsEditor
                         triangles.Add(tri);
                         break;
                      case G_SETTILESIZE:
-                        nextTexture.width = (((displayList[offset + 5] << 8) | (displayList[offset + 6] & 0xF0)) >> 6) + 1;
-                        nextTexture.height = (((displayList[offset + 6] & 0x0F) << 8 | displayList[offset + 7]) >> 2) + 1;
+                        if (nextTexture.width < 0)
+                        {
+                           nextTexture.width = (((displayList[offset + 5] << 8) | (displayList[offset + 6] & 0xF0)) >> 6) + 1;
+                           nextTexture.height = (((displayList[offset + 6] & 0x0F) << 8 | displayList[offset + 7]) >> 2) + 1;
+                        }
                         if (nextTexture.IsComplete())
                         {
                            textures.Add(nextTexture);
@@ -280,11 +283,13 @@ namespace BlastCorpsEditor
             file.WriteLine("mtllib {0}", Path.GetFileName(mtlFileName));
             foreach (Triangle tri in triangles)
             {
+               float uScale = 32.0f * tri.texture.width;
+               float vScale = 32.0f * tri.texture.height;
                file.WriteLine();
                file.WriteLine("usemtl Texture{0:X4}", tri.texture.address);
-               file.WriteLine(toObjVert(tri.vertices[0], scale));
-               file.WriteLine(toObjVert(tri.vertices[1], scale));
-               file.WriteLine(toObjVert(tri.vertices[2], scale));
+               file.WriteLine(toObjVert(tri.vertices[0], scale, uScale, vScale));
+               file.WriteLine(toObjVert(tri.vertices[1], scale, uScale, vScale));
+               file.WriteLine(toObjVert(tri.vertices[2], scale, uScale, vScale));
                file.WriteLine("f {0}/{0}/{0} {1}/{1}/{1} {2}/{2}/{2}", vertCount, (vertCount + 1), (vertCount + 2));
                vertCount += 3;
             }
@@ -378,17 +383,16 @@ namespace BlastCorpsEditor
          return "v " + fx + " " + fy + " " + fz;
       }
 
-      private static string toObjVert(Vertex vert, float scale)
+      private static string toObjVert(Vertex vert, float scale, float uScale, float vScale)
       {
-         const float textureScale = 1024.0f;
          const float normalScale = 127.0f;
          float fx, fy, fz;
          fx = (float)vert.x / scale;
          fy = (float)vert.y / scale;
          fz = (float)vert.z / scale;
          string vertData = "v " + fx + " " + fy + " " + fz;
-         fx = (float)vert.u / textureScale;
-         fy = (float)vert.v / textureScale;
+         fx = (float)vert.u / uScale;
+         fy = (float)vert.v / vScale;
          string textureData = "vt " + fx + " " + fy;
          fx = (float)vert.normals[0] / normalScale;
          fy = (float)vert.normals[1] / normalScale;
