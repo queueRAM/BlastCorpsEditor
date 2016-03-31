@@ -68,16 +68,16 @@ namespace BlastCorpsEditor
                   default: width = 32; height = length / width / 4; break;
                }
                break;
-            case 3: // IA16?
+            case 3: // IA8?
                format = N64Format.IA;
-               depth = 16;
+               depth = 8;
                switch (length)
                {
-                  case 1 * KB: width = 16; height = 32; break;
-                  case 2 * KB: width = 32; height = 32; break;
-                  case 4 * KB: width = 32; height = 64; break;
-                  case 8 * KB: width = 64; height = 64; break;
-                  default: width = 32; height = length / width / 2; break;
+                  case 1 * KB: width = 32; height = 32; break;
+                  case 2 * KB: width = 32; height = 64; break;
+                  case 4 * KB: width = 64; height = 64; break;
+                  case 8 * KB: width = 64; height = 128; break;
+                  default: width = 32; height = length / width; break;
                }
                break;
             case 4: // IA16?

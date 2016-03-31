@@ -340,9 +340,9 @@ namespace BlastCorpsEditor
                         format = N64Format.RGBA;
                         depth = 32;
                         break;
-                     case 3: // IA16?
+                     case 3: // IA8?
                         format = N64Format.IA;
-                        depth = 16;
+                        depth = 8;
                         break;
                      case 4: // IA16?
                         format = N64Format.IA;
