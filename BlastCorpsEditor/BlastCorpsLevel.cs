@@ -529,7 +529,7 @@ namespace BlastCorpsEditor
       public List<CollisionGroup> collision6C = new List<CollisionGroup>();
       public List<CollisionGroup> collision70 = new List<CollisionGroup>();
       private byte[] copy74;
-      private byte[] vertData;
+      public byte[] vertData;
       public byte[] copyLevelData;
       public byte[] displayList;
 

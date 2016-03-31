@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BlastCorpsEditor
 {
-   public enum ExportType { Terrain30, Collision24, Collision6C, Collision70 };
+   public enum ExportType { Terrain30, Collision24, Collision6C, Collision70, DisplayList };
 
    public partial class ExportDialog : Form
    {
@@ -49,6 +49,7 @@ namespace BlastCorpsEditor
             case 1: DataType = ExportType.Collision24; break;
             case 2: DataType = ExportType.Collision6C; break;
             case 3: DataType = ExportType.Collision70; break;
+            case 4: DataType = ExportType.DisplayList; break;
          }
       }
    }

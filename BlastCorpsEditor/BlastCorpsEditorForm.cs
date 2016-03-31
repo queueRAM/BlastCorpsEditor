@@ -1651,6 +1651,9 @@ namespace BlastCorpsEditor
                case ExportType.Collision70:
                   WavefrontObjExporter.ExportCollision(level.collision70, exportDialog.FileName, exportDialog.ScaleFactor);
                   break;
+               case ExportType.DisplayList:
+                  WavefrontObjExporter.ExportDisplayList(rom, level, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
             }
          }
       }

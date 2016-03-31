@@ -57,7 +57,8 @@
             "0x30: Terrain",
             "0x24: Y Collision",
             "0x6C: X/Z Collision",
-            "0x70: Player Collision"});
+            "0x70: Player Collision",
+            "Display List"});
          this.comboBoxExport.Location = new System.Drawing.Point(88, 67);
          this.comboBoxExport.Name = "comboBoxExport";
          this.comboBoxExport.Size = new System.Drawing.Size(135, 21);
