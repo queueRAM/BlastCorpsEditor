@@ -295,6 +295,10 @@ namespace BlastCorpsEditor
             }
          }
 
+         // create textures directory
+         string textureDirName = "textures";
+         string textureDir = Path.Combine(Path.GetDirectoryName(filename), textureDirName);
+         Directory.CreateDirectory(textureDir);
          using (System.IO.StreamWriter file = new System.IO.StreamWriter(mtlFileName))
          {
             List<uint> processedTextures = new List<uint>();
@@ -304,7 +308,7 @@ namespace BlastCorpsEditor
                if (!processedTextures.Contains(t.address))
                {
                   string textureFilename = String.Format("{0:X4}.png", t.address);
-                  string textureFile = String.Format("textures/" + textureFilename);
+                  string textureFile = String.Format(textureDirName + "/" + textureFilename);
                   file.WriteLine("newmtl Texture{0:X4}", t.address);
                   file.WriteLine("Ka 1.0 1.0 1.0"); // ambiant color
                   file.WriteLine("Kd 1.0 1.0 1.0"); // diffuse color
@@ -366,7 +370,7 @@ namespace BlastCorpsEditor
                         break;
                   }
                   loadedBitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                  loadedBitmap.Save(Path.Combine(Path.GetDirectoryName(filename), "textures", textureFilename));
+                  loadedBitmap.Save(Path.Combine(textureDir, textureFilename));
 
                   processedTextures.Add(t.address);
                }
