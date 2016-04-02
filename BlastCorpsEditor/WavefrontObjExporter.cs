@@ -310,12 +310,10 @@ namespace BlastCorpsEditor
                   string textureFilename = String.Format("{0:X4}.png", t.address);
                   string textureFile = String.Format(textureDirName + "/" + textureFilename);
                   file.WriteLine("newmtl Texture{0:X4}", t.address);
-                  file.WriteLine("Ka 1.0 1.0 1.0"); // ambiant color
+                  file.WriteLine("Ka 0.0 0.0 0.0"); // ambiant color
                   file.WriteLine("Kd 1.0 1.0 1.0"); // diffuse color
-                  file.WriteLine("Ks 0.4 0.4 0.4"); // specular color
-                  file.WriteLine("Ns 0");           // specular exponent
+                  file.WriteLine("Ks 0.3 0.3 0.3"); // specular color
                   file.WriteLine("d 1");            // dissolved
-                  file.WriteLine("Tr 1");           // inverted
                   file.WriteLine("map_Kd {0}", textureFile);
                   file.WriteLine();
 
