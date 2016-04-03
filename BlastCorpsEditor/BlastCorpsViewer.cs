@@ -239,6 +239,7 @@ namespace BlastCorpsEditor
          selectedPen.EndCap = LineCap.ArrowAnchor;
          double angle;
          int x, y, dx, dy;
+         Point[] triPoints = new Point[4];
          if (level != null)
          {
             e.Graphics.FillRectangle(new SolidBrush(Color.White), offX, offY, Width - 2*offX, Height - 2*offY);
@@ -296,6 +297,22 @@ namespace BlastCorpsEditor
                e.Graphics.FillRectangle(Brushes.SeaGreen, pixelX(obj.x) - 2, pixelY(obj.z) - 2, 3, 3);
             }
 
+            foreach (WallGroup group in level.wallGroups)
+            {
+               foreach (Wall wall in group.walls)
+               {
+                  triPoints[0].X = pixelX(wall.x1);
+                  triPoints[0].Y = pixelY(wall.z1);
+                  triPoints[1].X = pixelX(wall.x2);
+                  triPoints[1].Y = pixelY(wall.z2);
+                  triPoints[2].X = pixelX(wall.x3);
+                  triPoints[2].Y = pixelY(wall.z3);
+                  triPoints[3].X = pixelX(wall.x1);
+                  triPoints[3].Y = pixelY(wall.z1);
+                  e.Graphics.DrawLines(Pens.Gray, triPoints);
+               }
+            }
+
             // missile carrier
             x = pixelX(level.carrier.x);
             y = pixelY(level.carrier.z);
@@ -310,44 +327,44 @@ namespace BlastCorpsEditor
             {
                e.Graphics.FillRectangle(ammoBrush, pixelX(ammo.x) - 4, pixelY(ammo.z) - 4, 7, 7);
             }
-            Point[] points = new Point[4];
+
             foreach (Collision24 zone in level.collision24)
             {
-               points[0].X = pixelX(zone.x1);
-               points[0].Y = pixelY(zone.z1);
-               points[1].X = pixelX(zone.x2);
-               points[1].Y = pixelY(zone.z2);
-               points[2].X = pixelX(zone.x3);
-               points[2].Y = pixelY(zone.z3);
-               points[3].X = pixelX(zone.x1);
-               points[3].Y = pixelY(zone.z1);
-               e.Graphics.DrawLines(zonePen, points);
+               triPoints[0].X = pixelX(zone.x1);
+               triPoints[0].Y = pixelY(zone.z1);
+               triPoints[1].X = pixelX(zone.x2);
+               triPoints[1].Y = pixelY(zone.z2);
+               triPoints[2].X = pixelX(zone.x3);
+               triPoints[2].Y = pixelY(zone.z3);
+               triPoints[3].X = pixelX(zone.x1);
+               triPoints[3].Y = pixelY(zone.z1);
+               e.Graphics.DrawLines(zonePen, triPoints);
             }
             foreach (TrainPlatform platform in level.trainPlatforms)
             {
                foreach (TrainPlatform.StoppingTriangle zone in platform.stoppingZone)
                {
-                  points[0].X = pixelX(zone.x1);
-                  points[0].Y = pixelY(zone.z1);
-                  points[1].X = pixelX(zone.x2);
-                  points[1].Y = pixelY(zone.z2);
-                  points[2].X = pixelX(zone.x3);
-                  points[2].Y = pixelY(zone.z3);
-                  points[3].X = pixelX(zone.x1);
-                  points[3].Y = pixelY(zone.z1);
-                  e.Graphics.DrawLines(stoppingPen, points);
+                  triPoints[0].X = pixelX(zone.x1);
+                  triPoints[0].Y = pixelY(zone.z1);
+                  triPoints[1].X = pixelX(zone.x2);
+                  triPoints[1].Y = pixelY(zone.z2);
+                  triPoints[2].X = pixelX(zone.x3);
+                  triPoints[2].Y = pixelY(zone.z3);
+                  triPoints[3].X = pixelX(zone.x1);
+                  triPoints[3].Y = pixelY(zone.z1);
+                  e.Graphics.DrawLines(stoppingPen, triPoints);
                }
                foreach (TrainPlatform.PlatformCollision collision in platform.collision)
                {
-                  points[0].X = pixelX(collision.x1);
-                  points[0].Y = pixelY(collision.z1);
-                  points[1].X = pixelX(collision.x2);
-                  points[1].Y = pixelY(collision.z2);
-                  points[2].X = pixelX(collision.x3);
-                  points[2].Y = pixelY(collision.z3);
-                  points[3].X = pixelX(collision.x1);
-                  points[3].Y = pixelY(collision.z1);
-                  e.Graphics.DrawLines(platformPen, points);
+                  triPoints[0].X = pixelX(collision.x1);
+                  triPoints[0].Y = pixelY(collision.z1);
+                  triPoints[1].X = pixelX(collision.x2);
+                  triPoints[1].Y = pixelY(collision.z2);
+                  triPoints[2].X = pixelX(collision.x3);
+                  triPoints[2].Y = pixelY(collision.z3);
+                  triPoints[3].X = pixelX(collision.x1);
+                  triPoints[3].Y = pixelY(collision.z1);
+                  e.Graphics.DrawLines(platformPen, triPoints);
                }
             }
             foreach (CommPoint comm in level.commPoints)
