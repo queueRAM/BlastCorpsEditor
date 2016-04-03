@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BlastCorpsEditor
 {
-   public enum ExportType { Terrain30, Collision24, Collision6C, Collision70, DisplayList };
+   public enum ExportType { All, Terrain30, Collision24, Object60, Walls64, Collision6C, Collision70, DisplayList };
 
    public partial class ExportDialog : Form
    {
@@ -45,11 +45,14 @@ namespace BlastCorpsEditor
          // TODO: avoid dual maintenance
          switch (comboBoxExport.SelectedIndex)
          {
-            case 0: DataType = ExportType.Terrain30; break;
-            case 1: DataType = ExportType.Collision24; break;
-            case 2: DataType = ExportType.Collision6C; break;
-            case 3: DataType = ExportType.Collision70; break;
-            case 4: DataType = ExportType.DisplayList; break;
+            case 0: DataType = ExportType.All; break;
+            case 1: DataType = ExportType.DisplayList; break;
+            case 2: DataType = ExportType.Terrain30; break;
+            case 3: DataType = ExportType.Collision24; break;
+            case 4: DataType = ExportType.Object60; break;
+            case 5: DataType = ExportType.Walls64; break;
+            case 6: DataType = ExportType.Collision6C; break;
+            case 7: DataType = ExportType.Collision70; break;
          }
       }
    }

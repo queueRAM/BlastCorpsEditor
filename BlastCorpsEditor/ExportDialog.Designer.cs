@@ -54,11 +54,14 @@
          this.comboBoxExport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
          this.comboBoxExport.FormattingEnabled = true;
          this.comboBoxExport.Items.AddRange(new object[] {
+            "All",
+            "Display List",
             "0x30: Terrain",
             "0x24: Y Collision",
+            "0x60: Object 60?",
+            "0x64: Walls",
             "0x6C: X/Z Collision",
-            "0x70: Player Collision",
-            "Display List"});
+            "0x70: Player Collision"});
          this.comboBoxExport.Location = new System.Drawing.Point(88, 67);
          this.comboBoxExport.Name = "comboBoxExport";
          this.comboBoxExport.Size = new System.Drawing.Size(135, 21);

@@ -1630,6 +1630,14 @@ namespace BlastCorpsEditor
          }
       }
 
+      private static string addSuffix(string filename, string suffix)
+      {
+         string basename = Path.GetFileNameWithoutExtension(filename);
+         string path = Path.GetDirectoryName(filename);
+         string extension = Path.GetExtension(filename);
+         return Path.Combine(path, basename + suffix + extension);
+      }
+
       private void exportModelToolStripMenuItem_Click(object sender, EventArgs e)
       {
          ExportDialog exportDialog = new ExportDialog();
@@ -1639,20 +1647,35 @@ namespace BlastCorpsEditor
          {
             switch (exportDialog.DataType)
             {
+               case ExportType.All:
+                  WavefrontObjExporter.ExportDisplayList(rom, level, addSuffix(exportDialog.FileName, "_dl"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportTerrain(level.terrainGroups, addSuffix(exportDialog.FileName, "_terrain"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportCollision(level.collision24, addSuffix(exportDialog.FileName, "_collision24"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportObject60(level.object60s, addSuffix(exportDialog.FileName, "_60"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportWalls(level.wallGroups, addSuffix(exportDialog.FileName, "_walls"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportCollision(level.collision6C, addSuffix(exportDialog.FileName, "_collision6C"), exportDialog.ScaleFactor);
+                  WavefrontObjExporter.ExportCollision(level.collision70, addSuffix(exportDialog.FileName, "_collision70"), exportDialog.ScaleFactor);
+                  break;
+               case ExportType.DisplayList:
+                  WavefrontObjExporter.ExportDisplayList(rom, level, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
                case ExportType.Terrain30:
                   WavefrontObjExporter.ExportTerrain(level.terrainGroups, exportDialog.FileName, exportDialog.ScaleFactor);
                   break;
                case ExportType.Collision24:
                   WavefrontObjExporter.ExportCollision(level.collision24, exportDialog.FileName, exportDialog.ScaleFactor);
                   break;
+               case ExportType.Object60:
+                  WavefrontObjExporter.ExportObject60(level.object60s, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
+               case ExportType.Walls64:
+                  WavefrontObjExporter.ExportWalls(level.wallGroups, exportDialog.FileName, exportDialog.ScaleFactor);
+                  break;
                case ExportType.Collision6C:
                   WavefrontObjExporter.ExportCollision(level.collision6C, exportDialog.FileName, exportDialog.ScaleFactor);
                   break;
                case ExportType.Collision70:
                   WavefrontObjExporter.ExportCollision(level.collision70, exportDialog.FileName, exportDialog.ScaleFactor);
-                  break;
-               case ExportType.DisplayList:
-                  WavefrontObjExporter.ExportDisplayList(rom, level, exportDialog.FileName, exportDialog.ScaleFactor);
                   break;
             }
          }

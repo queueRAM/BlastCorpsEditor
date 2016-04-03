@@ -78,6 +78,51 @@ namespace BlastCorpsEditor
          }
       }
 
+      public static void ExportObject60(List<Object60> object60s, string filename, float scale)
+      {
+         using (System.IO.StreamWriter file = new System.IO.StreamWriter(filename))
+         {
+            int vertCount = 1;
+            file.WriteLine(fileHeader());
+            foreach (Object60 obj in object60s)
+            {
+               file.WriteLine(toObjVert(obj.x - 3, obj.y, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x + 3, obj.y, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x + 3, obj.y + obj.h6, obj.z - 3, scale));
+               file.WriteLine("f " + vertCount + " " + (vertCount + 1) + " " + (vertCount + 2));
+               vertCount += 3;
+
+               file.WriteLine(toObjVert(obj.x - 3, obj.y, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x + 3, obj.y + obj.h6, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x - 3, obj.y + obj.h6, obj.z - 3, scale));
+               file.WriteLine("f " + vertCount + " " + (vertCount + 1) + " " + (vertCount + 2));
+               vertCount += 3;
+            }
+         }
+      }
+
+      public static void ExportWalls(List<WallGroup> wallGroups, string filename, float scale)
+      {
+         using (System.IO.StreamWriter file = new System.IO.StreamWriter(filename))
+         {
+            int vertCount = 1;
+            file.WriteLine(fileHeader());
+            file.WriteLine("mtllib blast_corps_walls.mtl");
+            foreach (WallGroup group in wallGroups)
+            {
+               foreach (Wall wall in group.walls)
+               {
+                  file.WriteLine("usemtl Wall" + wall.type);
+                  file.WriteLine(toObjVert(wall.x1, wall.y1, wall.z1, scale));
+                  file.WriteLine(toObjVert(wall.x2, wall.y2, wall.z2, scale));
+                  file.WriteLine(toObjVert(wall.x3, wall.y3, wall.z3, scale));
+                  file.WriteLine("f " + vertCount + " " + (vertCount + 1) + " " + (vertCount + 2));
+                  vertCount += 3;
+               }
+            }
+         }
+      }
+
       public class Vertex
       {
          public enum Type { RGB, XYZ }
