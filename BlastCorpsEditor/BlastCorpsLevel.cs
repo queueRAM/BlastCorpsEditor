@@ -462,6 +462,35 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class Object60 : BlastCorpsItem
+   {
+      public Int16 h6;
+      public byte b8;
+      public byte[] values;
+      public byte[] lastTwo = new byte[2];
+
+      public Object60(Int16 x, Int16 y, Int16 z, Int16 h6, byte b8, byte count, byte[] data, uint remainingIdx)
+      {
+         this.x = x;
+         this.y = y;
+         this.z = z;
+         this.h6 = h6;
+         this.b8 = b8;
+         values = new byte[count];
+         for (int i = 0; i < values.Length; i++)
+         {
+            values[i] = data[i + remainingIdx];
+         }
+         lastTwo[0] = data[count + remainingIdx];
+         lastTwo[1] = data[count + remainingIdx + 1];
+      }
+
+      public override string ToString()
+      {
+         return base.ToString() + ", " + h6 + ", " + b8 + ", " + values.Length + ", " + values + ", " + lastTwo;
+      }
+   }
+
    public class TrainPlatform
    {
       public struct StoppingTriangle
@@ -536,9 +565,10 @@ namespace BlastCorpsEditor
       public List<Vehicle> vehicles = new List<Vehicle>();
       public Carrier carrier = new Carrier();
       public List<Building> buildings = new List<Building>();
+      public List<Object60> object60s = new List<Object60>();
+      public byte object60b0;
       private byte[] copy48;
       private byte[] copy58;
-      private byte[] copy60;
       private byte[] copy64;
       public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
       public List<CollisionGroup> collision6C = new List<CollisionGroup>();
@@ -902,7 +932,24 @@ namespace BlastCorpsEditor
       // 0x60 TODO
       private void decode60(byte[] data)
       {
-         copy60 = ArraySlice(data, BE.U32(data, 0x60), BE.U32(data, 0x64));
+         uint start = BE.U32(data, 0x60);
+         uint end = BE.U32(data, 0x64);
+         uint idx = start;
+         object60b0 = data[idx++];
+         while (idx < end)
+         {
+            Int16 x, y, z, h6;
+            byte b8, count;
+            x = BE.I16(data, idx);
+            y = BE.I16(data, idx + 2);
+            z = BE.I16(data, idx + 4);
+            h6 = BE.I16(data, idx + 6);
+            b8 = data[idx + 8];
+            count = data[idx + 9];
+            Object60 obj = new Object60(x, y, z, h6, b8, count, data, idx + 0xA);
+            object60s.Add(obj);
+            idx += 0xCu + count;
+         }
       }
 
       // 0x64 TODO
@@ -1318,7 +1365,24 @@ namespace BlastCorpsEditor
 
          // TODO: 0x60 real data
          BE.ToBytes(offset, data, 0x60);
-         offset += AppendArray(data, offset, copy60);
+         data[offset++] = object60b0;
+         foreach (Object60 obj in object60s)
+         {
+            offset += BE.ToBytes(obj.x, data, offset);
+            offset += BE.ToBytes(obj.y, data, offset);
+            offset += BE.ToBytes(obj.z, data, offset);
+            offset += BE.ToBytes(obj.h6, data, offset);
+            data[offset++] = obj.b8;
+            data[offset++] = (byte)obj.values.Length;
+            foreach (byte val in obj.values)
+            {
+               data[offset++] = val;
+            }
+            foreach (byte val in obj.lastTwo)
+            {
+               data[offset++] = val;
+            }
+         }
 
          // TODO: 0x64 real data
          BE.ToBytes(offset, data, 0x64);
