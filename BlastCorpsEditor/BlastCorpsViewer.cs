@@ -291,6 +291,11 @@ namespace BlastCorpsEditor
                }
             }
 
+            foreach (Object60 obj in level.object60s)
+            {
+               e.Graphics.FillRectangle(Brushes.SeaGreen, pixelX(obj.x) - 2, pixelY(obj.z) - 2, 3, 3);
+            }
+
             // missile carrier
             x = pixelX(level.carrier.x);
             y = pixelY(level.carrier.z);
