@@ -491,6 +491,46 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class Object64
+   {
+      public Int16 x1, y1, z1;
+      public Int16 x2, y2, z2;
+      public Int16 x3, y3, z3;
+      public UInt16 type;
+
+      public Object64(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, UInt16 t)
+      {
+         this.x1 = x1;
+         this.y1 = y1;
+         this.z1 = z1;
+         this.x2 = x2;
+         this.y2 = y2;
+         this.z2 = z2;
+         this.x3 = x3;
+         this.y3 = y3;
+         this.z3 = z3;
+         this.type = t;
+      }
+
+      public override string ToString()
+      {
+         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ") " + type;
+      }
+   }
+
+   public class Object64Group
+   {
+      public byte b0;
+      public byte[] header;
+      public List<Object64> object64s = new List<Object64>();
+
+      public Object64Group(byte b0, byte[] header)
+      {
+         this.b0 = b0;
+         this.header = header;
+      }
+   }
+
    public class TrainPlatform
    {
       public struct StoppingTriangle
@@ -567,9 +607,9 @@ namespace BlastCorpsEditor
       public List<Building> buildings = new List<Building>();
       public List<Object60> object60s = new List<Object60>();
       public byte object60b0;
+      public List<Object64Group> objects64s = new List<Object64Group>();
       private byte[] copy48;
       private byte[] copy58;
-      private byte[] copy64;
       public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
       public List<CollisionGroup> collision6C = new List<CollisionGroup>();
       public List<CollisionGroup> collision70 = new List<CollisionGroup>();
@@ -955,7 +995,38 @@ namespace BlastCorpsEditor
       // 0x64 TODO
       private void decode64(byte[] data)
       {
-         copy64 = ArraySlice(data, BE.U32(data, 0x64), BE.U32(data, 0x68));
+         uint start = BE.U32(data, 0x64);
+         uint end = BE.U32(data, 0x68);
+         uint idx = start;
+         while (idx < end)
+         {
+            byte b0 = data[idx++];
+            byte headerLength = data[idx++];
+            byte[] header = new byte[headerLength];
+            Array.Copy(data, idx, header, 0, headerLength);
+            idx += headerLength;
+            byte count = data[idx++];
+            Object64Group objGroup = new Object64Group(b0, header);
+            for (uint i = 0; i < count; i++)
+            {
+               Int16 x, y, z, x2, y2, z2, x3, y3, z3;
+               UInt16 type;
+               x = BE.I16(data, idx);
+               y = BE.I16(data, idx + 2);
+               z = BE.I16(data, idx + 4);
+               x2 = BE.I16(data, idx + 6);
+               y2 = BE.I16(data, idx + 8);
+               z2 = BE.I16(data, idx + 0xA);
+               x3 = BE.I16(data, idx + 0xC);
+               y3 = BE.I16(data, idx + 0xE);
+               z3 = BE.I16(data, idx + 0x10);
+               type = BE.U16(data, idx + 0x12);
+               Object64 obj = new Object64(x, y, z, x2, y2, z2, x3, y3, z3, type);
+               objGroup.object64s.Add(obj);
+               idx += 20;
+            }
+            objects64s.Add(objGroup);
+         }
       }
 
       // 0x68: Train platform and stopping zone
@@ -1363,7 +1434,6 @@ namespace BlastCorpsEditor
             offset += BE.ToBytes(b.speed, data, offset);
          }
 
-         // TODO: 0x60 real data
          BE.ToBytes(offset, data, 0x60);
          data[offset++] = object60b0;
          foreach (Object60 obj in object60s)
@@ -1384,9 +1454,28 @@ namespace BlastCorpsEditor
             }
          }
 
-         // TODO: 0x64 real data
          BE.ToBytes(offset, data, 0x64);
-         offset += AppendArray(data, offset, copy64);
+         foreach (Object64Group objGroup in objects64s)
+         {
+            data[offset++] = objGroup.b0;
+            data[offset++] = (byte)objGroup.header.Length;
+            Array.Copy(objGroup.header, 0, data, offset, objGroup.header.Length);
+            offset += objGroup.header.Length;
+            data[offset++] = (byte)objGroup.object64s.Count;
+            foreach (Object64 obj in objGroup.object64s)
+            {
+               offset += BE.ToBytes(obj.x1, data, offset);
+               offset += BE.ToBytes(obj.y1, data, offset);
+               offset += BE.ToBytes(obj.z1, data, offset);
+               offset += BE.ToBytes(obj.x2, data, offset);
+               offset += BE.ToBytes(obj.y2, data, offset);
+               offset += BE.ToBytes(obj.z2, data, offset);
+               offset += BE.ToBytes(obj.x3, data, offset);
+               offset += BE.ToBytes(obj.y3, data, offset);
+               offset += BE.ToBytes(obj.z3, data, offset);
+               offset += BE.ToBytes(obj.type, data, offset);
+            }
+         }
 
          BE.ToBytes(offset, data, 0x68);
          foreach (TrainPlatform platform in trainPlatforms)
