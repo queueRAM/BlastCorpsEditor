@@ -88,14 +88,14 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Object2C
+   public class AnimatedTexture
    {
       // TODO: details on data members
       public UInt32 w0;
       public byte b5, b6, b7, b8, b9, bA, bB;
-      public UInt32[] words;
+      public UInt32[] textureIndexes;
 
-      public Object2C(UInt32 w0, byte b5, byte b6, byte b7, byte b8, byte b9, byte bA, byte bB, UInt32[] words)
+      public AnimatedTexture(UInt32 w0, byte b5, byte b6, byte b7, byte b8, byte b9, byte bA, byte bB, UInt32[] textureIndexes)
       {
          this.w0 = w0;
          this.b5 = b5;
@@ -105,7 +105,22 @@ namespace BlastCorpsEditor
          this.b9 = b9;
          this.bA = bA;
          this.bB = bB;
-         this.words = words;
+         this.textureIndexes = textureIndexes;
+      }
+
+      public override string ToString()
+      {
+         string indexStr = "";
+         if (textureIndexes.Length > 0)
+         {
+            indexStr = String.Format("{0:X8}", textureIndexes[0]);
+            for (int i = 1; i < textureIndexes.Length; i++)
+            {
+               indexStr += String.Format(", {0:X8}", textureIndexes[i]);
+            }
+         }
+         return String.Format("{0:X8} {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2} [{9}]",
+            w0, (textureIndexes.Length + 1), b5, b6, b7, b8, b9, bA, bB, indexStr);
       }
    }
 
@@ -510,7 +525,7 @@ namespace BlastCorpsEditor
       public List<AmmoBox> ammoBoxes = new List<AmmoBox>();
       public List<Collision24> collision24 = new List<Collision24>();
       public List<CommPoint> commPoints = new List<CommPoint>();
-      public List<Object2C> object2Cs = new List<Object2C>();
+      public List<AnimatedTexture> animatedTextures = new List<AnimatedTexture>();
       public List<TerrainGroup> terrainGroups = new List<TerrainGroup>();
       public List<RDU> rdus = new List<RDU>();
       public List<TNTCrate> tntCrates = new List<TNTCrate>();
@@ -619,9 +634,9 @@ namespace BlastCorpsEditor
          }
       }
 
-      // 0x2C: TODO
+      // 0x2C: Animated textures
       // {[W0 W0 W0 W0] [CC] [B5] [B6] [??] [??] [??] [??] [??] {[WC WC WC WC]}}
-      private void decode2C(byte[] data)
+      private void decodeAnimatedTextures(byte[] data)
       {
          uint start = BE.U32(data, 0x2C);
          uint end = BE.U32(data, 0x30);
@@ -639,14 +654,14 @@ namespace BlastCorpsEditor
             b9 = data[idx+9];
             bA = data[idx+0xA];
             bB = data[idx+0xB];
-            UInt32[] words = new UInt32[count-1];
+            UInt32[] textureIdx = new UInt32[count-1];
             idx += 0xC;
             for (int i = 0; i < count - 1; i++) {
-               words[i] = BE.U32(data, idx);
+               textureIdx[i] = BE.U32(data, idx);
                idx += 4;
             }
-            Object2C obj = new Object2C(w0, b5, b6, b7, b8, b9, bA, bB, words);
-            object2Cs.Add(obj);
+            AnimatedTexture animated = new AnimatedTexture(w0, b5, b6, b7, b8, b9, bA, bB, textureIdx);
+            animatedTextures.Add(animated);
          }
       }
 
@@ -1121,18 +1136,18 @@ namespace BlastCorpsEditor
          }
 
          BE.ToBytes(offset, data, 0x2C);
-         foreach (Object2C obj in object2Cs)
+         foreach (AnimatedTexture animated in animatedTextures)
          {
-            offset += BE.ToBytes(obj.w0, data, offset);
-            data[offset++] = (byte)(obj.words.Length+1);
-            data[offset++] = obj.b5;
-            data[offset++] = obj.b6;
-            data[offset++] = obj.b7;
-            data[offset++] = obj.b8;
-            data[offset++] = obj.b9;
-            data[offset++] = obj.bA;
-            data[offset++] = obj.bB;
-            foreach (UInt32 word in obj.words)
+            offset += BE.ToBytes(animated.w0, data, offset);
+            data[offset++] = (byte)(animated.textureIndexes.Length+1);
+            data[offset++] = animated.b5;
+            data[offset++] = animated.b6;
+            data[offset++] = animated.b7;
+            data[offset++] = animated.b8;
+            data[offset++] = animated.b9;
+            data[offset++] = animated.bA;
+            data[offset++] = animated.bB;
+            foreach (UInt32 word in animated.textureIndexes)
             {
                offset += BE.ToBytes(word, data, offset);
             }
@@ -1480,6 +1495,13 @@ namespace BlastCorpsEditor
          }
          writer.WriteLine();
 
+         writer.WriteLine("Animated Textures [{0}]:", animatedTextures.Count);
+         foreach (AnimatedTexture anim in animatedTextures)
+         {
+            writer.WriteLine(anim);
+         }
+         writer.WriteLine();
+
          writer.WriteLine("RDUs [{0}]:", rdus.Count);
          foreach (RDU rdu in rdus)
          {
@@ -1524,7 +1546,7 @@ namespace BlastCorpsEditor
          level.decodeAmmoBoxes(levelData);       // 0x20
          level.decodeCollision24(levelData);     // 0x24
          level.decodeCommPoints(levelData);      // 0x28
-         level.decode2C(levelData);              // 0x2C TODO: name
+         level.decodeAnimatedTextures(levelData);// 0x2C
          level.decodeTerrain(levelData);         // 0x30
          level.decodeRDUs(levelData);            // 0x34
          level.decodeTNTCrates(levelData);       // 0x38
