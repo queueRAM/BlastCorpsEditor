@@ -491,14 +491,14 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Object64
+   public class Wall
    {
       public Int16 x1, y1, z1;
       public Int16 x2, y2, z2;
       public Int16 x3, y3, z3;
       public UInt16 type;
 
-      public Object64(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, UInt16 t)
+      public Wall(Int16 x1, Int16 y1, Int16 z1, Int16 x2, Int16 y2, Int16 z2, Int16 x3, Int16 y3, Int16 z3, UInt16 t)
       {
          this.x1 = x1;
          this.y1 = y1;
@@ -518,13 +518,13 @@ namespace BlastCorpsEditor
       }
    }
 
-   public class Object64Group
+   public class WallGroup
    {
       public byte b0;
       public byte[] header;
-      public List<Object64> object64s = new List<Object64>();
+      public List<Wall> walls = new List<Wall>();
 
-      public Object64Group(byte b0, byte[] header)
+      public WallGroup(byte b0, byte[] header)
       {
          this.b0 = b0;
          this.header = header;
@@ -607,7 +607,7 @@ namespace BlastCorpsEditor
       public List<Building> buildings = new List<Building>();
       public List<Object60> object60s = new List<Object60>();
       public byte object60b0;
-      public List<Object64Group> objects64s = new List<Object64Group>();
+      public List<WallGroup> wallGroups = new List<WallGroup>();
       private byte[] copy48;
       private byte[] copy58;
       public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
@@ -1006,7 +1006,7 @@ namespace BlastCorpsEditor
             Array.Copy(data, idx, header, 0, headerLength);
             idx += headerLength;
             byte count = data[idx++];
-            Object64Group objGroup = new Object64Group(b0, header);
+            WallGroup group = new WallGroup(b0, header);
             for (uint i = 0; i < count; i++)
             {
                Int16 x, y, z, x2, y2, z2, x3, y3, z3;
@@ -1021,11 +1021,11 @@ namespace BlastCorpsEditor
                y3 = BE.I16(data, idx + 0xE);
                z3 = BE.I16(data, idx + 0x10);
                type = BE.U16(data, idx + 0x12);
-               Object64 obj = new Object64(x, y, z, x2, y2, z2, x3, y3, z3, type);
-               objGroup.object64s.Add(obj);
+               Wall wall = new Wall(x, y, z, x2, y2, z2, x3, y3, z3, type);
+               group.walls.Add(wall);
                idx += 20;
             }
-            objects64s.Add(objGroup);
+            wallGroups.Add(group);
          }
       }
 
@@ -1455,25 +1455,25 @@ namespace BlastCorpsEditor
          }
 
          BE.ToBytes(offset, data, 0x64);
-         foreach (Object64Group objGroup in objects64s)
+         foreach (WallGroup group in wallGroups)
          {
-            data[offset++] = objGroup.b0;
-            data[offset++] = (byte)objGroup.header.Length;
-            Array.Copy(objGroup.header, 0, data, offset, objGroup.header.Length);
-            offset += objGroup.header.Length;
-            data[offset++] = (byte)objGroup.object64s.Count;
-            foreach (Object64 obj in objGroup.object64s)
+            data[offset++] = group.b0;
+            data[offset++] = (byte)group.header.Length;
+            Array.Copy(group.header, 0, data, offset, group.header.Length);
+            offset += group.header.Length;
+            data[offset++] = (byte)group.walls.Count;
+            foreach (Wall wall in group.walls)
             {
-               offset += BE.ToBytes(obj.x1, data, offset);
-               offset += BE.ToBytes(obj.y1, data, offset);
-               offset += BE.ToBytes(obj.z1, data, offset);
-               offset += BE.ToBytes(obj.x2, data, offset);
-               offset += BE.ToBytes(obj.y2, data, offset);
-               offset += BE.ToBytes(obj.z2, data, offset);
-               offset += BE.ToBytes(obj.x3, data, offset);
-               offset += BE.ToBytes(obj.y3, data, offset);
-               offset += BE.ToBytes(obj.z3, data, offset);
-               offset += BE.ToBytes(obj.type, data, offset);
+               offset += BE.ToBytes(wall.x1, data, offset);
+               offset += BE.ToBytes(wall.y1, data, offset);
+               offset += BE.ToBytes(wall.z1, data, offset);
+               offset += BE.ToBytes(wall.x2, data, offset);
+               offset += BE.ToBytes(wall.y2, data, offset);
+               offset += BE.ToBytes(wall.z2, data, offset);
+               offset += BE.ToBytes(wall.x3, data, offset);
+               offset += BE.ToBytes(wall.y3, data, offset);
+               offset += BE.ToBytes(wall.z3, data, offset);
+               offset += BE.ToBytes(wall.type, data, offset);
             }
          }
 
