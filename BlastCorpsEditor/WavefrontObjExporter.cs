@@ -16,13 +16,13 @@ namespace BlastCorpsEditor
             int count = 0;
             int vertCount = 1;
             file.WriteLine(fileHeader());
-            file.WriteLine("mtllib blast_corps_terrain.mtl");
+            file.WriteLine("mtllib blast_corps.mtl");
             foreach (TerrainGroup tg in terrain)
             {
-               file.WriteLine("g Terrain" + count);
+               file.WriteLine(String.Format("g Terrain{0:X2}", count));
                foreach (TerrainTri tri in tg.triangles)
                {
-                  file.WriteLine("usemtl Terrain" + tri.b12);
+                  file.WriteLine(String.Format("usemtl Terrain{0:X02}{1:X02}", tri.b12, tri.b13));
                   file.WriteLine(toObjVert(tri.x1, tri.y1, tri.z1, scale));
                   file.WriteLine(toObjVert(tri.x2, tri.y2, tri.z2, scale));
                   file.WriteLine(toObjVert(tri.x3, tri.y3, tri.z3, scale));
@@ -41,13 +41,13 @@ namespace BlastCorpsEditor
             int count = 0;
             int vertCount = 1;
             file.WriteLine(fileHeader());
-            file.WriteLine("mtllib blast_corps_collision.mtl");
+            file.WriteLine("mtllib blast_corps.mtl");
             foreach (CollisionGroup cg in collision)
             {
-               file.WriteLine("g Collision" + count);
+               file.WriteLine(String.Format("g Collision{0:X2}", count));
                foreach (CollisionTri tri in cg.triangles)
                {
-                  file.WriteLine("usemtl Collision" + tri.b14);
+                  file.WriteLine(String.Format("usemtl Collision{0:X02}", tri.b14));
                   file.WriteLine(toObjVert(tri.x1, tri.y1, tri.z1, scale));
                   file.WriteLine(toObjVert(tri.x2, tri.y2, tri.z2, scale));
                   file.WriteLine(toObjVert(tri.x3, tri.y3, tri.z3, scale));
@@ -65,10 +65,10 @@ namespace BlastCorpsEditor
          {
             int vertCount = 1;
             file.WriteLine(fileHeader());
-            file.WriteLine("mtllib blast_corps_collision.mtl");
+            file.WriteLine("mtllib blast_corps.mtl");
             foreach (Collision24 tri in collision)
             {
-               file.WriteLine("usemtl Collision" + tri.type);
+               file.WriteLine(String.Format("usemtl Collision24_{0:X4}", tri.type));
                file.WriteLine(toObjVert(tri.x1, tri.y1, tri.z1, scale));
                file.WriteLine(toObjVert(tri.x2, tri.y2, tri.z2, scale));
                file.WriteLine(toObjVert(tri.x3, tri.y3, tri.z3, scale));
@@ -86,15 +86,15 @@ namespace BlastCorpsEditor
             file.WriteLine(fileHeader());
             foreach (Object60 obj in object60s)
             {
-               file.WriteLine(toObjVert(obj.x - 3, obj.y, obj.z - 3, scale));
-               file.WriteLine(toObjVert(obj.x + 3, obj.y, obj.z - 3, scale));
-               file.WriteLine(toObjVert(obj.x + 3, obj.y + obj.h6, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x - 2, obj.y, obj.z - 2, scale));
+               file.WriteLine(toObjVert(obj.x + 2, obj.y, obj.z - 2, scale));
+               file.WriteLine(toObjVert(obj.x + 2, obj.y + obj.h6, obj.z - 2, scale));
                file.WriteLine("f " + vertCount + " " + (vertCount + 1) + " " + (vertCount + 2));
                vertCount += 3;
 
-               file.WriteLine(toObjVert(obj.x - 3, obj.y, obj.z - 3, scale));
-               file.WriteLine(toObjVert(obj.x + 3, obj.y + obj.h6, obj.z - 3, scale));
-               file.WriteLine(toObjVert(obj.x - 3, obj.y + obj.h6, obj.z - 3, scale));
+               file.WriteLine(toObjVert(obj.x - 2, obj.y, obj.z - 2, scale));
+               file.WriteLine(toObjVert(obj.x + 2, obj.y + obj.h6, obj.z - 2, scale));
+               file.WriteLine(toObjVert(obj.x - 2, obj.y + obj.h6, obj.z - 2, scale));
                file.WriteLine("f " + vertCount + " " + (vertCount + 1) + " " + (vertCount + 2));
                vertCount += 3;
             }
@@ -107,12 +107,12 @@ namespace BlastCorpsEditor
          {
             int vertCount = 1;
             file.WriteLine(fileHeader());
-            file.WriteLine("mtllib blast_corps_walls.mtl");
+            file.WriteLine("mtllib blast_corps.mtl");
             foreach (WallGroup group in wallGroups)
             {
                foreach (Wall wall in group.walls)
                {
-                  file.WriteLine("usemtl Wall" + wall.type);
+                  file.WriteLine(String.Format("usemtl Wall{0:X4}", wall.type));
                   file.WriteLine(toObjVert(wall.x1, wall.y1, wall.z1, scale));
                   file.WriteLine(toObjVert(wall.x2, wall.y2, wall.z2, scale));
                   file.WriteLine(toObjVert(wall.x3, wall.y3, wall.z3, scale));
