@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Carrier", 27, 27);
-         System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
-         System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
-         System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
-         System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
-         System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
-         System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Vehicles [0]", 15, 15);
-         System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Buildings [0]", 28, 28);
+         System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Carrier", 27, 27);
+         System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Ammo Boxes [0]", 1, 1);
+         System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Communcation Points [0]", 4, 4);
+         System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RDUs [0]", 5, 5);
+         System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("TNT Crates [0]", 6, 6);
+         System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Square Blocks [0]", 7, 7);
+         System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Vehicles [0]", 15, 15);
+         System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Buildings [0]", 28, 28);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorpsEditorForm));
          this.statusStrip = new System.Windows.Forms.StatusStrip();
          this.statusStripFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -117,6 +117,7 @@
          this.toolStripButtonVehicle = new System.Windows.Forms.ToolStripButton();
          this.toolStripButtonBuilding = new System.Windows.Forms.ToolStripButton();
          this.blastCorpsViewer = new BlastCorpsEditor.BlastCorpsViewer();
+         this.dPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.statusStrip.SuspendLayout();
          this.menuStrip1.SuspendLayout();
          this.tabControlItems.SuspendLayout();
@@ -268,7 +269,8 @@
             this.gridLinesToolStripMenuItem,
             this.boundingBoxes0x40ToolStripMenuItem,
             this.boundingBoxes0x44ToolStripMenuItem,
-            this.textureViewerToolStripMenuItem});
+            this.textureViewerToolStripMenuItem,
+            this.dPreviewToolStripMenuItem});
          this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
          this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
          this.viewToolStripMenuItem.Text = "View";
@@ -356,47 +358,47 @@
          this.treeViewObjects.ImageList = this.imageListObjects;
          this.treeViewObjects.Location = new System.Drawing.Point(4, 170);
          this.treeViewObjects.Name = "treeViewObjects";
-         treeNode1.ImageIndex = 27;
-         treeNode1.Name = "nodeCarrier";
-         treeNode1.SelectedImageIndex = 27;
-         treeNode1.Text = "Carrier";
-         treeNode2.ImageIndex = 1;
-         treeNode2.Name = "nodeAmmo";
-         treeNode2.SelectedImageIndex = 1;
-         treeNode2.Text = "Ammo Boxes [0]";
-         treeNode3.ImageIndex = 4;
-         treeNode3.Name = "nodeCommPt";
-         treeNode3.SelectedImageIndex = 4;
-         treeNode3.Text = "Communcation Points [0]";
-         treeNode4.ImageIndex = 5;
-         treeNode4.Name = "nodeRdu";
-         treeNode4.SelectedImageIndex = 5;
-         treeNode4.Text = "RDUs [0]";
-         treeNode5.ImageIndex = 6;
-         treeNode5.Name = "nodeTnt";
-         treeNode5.SelectedImageIndex = 6;
-         treeNode5.Text = "TNT Crates [0]";
-         treeNode6.ImageIndex = 7;
-         treeNode6.Name = "nodeBlock";
-         treeNode6.SelectedImageIndex = 7;
-         treeNode6.Text = "Square Blocks [0]";
-         treeNode7.ImageIndex = 15;
-         treeNode7.Name = "nodeVehicle";
-         treeNode7.SelectedImageIndex = 15;
-         treeNode7.Text = "Vehicles [0]";
-         treeNode8.ImageIndex = 28;
-         treeNode8.Name = "nodeBuilding";
-         treeNode8.SelectedImageIndex = 28;
-         treeNode8.Text = "Buildings [0]";
+         treeNode9.ImageIndex = 27;
+         treeNode9.Name = "nodeCarrier";
+         treeNode9.SelectedImageIndex = 27;
+         treeNode9.Text = "Carrier";
+         treeNode10.ImageIndex = 1;
+         treeNode10.Name = "nodeAmmo";
+         treeNode10.SelectedImageIndex = 1;
+         treeNode10.Text = "Ammo Boxes [0]";
+         treeNode11.ImageIndex = 4;
+         treeNode11.Name = "nodeCommPt";
+         treeNode11.SelectedImageIndex = 4;
+         treeNode11.Text = "Communcation Points [0]";
+         treeNode12.ImageIndex = 5;
+         treeNode12.Name = "nodeRdu";
+         treeNode12.SelectedImageIndex = 5;
+         treeNode12.Text = "RDUs [0]";
+         treeNode13.ImageIndex = 6;
+         treeNode13.Name = "nodeTnt";
+         treeNode13.SelectedImageIndex = 6;
+         treeNode13.Text = "TNT Crates [0]";
+         treeNode14.ImageIndex = 7;
+         treeNode14.Name = "nodeBlock";
+         treeNode14.SelectedImageIndex = 7;
+         treeNode14.Text = "Square Blocks [0]";
+         treeNode15.ImageIndex = 15;
+         treeNode15.Name = "nodeVehicle";
+         treeNode15.SelectedImageIndex = 15;
+         treeNode15.Text = "Vehicles [0]";
+         treeNode16.ImageIndex = 28;
+         treeNode16.Name = "nodeBuilding";
+         treeNode16.SelectedImageIndex = 28;
+         treeNode16.Text = "Buildings [0]";
          this.treeViewObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14,
+            treeNode15,
+            treeNode16});
          this.treeViewObjects.SelectedImageIndex = 0;
          this.treeViewObjects.ShowLines = false;
          this.treeViewObjects.Size = new System.Drawing.Size(360, 461);
@@ -1083,6 +1085,14 @@
          this.blastCorpsViewer.Size = new System.Drawing.Size(650, 638);
          this.blastCorpsViewer.TabIndex = 7;
          // 
+         // dPreviewToolStripMenuItem
+         // 
+         this.dPreviewToolStripMenuItem.Name = "dPreviewToolStripMenuItem";
+         this.dPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+         this.dPreviewToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+         this.dPreviewToolStripMenuItem.Text = "3D Preview";
+         this.dPreviewToolStripMenuItem.Click += new System.EventHandler(this.dPreviewToolStripMenuItem_Click);
+         // 
          // BlastCorpsEditorForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1216,6 +1226,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonMove;
         private System.Windows.Forms.ToolStripButton toolStripButtonSelect;
         private System.Windows.Forms.ToolStripMenuItem textureViewerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dPreviewToolStripMenuItem;
     }
 }
 

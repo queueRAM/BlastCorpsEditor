@@ -12,6 +12,8 @@ namespace BlastCorpsEditor
       private int levelId = -1;
       private BlastCorpsLevel level;
 
+      private BlastCorps3DForm viewer3D = null;
+
       private BlastCorpsItem itemSel;
 
       // TreeView
@@ -615,6 +617,10 @@ namespace BlastCorpsEditor
          statusStripMessage.Text = level.bounds.ToString();
 
          blastCorpsViewer.SetLevel(level);
+         if (viewer3D != null)
+         {
+            viewer3D.SetLevel(level);
+         }
 
          toolStripComboBoxLevel.Enabled = true;
          saveToolStripMenuItem.Enabled = true;
@@ -1199,12 +1205,21 @@ namespace BlastCorpsEditor
          }
       }
 
+      private void NotifyViewers()
+      {
+         blastCorpsViewer.Invalidate();
+         if (viewer3D != null)
+         {
+            viewer3D.Refresh();
+         }
+      }
+
       private void numericX_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null)
          {
             itemSel.x = (Int16)numericX.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateNode(itemSel);
          }
       }
@@ -1214,7 +1229,7 @@ namespace BlastCorpsEditor
          if (itemSel != null)
          {
             itemSel.y = (Int16)numericY.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateNode(itemSel);
          }
       }
@@ -1224,7 +1239,7 @@ namespace BlastCorpsEditor
          if (itemSel != null)
          {
             itemSel.z = (Int16)numericZ.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateNode(itemSel);
          }
       }
@@ -1251,7 +1266,7 @@ namespace BlastCorpsEditor
          {
             AmmoBox ammo = (AmmoBox)itemSel;
             ammo.type = (UInt16)comboBoxAmmo.SelectedIndex;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateAmmoNode(ammo);
          }
       }
@@ -1275,7 +1290,7 @@ namespace BlastCorpsEditor
          {
             CommPoint comm = (CommPoint)itemSel;
             comm.h6 = (UInt16)numericCommPtH6.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateCommPointNode(comm);
          }
       }
@@ -1312,7 +1327,7 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.texture = (byte)comboBoxTntTexture.SelectedIndex;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateTntNode(tnt);
          }
       }
@@ -1323,7 +1338,7 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.timer = (byte)numericTntTimer.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateTntNode(tnt);
          }
       }
@@ -1334,7 +1349,7 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.h8 = (Int16)numericTntH8.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateTntNode(tnt);
          }
       }
@@ -1345,7 +1360,7 @@ namespace BlastCorpsEditor
          {
             TNTCrate tnt = (TNTCrate)itemSel;
             tnt.hA = (Int16)numericTntHA.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateTntNode(tnt);
          }
       }
@@ -1381,7 +1396,7 @@ namespace BlastCorpsEditor
                block.type = SquareBlock.Type.Hole;
                checkBoxBlockCount.Enabled = true;
             }
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBlockNode(block);
          }
       }
@@ -1397,7 +1412,7 @@ namespace BlastCorpsEditor
                case 1: block.shape = SquareBlock.Shape.Diamond1; break;
                case 2: block.shape = SquareBlock.Shape.Diamond2; break;
             }
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBlockNode(block);
          }
       }
@@ -1408,7 +1423,7 @@ namespace BlastCorpsEditor
          {
             SquareBlock block = (SquareBlock)itemSel;
             block.isCounted = checkBoxBlockCount.Checked;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBlockNode(block);
          }
       }
@@ -1435,7 +1450,7 @@ namespace BlastCorpsEditor
          {
             Carrier carrier = (Carrier)itemSel;
             carrier.speed = (byte)numericCarrierSpeed.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
          }
       }
 
@@ -1445,7 +1460,7 @@ namespace BlastCorpsEditor
          {
             Carrier carrier = (Carrier)itemSel;
             carrier.distance = (UInt16)numericCarrierDistance.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
          }
       }
 
@@ -1455,7 +1470,7 @@ namespace BlastCorpsEditor
          {
             Vehicle veh = (Vehicle)itemSel;
             veh.type = (byte)comboBoxVehicle.SelectedIndex;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateVehicleNode(veh);
          }
       }
@@ -1468,13 +1483,13 @@ namespace BlastCorpsEditor
             {
                Vehicle veh = (Vehicle)itemSel;
                veh.heading = (Int16)numericHeading.Value;
-               blastCorpsViewer.Invalidate();
+               NotifyViewers();
                updateVehicleNode(veh);
             }
             else if (itemSel is Carrier)
             {
                level.carrier.heading = (UInt16)numericHeading.Value;
-               blastCorpsViewer.Invalidate();
+               NotifyViewers();
             }
          }
       }
@@ -1498,7 +1513,7 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.type = (UInt16)comboBoxBuildingType.SelectedIndex;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBuildingNode(b);
          }
       }
@@ -1509,7 +1524,7 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.isCounted = checkBoxBuildingCount.Checked;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBuildingNode(b);
          }
       }
@@ -1520,7 +1535,7 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.b9 = (byte)numericBuildingB9.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBuildingNode(b);
          }
       }
@@ -1531,7 +1546,7 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.movement = (UInt16)comboBoxBuildingMovement.SelectedIndex;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBuildingNode(b);
          }
       }
@@ -1542,7 +1557,7 @@ namespace BlastCorpsEditor
          {
             Building b = (Building)itemSel;
             b.speed = (UInt16)numericBuildingSpeed.Value;
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
             updateBuildingNode(b);
          }
       }
@@ -1691,19 +1706,19 @@ namespace BlastCorpsEditor
       private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
       {
          Properties.Settings.Default.ViewGridLines = gridLinesToolStripMenuItem.Checked;
-         blastCorpsViewer.Invalidate();
+         NotifyViewers();
       }
 
       private void boundingBoxes0x40ToolStripMenuItem_Click(object sender, EventArgs e)
       {
          Properties.Settings.Default.ViewBoxes40 = boundingBoxes0x40ToolStripMenuItem.Checked;
-         blastCorpsViewer.Invalidate();
+         NotifyViewers();
       }
 
       private void boundingBoxes0x44ToolStripMenuItem_Click(object sender, EventArgs e)
       {
          Properties.Settings.Default.ViewBoxes44 = boundingBoxes0x44ToolStripMenuItem.Checked;
-         blastCorpsViewer.Invalidate();
+         NotifyViewers();
       }
 
       // Help menu
@@ -1797,7 +1812,7 @@ namespace BlastCorpsEditor
                DeleteItem(item);
                SetSelectedItem(null);
             }
-            blastCorpsViewer.Invalidate();
+            NotifyViewers();
          }
       }
 
@@ -1805,6 +1820,18 @@ namespace BlastCorpsEditor
       {
          TextureForm form = new TextureForm(rom);
          form.Show();
+      }
+
+      private void dPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         if (viewer3D == null)
+         {
+            viewer3D = new BlastCorps3DForm();
+            viewer3D.SetLevel(level);
+            viewer3D.FormClosed += delegate { viewer3D = null; };
+            viewer3D.Show();
+         }
+         viewer3D.Focus();
       }
    }
 }

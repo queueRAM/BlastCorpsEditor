@@ -35,6 +35,14 @@
     <ApplicationIcon>BlastCorps.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\external\OpenTK\1.1\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\external\OpenTK\1.1\Binaries\OpenTK\Release\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +60,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BlastCorps3DForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlastCorps3DForm.Designer.cs">
+      <DependentUpon>BlastCorps3DForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BlastCorpsTexture.cs" />
     <Compile Include="ExportDialog.cs">
       <SubType>Form</SubType>
@@ -59,6 +73,7 @@
     <Compile Include="ExportDialog.Designer.cs">
       <DependentUpon>ExportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model3D.cs" />
     <Compile Include="N64Graphics.cs" />
     <Compile Include="PictureBoxInterpolation.cs">
       <SubType>Component</SubType>
@@ -89,6 +104,9 @@
     <Compile Include="WavefrontObjExporter.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BlastCorps3DForm.resx">
+      <DependentUpon>BlastCorps3DForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BlastCorpsEditorForm.resx">
       <DependentUpon>BlastCorpsEditorForm.cs</DependentUpon>
