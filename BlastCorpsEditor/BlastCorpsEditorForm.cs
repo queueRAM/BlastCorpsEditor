@@ -1052,9 +1052,9 @@ namespace BlastCorpsEditor
             {
                MessageBox.Show("Error, this does not appear to be a valid Blast Corps ROM.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (rom.type == BlastCorpsRom.RomType.Vanilla && rom.region != BlastCorpsRom.Region.US)
+            else if (rom.type == BlastCorpsRom.RomType.Vanilla && rom.region != BlastCorpsRom.Region.US && rom.region != BlastCorpsRom.Region.Japan)
             {
-               MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.0 or V1.1) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               MessageBox.Show("Error, this tool only works with Blast Corps (U) (V1.0 or V1.1) or Blast Dozer (J) ROMs currently.", "Invalid ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
