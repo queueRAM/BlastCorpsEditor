@@ -37,6 +37,11 @@
          this.checkBoxCollision6C = new System.Windows.Forms.CheckBox();
          this.checkBoxTerrain = new System.Windows.Forms.CheckBox();
          this.checkBoxDisplay = new System.Windows.Forms.CheckBox();
+         this.checkBoxWireframe = new System.Windows.Forms.CheckBox();
+         this.checkBoxWalls = new System.Windows.Forms.CheckBox();
+         this.checkBoxCollision24 = new System.Windows.Forms.CheckBox();
+         this.checkBox44 = new System.Windows.Forms.CheckBox();
+         this.checkBox40 = new System.Windows.Forms.CheckBox();
          this.SuspendLayout();
          // 
          // glControlViewer
@@ -105,22 +110,22 @@
          // checkBoxCollision6C
          // 
          this.checkBoxCollision6C.AutoSize = true;
-         this.checkBoxCollision6C.Location = new System.Drawing.Point(186, 4);
+         this.checkBoxCollision6C.Location = new System.Drawing.Point(425, 5);
          this.checkBoxCollision6C.Name = "checkBoxCollision6C";
-         this.checkBoxCollision6C.Size = new System.Drawing.Size(110, 17);
+         this.checkBoxCollision6C.Size = new System.Drawing.Size(138, 17);
          this.checkBoxCollision6C.TabIndex = 7;
-         this.checkBoxCollision6C.Text = "Show Collision 6C";
+         this.checkBoxCollision6C.Text = "Show Collision H (0x6C)";
          this.checkBoxCollision6C.UseVisualStyleBackColor = true;
          this.checkBoxCollision6C.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
          // 
          // checkBoxTerrain
          // 
          this.checkBoxTerrain.AutoSize = true;
-         this.checkBoxTerrain.Location = new System.Drawing.Point(186, 22);
+         this.checkBoxTerrain.Location = new System.Drawing.Point(192, 21);
          this.checkBoxTerrain.Name = "checkBoxTerrain";
-         this.checkBoxTerrain.Size = new System.Drawing.Size(89, 17);
+         this.checkBoxTerrain.Size = new System.Drawing.Size(121, 17);
          this.checkBoxTerrain.TabIndex = 8;
-         this.checkBoxTerrain.Text = "Show Terrain";
+         this.checkBoxTerrain.Text = "Show Terrain (0x30)";
          this.checkBoxTerrain.UseVisualStyleBackColor = true;
          this.checkBoxTerrain.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
          // 
@@ -129,7 +134,7 @@
          this.checkBoxDisplay.AutoSize = true;
          this.checkBoxDisplay.Checked = true;
          this.checkBoxDisplay.CheckState = System.Windows.Forms.CheckState.Checked;
-         this.checkBoxDisplay.Location = new System.Drawing.Point(303, 4);
+         this.checkBoxDisplay.Location = new System.Drawing.Point(569, 23);
          this.checkBoxDisplay.Name = "checkBoxDisplay";
          this.checkBoxDisplay.Size = new System.Drawing.Size(109, 17);
          this.checkBoxDisplay.TabIndex = 9;
@@ -137,11 +142,73 @@
          this.checkBoxDisplay.UseVisualStyleBackColor = true;
          this.checkBoxDisplay.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
          // 
+         // checkBoxWireframe
+         // 
+         this.checkBoxWireframe.AutoSize = true;
+         this.checkBoxWireframe.Checked = true;
+         this.checkBoxWireframe.CheckState = System.Windows.Forms.CheckState.Checked;
+         this.checkBoxWireframe.Location = new System.Drawing.Point(569, 5);
+         this.checkBoxWireframe.Name = "checkBoxWireframe";
+         this.checkBoxWireframe.Size = new System.Drawing.Size(104, 17);
+         this.checkBoxWireframe.TabIndex = 10;
+         this.checkBoxWireframe.Text = "Show Wireframe";
+         this.checkBoxWireframe.UseVisualStyleBackColor = true;
+         this.checkBoxWireframe.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
+         // 
+         // checkBoxWalls
+         // 
+         this.checkBoxWalls.AutoSize = true;
+         this.checkBoxWalls.Location = new System.Drawing.Point(425, 23);
+         this.checkBoxWalls.Name = "checkBoxWalls";
+         this.checkBoxWalls.Size = new System.Drawing.Size(114, 17);
+         this.checkBoxWalls.TabIndex = 11;
+         this.checkBoxWalls.Text = "Show Walls (0x64)";
+         this.checkBoxWalls.UseVisualStyleBackColor = true;
+         this.checkBoxWalls.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
+         // 
+         // checkBoxCollision24
+         // 
+         this.checkBoxCollision24.AutoSize = true;
+         this.checkBoxCollision24.Location = new System.Drawing.Point(192, 5);
+         this.checkBoxCollision24.Name = "checkBoxCollision24";
+         this.checkBoxCollision24.Size = new System.Drawing.Size(136, 17);
+         this.checkBoxCollision24.TabIndex = 12;
+         this.checkBoxCollision24.Text = "Show Collision V (0x24)";
+         this.checkBoxCollision24.UseVisualStyleBackColor = true;
+         this.checkBoxCollision24.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
+         // 
+         // checkBox44
+         // 
+         this.checkBox44.AutoSize = true;
+         this.checkBox44.Location = new System.Drawing.Point(334, 23);
+         this.checkBox44.Name = "checkBox44";
+         this.checkBox44.Size = new System.Drawing.Size(85, 17);
+         this.checkBox44.TabIndex = 14;
+         this.checkBox44.Text = "Show (0x44)";
+         this.checkBox44.UseVisualStyleBackColor = true;
+         this.checkBox44.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
+         // 
+         // checkBox40
+         // 
+         this.checkBox40.AutoSize = true;
+         this.checkBox40.Location = new System.Drawing.Point(334, 5);
+         this.checkBox40.Name = "checkBox40";
+         this.checkBox40.Size = new System.Drawing.Size(85, 17);
+         this.checkBox40.TabIndex = 13;
+         this.checkBox40.Text = "Show (0x40)";
+         this.checkBox40.UseVisualStyleBackColor = true;
+         this.checkBox40.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
+         // 
          // BlastCorps3DForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(914, 686);
+         this.Controls.Add(this.checkBox44);
+         this.Controls.Add(this.checkBox40);
+         this.Controls.Add(this.checkBoxCollision24);
+         this.Controls.Add(this.checkBoxWalls);
+         this.Controls.Add(this.checkBoxWireframe);
          this.Controls.Add(this.checkBoxDisplay);
          this.Controls.Add(this.checkBoxTerrain);
          this.Controls.Add(this.checkBoxCollision6C);
@@ -170,6 +237,11 @@
       private System.Windows.Forms.CheckBox checkBoxCollision6C;
       private System.Windows.Forms.CheckBox checkBoxTerrain;
       private System.Windows.Forms.CheckBox checkBoxDisplay;
+      private System.Windows.Forms.CheckBox checkBoxWireframe;
+      private System.Windows.Forms.CheckBox checkBoxWalls;
+      private System.Windows.Forms.CheckBox checkBoxCollision24;
+      private System.Windows.Forms.CheckBox checkBox44;
+      private System.Windows.Forms.CheckBox checkBox40;
 
    }
 }

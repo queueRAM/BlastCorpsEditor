@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace BlastCorpsEditor
 {
@@ -75,11 +70,83 @@ namespace BlastCorpsEditor
          cameraMatrix = Matrix4.Identity;
          SetupViewport();
 
+         float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
+         float[] mat_shininess = { 50.0f };
+         float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
+         float[] light_ambient = { 0.5f, 0.5f, 0.5f, 1.0f };
+
+         //GL.ShadeModel(ShadingModel.Flat);
+
+         GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Specular, mat_specular);
+         GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Shininess, mat_shininess);
+         GL.Light(LightName.Light0, LightParameter.Position, light_position);
+         GL.Light(LightName.Light0, LightParameter.Ambient, light_ambient);
+         GL.Light(LightName.Light0, LightParameter.Diffuse, mat_specular);
+
+         GL.Enable(EnableCap.Lighting);
+         GL.Enable(EnableCap.Light0);
+         GL.Enable(EnableCap.DepthTest);
          GL.Enable(EnableCap.ColorMaterial);
+         GL.Enable(EnableCap.Normalize);
       }
 
-      private void drawCube(Color cubeColor)
+      private Vector3 GetNormal(Vector3 a, Vector3 b, Vector3 c)
       {
+         var dir = Vector3.Cross(b - a, c - a);
+         var norm = Vector3.Normalize(dir);
+         return norm;
+      }
+
+      private Vector3 GetNormal(Collision24 tri)
+      {
+         Vector3 a = new Vector3(tri.x1, tri.y1, tri.z1);
+         Vector3 b = new Vector3(tri.x2, tri.y2, tri.z2);
+         Vector3 c = new Vector3(tri.x3, tri.y3, tri.z3);
+         return GetNormal(a, b, c);
+      }
+
+      private Vector3 GetNormal(CollisionTri tri)
+      {
+         Vector3 a = new Vector3(tri.x1, tri.y1, tri.z1);
+         Vector3 b = new Vector3(tri.x2, tri.y2, tri.z2);
+         Vector3 c = new Vector3(tri.x3, tri.y3, tri.z3);
+         return GetNormal(a, b, c);
+      }
+
+      private Vector3 GetNormal(TerrainTri tri)
+      {
+         Vector3 a = new Vector3(tri.x1, tri.y1, tri.z1);
+         Vector3 b = new Vector3(tri.x2, tri.y2, tri.z2);
+         Vector3 c = new Vector3(tri.x3, tri.y3, tri.z3);
+         return GetNormal(a, b, c);
+      }
+ 
+      private Vector3 GetNormal(Wall tri)
+      {
+         Vector3 a = new Vector3(tri.x1, tri.y1, tri.z1);
+         Vector3 b = new Vector3(tri.x2, tri.y2, tri.z2);
+         Vector3 c = new Vector3(tri.x3, tri.y3, tri.z3);
+         return GetNormal(a, b, c);
+      }
+
+      private void drawCube(bool wireframe, Color cubeColor)
+      {
+         if (wireframe)
+         {
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+            GL.Enable(EnableCap.PolygonOffsetLine);
+            GL.PolygonOffset(-1.0f, -1.0f);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         }
+
          GL.Begin(PrimitiveType.Quads);
          GL.Color3(cubeColor);
          // front
@@ -119,10 +186,50 @@ namespace BlastCorpsEditor
          GL.Vertex3(1.0f, 0.0f, -1.0f);
          GL.Vertex3(0.0f, 0.0f, -1.0f);
          GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      // TODO: improve comm point rendering
+      private void drawComm()
+      {
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         GL.Begin(PrimitiveType.Triangles);
+         GL.Color3(Color.Yellow);
+         GL.Vertex3(0.0f, 1.0f, 0.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(-1.0f, 0.0f, 1.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(1.0f, 0.0f, 1.0f);
+         GL.Color3(Color.Yellow);
+         GL.Vertex3(0.0f, 1.0f, 0.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(1.0f, 0.0f, 1.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(1.0f, 0.0f, -1.0f);
+         GL.Color3(Color.Yellow);
+         GL.Vertex3(0.0f, 1.0f, 0.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(1.0f, 0.0f, -1.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(-1.0f, 0.0f, -1.0f);
+         GL.Color3(Color.Yellow);
+         GL.Vertex3(0.0f, 1.0f, 0.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(-1.0f, 0.0f, -1.0f);
+         GL.Color3(Color.Goldenrod);
+         GL.Vertex3(-1.0f, 0.0f, 1.0f);
+         GL.End();
       }
 
       private void drawRdu()
       {
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          GL.Begin(PrimitiveType.Triangles);
          GL.Color3(Color.Yellow);
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Front)
@@ -151,36 +258,36 @@ namespace BlastCorpsEditor
          GL.End();
       }
 
-      private void glControlViewer_Paint(object sender, PaintEventArgs e)
+      void drawHole(SquareBlock block, Color color)
       {
-         if (!loaded) return;
+         GL.Enable(EnableCap.LineSmooth);
+         GL.Enable(EnableCap.Blend);
+         GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+         GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+         GL.Enable(EnableCap.PolygonOffsetLine);
+         GL.PolygonOffset(-1.0f, -1.0f);
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+         GL.LineWidth(1.0f);
+         GL.Color3(color);
 
-         GL.ClearColor(Color.CornflowerBlue);
-         GL.MatrixMode(MatrixMode.Modelview);
-         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-         GL.Enable(EnableCap.DepthTest);
-         GL.LoadMatrix(ref cameraMatrix);
-
-         if (levelModel != null && checkBoxDisplay.Checked)
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (SquareBlock.Node v in block.nodes)
          {
-            GL.PushMatrix();
-            GL.Scale(scale, scale, scale);
-            
-            // fill
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.Color3(Color.Gray);
-            GL.Begin(PrimitiveType.Triangles);
-            foreach (Triangle tri in levelModel.triangles)
-            {
-               foreach (Vertex v in tri.vertices)
-               {
-                  GL.Normal3(v.normals);
-                  GL.Vertex3(v.x, v.y, v.z);
-               }
-            }
-            GL.End();
+            GL.Vertex3((float)v.x[0], (float)v.y[0], (float)v.z[0]);
+            GL.Vertex3((float)v.x[1], (float)v.y[1], (float)v.z[1]);
+            GL.Vertex3((float)v.x[2], (float)v.y[2], (float)v.z[2]);
+         }
+         GL.End();
 
-            // line
+         GL.Disable(EnableCap.LineSmooth);
+         GL.Disable(EnableCap.Blend);
+         GL.Disable(EnableCap.PolygonOffsetLine);
+      }
+
+      void drawDisplayList(bool wireframe)
+      {
+         if (wireframe)
+         {
             GL.Enable(EnableCap.LineSmooth);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -189,27 +296,272 @@ namespace BlastCorpsEditor
             GL.PolygonOffset(-1.0f, -1.0f);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.Color3(Color.Black);
-            GL.LineWidth(1.0f);
-            GL.Begin(PrimitiveType.Triangles);
-            foreach (Triangle tri in levelModel.triangles)
-            {
-               foreach (Vertex v in tri.vertices)
-               {
-                  GL.Vertex3(v.x, v.y, v.z);
-               }
-            }
-            GL.End();
-            GL.PopMatrix();
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.Color3(Color.Gray);
+         }
+
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (Triangle tri in levelModel.triangles)
+         {
+            foreach (Vertex v in tri.vertices)
+            {
+               GL.Normal3(v.normals);
+               GL.Vertex3(v.x, v.y, v.z);
+            }
+         }
+         GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      void drawCollision(List<Collision24> collisions, bool wireframe, Color color)
+      {
+         if (wireframe)
+         {
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+            GL.Enable(EnableCap.PolygonOffsetLine);
+            GL.PolygonOffset(-1.0f, -1.0f);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         }
+
+         GL.Color3(color);
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (Collision24 tri in collisions)
+         {
+            GL.Normal3(GetNormal(tri));
+            GL.Vertex3(tri.x1, tri.y1, tri.z1);
+            GL.Vertex3(tri.x2, tri.y2, tri.z2);
+            GL.Vertex3(tri.x3, tri.y3, tri.z3);
+         }
+         GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      void drawBounds(List<Bounds> bounds, Color color)
+      {
+         GL.Enable(EnableCap.Blend);
+         GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         GL.Color4(color.R, color.G, color.B, (byte)64);
+
+         GL.Begin(PrimitiveType.Quads);
+         foreach (Bounds b in bounds)
+         {
+            GL.Vertex3(b.x1, b.todo, b.z1);
+            GL.Vertex3(b.x1, b.todo, b.z2);
+            GL.Vertex3(b.x2, b.todo, b.z2);
+            GL.Vertex3(b.x2, b.todo, b.z1);
+         }
+         GL.End();
+
+         GL.Disable(EnableCap.Blend);
+      }
+
+      void drawCollision(List<CollisionGroup> collisions, bool wireframe, Color color)
+      {
+         if (wireframe)
+         {
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+            GL.Enable(EnableCap.PolygonOffsetLine);
+            GL.PolygonOffset(-1.0f, -1.0f);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         }
+
+         GL.Color3(color);
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (CollisionGroup cg in collisions)
+         {
+            foreach (CollisionTri tri in cg.triangles)
+            {
+               GL.Normal3(GetNormal(tri));
+               GL.Vertex3(tri.x1, tri.y1, tri.z1);
+               GL.Vertex3(tri.x2, tri.y2, tri.z2);
+               GL.Vertex3(tri.x3, tri.y3, tri.z3);
+            }
+         }
+         GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      void drawTerrain(List<TerrainGroup> terrainGroups, bool wireframe)
+      {
+         if (wireframe)
+         {
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+            GL.Enable(EnableCap.PolygonOffsetLine);
+            GL.PolygonOffset(-1.0f, -1.0f);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            GL.Color3(Color.Black);
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         }
+
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (TerrainGroup tg in level.terrainGroups)
+         {
+            foreach (TerrainTri tri in tg.triangles)
+            {
+               Color triColor = Color.Black;
+               if (!wireframe)
+               {
+                  switch (tri.b12)
+                  {
+                     case 0x01: triColor = Color.Brown; break; // low traction / dirt
+                     case 0x02: triColor = Color.DarkGray; break; // high traction, high speed / roads, rails
+                     case 0x03: triColor = Color.ForestGreen; break; // high traction, medium speed / grass
+                     case 0x05: triColor = Color.Yellow; break; // slow speed / ponds
+                     case 0x67: triColor = Color.LightGray; break; // high traction, high speed / gravel lots (similar to roads?)
+                  }
+               }
+               GL.Color3(triColor);
+               GL.Normal3(GetNormal(tri));
+               GL.Vertex3(tri.x1, tri.y1, tri.z1);
+               GL.Vertex3(tri.x2, tri.y2, tri.z2);
+               GL.Vertex3(tri.x3, tri.y3, tri.z3);
+            }
+         }
+         GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      private void drawWalls(List<WallGroup> wallGroups, bool wireframe)
+      {
+         if (wireframe)
+         {
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+            GL.Enable(EnableCap.PolygonOffsetLine);
+            GL.PolygonOffset(-1.0f, -1.0f);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            GL.Color3(Color.Black);
+            GL.LineWidth(0.5f);
+         }
+         else
+         {
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.Color3(Color.Beige);
+         }
+
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (WallGroup wg in level.wallGroups)
+         {
+            foreach (Wall wall in wg.walls)
+            {
+               GL.Normal3(GetNormal(wall));
+               GL.Vertex3(wall.x1, wall.y1, wall.z1);
+               GL.Vertex3(wall.x2, wall.y2, wall.z2);
+               GL.Vertex3(wall.x3, wall.y3, wall.z3);
+            }
+         }
+         GL.End();
+
+         if (wireframe)
+         {
+            GL.Disable(EnableCap.LineSmooth);
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.PolygonOffsetLine);
+         }
+      }
+
+      private void glControlViewer_Paint(object sender, PaintEventArgs e)
+      {
+         if (!loaded) return;
+
+         GL.ClearColor(Color.CornflowerBlue);
+         GL.MatrixMode(MatrixMode.Modelview);
+         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+         GL.LoadMatrix(ref cameraMatrix);
+
+         GL.PushMatrix();
+         GL.Scale(scale, scale, scale);
+
+         if (levelModel != null && checkBoxDisplay.Checked)
+         {
+            drawDisplayList(false);
+            if (checkBoxWireframe.Checked)
+            {
+               drawDisplayList(true);
+            }
          }
 
          if (level != null)
          {
+            foreach (AmmoBox ammo in level.ammoBoxes)
+            {
+               GL.PushMatrix();
+               GL.Translate((float)ammo.x, (float)ammo.y, (float)ammo.z);
+               GL.Scale(15f, 15f, 15f);
+               Color boxColor = Color.CornflowerBlue;
+               switch (ammo.type)
+               {
+                  case 0: boxColor = Color.Black; break;
+                  case 1: boxColor = Color.CadetBlue; break;
+               }
+               drawCube(false, boxColor);
+               GL.PopMatrix();
+            }
+            foreach (CommPoint comm in level.commPoints)
+            {
+               GL.PushMatrix();
+               GL.Translate((float)comm.x, (float)comm.y, (float)comm.z);
+               GL.Scale(15f, 30f, 15f);
+               drawComm();
+               GL.PopMatrix();
+            }
             foreach (RDU rdu in level.rdus)
             {
                GL.PushMatrix();
-               GL.Scale(scale, scale, scale);
                GL.Translate((float)rdu.x, (float)rdu.y, (float)rdu.z);
                GL.Scale(5f, 5f, 5f);
                drawRdu();
@@ -218,85 +570,90 @@ namespace BlastCorpsEditor
             foreach (TNTCrate tnt in level.tntCrates)
             {
                GL.PushMatrix();
-               GL.Scale(scale, scale, scale);
                GL.Translate((float)tnt.x, (float)tnt.y, (float)tnt.z);
                GL.Scale(20f, 20f, 20f);
-               drawCube(Color.Black);
+               drawCube(false, Color.Black);
                GL.PopMatrix();
+            }
+            foreach (SquareBlock block in level.squareBlocks)
+            {
+               if (block.type == SquareBlock.Type.Hole)
+               {
+                  drawHole(block, Color.Magenta);
+               }
+               else
+               {
+                  Color blockColor = Color.DarkGray;
+                  switch (block.shape)
+                  {
+                     case SquareBlock.Shape.Square:
+                        GL.PushMatrix();
+                        GL.Translate((float)block.x, (float)block.y, (float)block.z);
+                        GL.Scale(50f, 20f, 50f);
+                        drawCube(false, blockColor);
+                        GL.PopMatrix();
+                        break;
+                     case SquareBlock.Shape.Diamond1:
+                     case SquareBlock.Shape.Diamond2:
+                        GL.PushMatrix();
+                        GL.Rotate(MathHelper.PiOver4, 0.0f, 1.0f, 0.0f);
+                        GL.Translate((float)block.x, (float)block.y, (float)block.z);
+                        GL.Scale(50f, 20f, 50f);
+                        drawCube(false, blockColor);
+                        GL.PopMatrix();
+                        break;
+                  }
+               }
+            }
+
+            if (checkBoxCollision24.Checked)
+            {
+               drawCollision(level.collision24, false, Color.Magenta);
+               if (checkBoxWireframe.Checked)
+               {
+                  drawCollision(level.collision24, true, Color.Black);
+               }
+            }
+
+            if (checkBox40.Checked)
+            {
+               drawBounds(level.bounds40, Color.Green);
+            }
+
+            if (checkBox44.Checked)
+            {
+               drawBounds(level.bounds44, Color.Aqua);
             }
 
             if (checkBoxCollision6C.Checked)
             {
-               GL.PushMatrix();
-               GL.Scale(scale, scale, scale);
-               GL.Color3(Color.DarkOrange);
-               GL.Begin(PrimitiveType.Triangles);
-               foreach (CollisionGroup cg in level.collision6C)
+               drawCollision(level.collision6C, false, Color.DarkOrange);
+               if (checkBoxWireframe.Checked)
                {
-                  foreach (CollisionTri tri in cg.triangles)
-                  {
-                     GL.Vertex3(tri.x1, tri.y1, tri.z1);
-                     GL.Vertex3(tri.x2, tri.y2, tri.z2);
-                     GL.Vertex3(tri.x3, tri.y3, tri.z3);
-                  }
+                  drawCollision(level.collision6C, true, Color.Black);
                }
-               GL.End();
-               GL.PopMatrix();
             }
 
             if (checkBoxTerrain.Checked)
             {
-               GL.PushMatrix();
-               GL.Scale(scale, scale, scale);
-               GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-               GL.Begin(PrimitiveType.Triangles);
-               foreach (TerrainGroup tg in level.terrainGroups)
+               drawTerrain(level.terrainGroups, false);
+               if (checkBoxWireframe.Checked)
                {
-                  foreach (TerrainTri tri in tg.triangles)
-                  {
-                     Color triColor = Color.Honeydew;
-                     switch (tri.b12)
-                     {
-                        case 0x01: triColor = Color.Brown; break; // low traction / dirt
-                        case 0x02: triColor = Color.DarkGray; break; // high traction, high speed / roads, rails
-                        case 0x03: triColor = Color.ForestGreen; break; // high traction, medium speed / grass
-                        case 0x05: triColor = Color.Yellow; break; // slow speed / ponds
-                        case 0x67: triColor = Color.LightGray; break; // high traction, high speed / gravel lots (similar to roads?)
-                     }
-                     GL.Color3(triColor);
-                     GL.Vertex3(tri.x1, tri.y1, tri.z1);
-                     GL.Vertex3(tri.x2, tri.y2, tri.z2);
-                     GL.Vertex3(tri.x3, tri.y3, tri.z3);
-                  }
+                  drawTerrain(level.terrainGroups, true);
                }
-               GL.End();
+            }
 
-               // line
-               GL.Enable(EnableCap.LineSmooth);
-               GL.Enable(EnableCap.Blend);
-               GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-               GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
-               GL.Enable(EnableCap.PolygonOffsetLine);
-               GL.PolygonOffset(-1.0f, -1.0f);
-               GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-               GL.Color3(Color.Black);
-               GL.LineWidth(1.0f);
-               GL.Begin(PrimitiveType.Triangles);
-               foreach (TerrainGroup tg in level.terrainGroups)
+            if (checkBoxWalls.Checked)
+            {
+               drawWalls(level.wallGroups, false);
+               if (checkBoxWireframe.Checked)
                {
-                  foreach (TerrainTri tri in tg.triangles)
-                  {
-                     GL.Vertex3(tri.x1, tri.y1, tri.z1);
-                     GL.Vertex3(tri.x2, tri.y2, tri.z2);
-                     GL.Vertex3(tri.x3, tri.y3, tri.z3);
-                  }
+                  drawWalls(level.wallGroups, true);
                }
-               GL.End();
-               GL.PopMatrix();
-               GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-               GL.Disable(EnableCap.PolygonOffsetLine);
             }
          }
+
+         GL.PopMatrix();
 
          glControlViewer.SwapBuffers();
       }
