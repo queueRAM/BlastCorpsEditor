@@ -284,6 +284,32 @@ namespace BlastCorpsEditor
          GL.Disable(EnableCap.PolygonOffsetLine);
       }
 
+      void drawPlatform(TrainPlatform platform, Color color)
+      {
+         GL.Enable(EnableCap.LineSmooth);
+         GL.Enable(EnableCap.Blend);
+         GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+         GL.Hint(HintTarget.LineSmoothHint, HintMode.DontCare);
+         GL.Enable(EnableCap.PolygonOffsetLine);
+         GL.PolygonOffset(-1.0f, -1.0f);
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+         GL.LineWidth(1.0f);
+         GL.Color3(color);
+
+         GL.Begin(PrimitiveType.Triangles);
+         foreach (TrainPlatform.PlatformCollision tri in platform.collision)
+         {
+            GL.Vertex3(tri.x1, tri.y1, tri.z1);
+            GL.Vertex3(tri.x2, tri.y2, tri.z2);
+            GL.Vertex3(tri.x3, tri.y3, tri.z3);
+         }
+         GL.End();
+
+         GL.Disable(EnableCap.LineSmooth);
+         GL.Disable(EnableCap.Blend);
+         GL.Disable(EnableCap.PolygonOffsetLine);
+      }
+
       void drawDisplayList(bool wireframe)
       {
          if (wireframe)
@@ -375,6 +401,61 @@ namespace BlastCorpsEditor
             GL.Vertex3(b.x2, b.todo, b.z2);
             GL.Vertex3(b.x2, b.todo, b.z1);
          }
+         GL.End();
+
+         GL.Disable(EnableCap.Blend);
+      }
+
+      // TODO: deal with heading
+      void drawMissileCarrier(Carrier carrier, int y, Color color)
+      {
+         GL.Enable(EnableCap.Blend);
+         GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         GL.Color4(color.R, color.G, color.B, (byte)64);
+
+         // front vertices
+         Vector3 lbf = new Vector3(carrier.x - 30, y, carrier.z);
+         Vector3 rbf = new Vector3(carrier.x + 30, y, carrier.z);
+         Vector3 rtf = new Vector3(carrier.x + 30, y + 60, carrier.z);
+         Vector3 ltf = new Vector3(carrier.x - 30, y + 60, carrier.z);
+         // back vertices
+         Vector3 lbb = new Vector3(carrier.x - 30, y, carrier.z + carrier.distance);
+         Vector3 rbb = new Vector3(carrier.x + 30, y, carrier.z + carrier.distance);
+         Vector3 rtb = new Vector3(carrier.x + 30, y + 60, carrier.z + carrier.distance);
+         Vector3 ltb = new Vector3(carrier.x - 30, y + 60, carrier.z + carrier.distance);
+
+         GL.Begin(PrimitiveType.Quads);
+         // bottom
+         GL.Vertex3(lbf);
+         GL.Vertex3(rbf);
+         GL.Vertex3(rbb);
+         GL.Vertex3(lbb);
+         // left
+         GL.Vertex3(lbf);
+         GL.Vertex3(ltf);
+         GL.Vertex3(ltb);
+         GL.Vertex3(lbb);
+         // right
+         GL.Vertex3(rbf);
+         GL.Vertex3(rtf);
+         GL.Vertex3(rtb);
+         GL.Vertex3(rbb);
+         // front
+         GL.Vertex3(lbf);
+         GL.Vertex3(rbf);
+         GL.Vertex3(rtf);
+         GL.Vertex3(ltf);
+         // back
+         GL.Vertex3(lbb);
+         GL.Vertex3(rbb);
+         GL.Vertex3(rtb);
+         GL.Vertex3(ltb);
+         // top
+         GL.Vertex3(ltf);
+         GL.Vertex3(rtf);
+         GL.Vertex3(rtb);
+         GL.Vertex3(ltb);
          GL.End();
 
          GL.Disable(EnableCap.Blend);
@@ -537,6 +618,43 @@ namespace BlastCorpsEditor
 
          if (level != null)
          {
+            // draw terrain and collision first so transparent objects can blend
+            if (checkBoxTerrain.Checked)
+            {
+               drawTerrain(level.terrainGroups, false);
+               if (checkBoxWireframe.Checked)
+               {
+                  drawTerrain(level.terrainGroups, true);
+               }
+            }
+
+            if (checkBoxCollision24.Checked)
+            {
+               drawCollision(level.collision24, false, Color.Magenta);
+               if (checkBoxWireframe.Checked)
+               {
+                  drawCollision(level.collision24, true, Color.Black);
+               }
+            }
+
+            if (checkBoxCollision6C.Checked)
+            {
+               drawCollision(level.collision6C, false, Color.DarkOrange);
+               if (checkBoxWireframe.Checked)
+               {
+                  drawCollision(level.collision6C, true, Color.Black);
+               }
+            }
+
+            if (checkBoxWalls.Checked)
+            {
+               drawWalls(level.wallGroups, false);
+               if (checkBoxWireframe.Checked)
+               {
+                  drawWalls(level.wallGroups, true);
+               }
+            }
+
             foreach (AmmoBox ammo in level.ammoBoxes)
             {
                GL.PushMatrix();
@@ -605,16 +723,34 @@ namespace BlastCorpsEditor
                   }
                }
             }
-
-            if (checkBoxCollision24.Checked)
+            foreach (Building b in level.buildings)
             {
-               drawCollision(level.collision24, false, Color.Magenta);
-               if (checkBoxWireframe.Checked)
-               {
-                  drawCollision(level.collision24, true, Color.Black);
-               }
+               GL.PushMatrix();
+               GL.Translate((float)b.x, (float)b.y, (float)b.z);
+               GL.Scale(50f, 50f, 50f);
+               drawCube(false, Color.SandyBrown);
+               GL.PopMatrix();
+            }
+            foreach (TrainPlatform platform in level.trainPlatforms)
+            {
+               drawPlatform(platform, Color.SaddleBrown);
             }
 
+            // TODO: vehicles
+
+            if (level.carrier.distance != 0)
+            {
+               int y = level.carrier.y;
+               int bouldingCount = level.buildings.Count;
+               // average of first and last building coordinates should be good enough
+               if (bouldingCount > 0)
+               {
+                  y = (level.buildings[0].y + level.buildings[bouldingCount - 1].y) / 2;
+               }
+               drawMissileCarrier(level.carrier, y, Color.Red);
+            }
+
+            // bounds 0x40 and 0x44 last for alpha blending
             if (checkBox40.Checked)
             {
                drawBounds(level.bounds40, Color.Green);
@@ -623,33 +759,6 @@ namespace BlastCorpsEditor
             if (checkBox44.Checked)
             {
                drawBounds(level.bounds44, Color.Aqua);
-            }
-
-            if (checkBoxCollision6C.Checked)
-            {
-               drawCollision(level.collision6C, false, Color.DarkOrange);
-               if (checkBoxWireframe.Checked)
-               {
-                  drawCollision(level.collision6C, true, Color.Black);
-               }
-            }
-
-            if (checkBoxTerrain.Checked)
-            {
-               drawTerrain(level.terrainGroups, false);
-               if (checkBoxWireframe.Checked)
-               {
-                  drawTerrain(level.terrainGroups, true);
-               }
-            }
-
-            if (checkBoxWalls.Checked)
-            {
-               drawWalls(level.wallGroups, false);
-               if (checkBoxWireframe.Checked)
-               {
-                  drawWalls(level.wallGroups, true);
-               }
             }
          }
 
