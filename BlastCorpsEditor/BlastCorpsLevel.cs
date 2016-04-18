@@ -404,6 +404,24 @@ namespace BlastCorpsEditor
       }
    }
 
+   public class Object58 : BlastCorpsItem
+   {
+      public UInt16 h6;
+
+      public Object58(Int16 x, Int16 y, Int16 z, UInt16 h6)
+      {
+         this.x = x;
+         this.y = y;
+         this.z = z;
+         this.h6 = h6;
+      }
+
+      public override string ToString()
+      {
+         return base.ToString() + ", " + h6;
+      }
+   }
+
    public class Vehicle : BlastCorpsItem
    {
       public byte type;
@@ -604,12 +622,12 @@ namespace BlastCorpsEditor
       public LevelBounds bounds = new LevelBounds();
       public List<Vehicle> vehicles = new List<Vehicle>();
       public Carrier carrier = new Carrier();
+      public List<Object58> object58s = new List<Object58>();
       public List<Building> buildings = new List<Building>();
       public List<Object60> object60s = new List<Object60>();
       public byte object60b0;
       public List<WallGroup> wallGroups = new List<WallGroup>();
       private byte[] copy48;
-      private byte[] copy58;
       public List<TrainPlatform> trainPlatforms = new List<TrainPlatform>();
       public List<CollisionGroup> collision6C = new List<CollisionGroup>();
       public List<CollisionGroup> collision70 = new List<CollisionGroup>();
@@ -945,7 +963,19 @@ namespace BlastCorpsEditor
       // 0x58 TODO
       private void decode58(byte[] data)
       {
-         copy58 = ArraySlice(data, BE.U32(data, 0x58), BE.U32(data, 0x5C));
+         uint start = BE.U32(data, 0x58);
+         uint end = BE.U32(data, 0x5C);
+         for (uint idx = start; idx < end; idx += 8)
+         {
+            Int16 x, y, z;
+            UInt16 h6;
+            x = BE.I16(data, idx);
+            y = BE.I16(data, idx + 2);
+            z = BE.I16(data, idx + 4);
+            h6 = BE.U16(data, idx + 6);
+            Object58 obj = new Object58(x, y, z, h6);
+            object58s.Add(obj);
+         }
       }
 
       // 0x5C: Buildings
@@ -1417,9 +1447,14 @@ namespace BlastCorpsEditor
             data[offset++] = 0x0;
          }
 
-         // TODO: 0x58 real data
          BE.ToBytes(offset, data, 0x58);
-         offset += AppendArray(data, offset, copy58);
+         foreach (Object58 obj in object58s)
+         {
+            offset += BE.ToBytes(obj.x, data, offset);
+            offset += BE.ToBytes(obj.y, data, offset);
+            offset += BE.ToBytes(obj.z, data, offset);
+            offset += BE.ToBytes(obj.h6, data, offset);
+         }
 
          BE.ToBytes(offset, data, 0x5C);
          foreach (Building b in buildings)
