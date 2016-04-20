@@ -850,6 +850,10 @@ namespace BlastCorpsEditor
          bool itemChanged = !Object.ReferenceEquals(itemSel, item);
          itemSel = item;
          blastCorpsViewer.SelectedItem = itemSel;
+         if (viewer3D != null)
+         {
+            viewer3D.SelectedItem = itemSel;
+         }
          if (itemChanged)
          {
             tableLayoutProperties.SuspendLayout();
@@ -1829,6 +1833,10 @@ namespace BlastCorpsEditor
             viewer3D = new BlastCorps3DForm();
             viewer3D.SetLevel(level);
             viewer3D.FormClosed += delegate { viewer3D = null; };
+            if (itemSel != null)
+            {
+               viewer3D.SelectedItem = itemSel;
+            }
             viewer3D.Show();
          }
          viewer3D.Focus();

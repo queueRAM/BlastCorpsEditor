@@ -21,8 +21,15 @@ namespace BlastCorpsEditor
       private int lastY = -1;
       private BlastCorpsLevel level = null;
       private Model3D levelModel = null;
+      private BlastCorpsItem selectedItem = null;
 
       const float scale = 50f / (256f * 256f);
+
+      public BlastCorpsItem SelectedItem
+      {
+         get { return selectedItem; }
+         set { selectedItem = value; glControlViewer.Invalidate(); }
+      }
 
       public BlastCorps3DForm()
       {
@@ -147,44 +154,56 @@ namespace BlastCorpsEditor
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          }
 
-         GL.Begin(PrimitiveType.Quads);
+         GL.Begin(PrimitiveType.Triangles);
          GL.Color3(cubeColor);
-         // front
-         GL.Normal3(0.0f, 0.0f, 1.0f);
-         GL.Vertex3(0.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 1.0f, 0.0f);
-         GL.Vertex3(0.0f, 1.0f, 0.0f);
-         // back
-         GL.Normal3(0.0f, 0.0f, -1.0f);
-         GL.Vertex3(0.0f, 0.0f, -1.0f);
-         GL.Vertex3(1.0f, 0.0f, -1.0f);
-         GL.Vertex3(1.0f, 1.0f, -1.0f);
-         GL.Vertex3(0.0f, 1.0f, -1.0f);
-         // right
-         GL.Normal3(1.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 0.0f, -1.0f);
-         GL.Vertex3(1.0f, 1.0f, -1.0f);
-         GL.Vertex3(1.0f, 1.0f, 0.0f);
-         // left
-         GL.Normal3(-1.0f, 0.0f, 0.0f);
-         GL.Vertex3(0.0f, 0.0f, 0.0f);
-         GL.Vertex3(0.0f, 0.0f, -1.0f);
-         GL.Vertex3(0.0f, 1.0f, -1.0f);
-         GL.Vertex3(0.0f, 1.0f, 0.0f);
-         // top
-         GL.Normal3(0.0f, 1.0f, 0.0f);
-         GL.Vertex3(0.0f, 1.0f, 0.0f);
-         GL.Vertex3(1.0f, 1.0f, 0.0f);
-         GL.Vertex3(1.0f, 1.0f, -1.0f);
-         GL.Vertex3(0.0f, 1.0f, -1.0f);
          // bottom
-         GL.Normal3(0.0f, -1.0f, 0.0f);
-         GL.Vertex3(0.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 0.0f, 0.0f);
-         GL.Vertex3(1.0f, 0.0f, -1.0f);
-         GL.Vertex3(0.0f, 0.0f, -1.0f);
+         GL.Normal3( 0.0f, -1.0f,  0.0f);
+         GL.Vertex3( 0.5f,  0.0f, -0.5f);
+         GL.Vertex3( 0.5f,  0.0f,  0.5f);
+         GL.Vertex3(-0.5f,  0.0f,  0.5f);
+         GL.Vertex3( 0.5f,  0.0f, -0.5f);
+         GL.Vertex3(-0.5f,  0.0f,  0.5f);
+         GL.Vertex3(-0.5f,  0.0f, -0.5f);
+         // top
+         GL.Normal3( 0.0f, 1.0f,  0.0f);
+         GL.Vertex3( 0.5f, 1.0f, -0.5f);
+         GL.Vertex3(-0.5f, 1.0f, -0.5f);
+         GL.Vertex3(-0.5f, 1.0f,  0.5f);
+         GL.Vertex3( 0.5f, 1.0f, -0.5f);
+         GL.Vertex3(-0.5f, 1.0f,  0.5f);
+         GL.Vertex3( 0.5f, 1.0f,  0.5f);
+         // right
+         GL.Normal3(1.0f,  0.0f,  0.0f);
+         GL.Vertex3(0.5f,  0.0f, -0.5f);
+         GL.Vertex3(0.5f,  1.0f, -0.5f);
+         GL.Vertex3(0.5f,  1.0f,  0.5f);
+         GL.Vertex3(0.5f,  0.0f, -0.5f);
+         GL.Vertex3(0.5f,  1.0f,  0.5f);
+         GL.Vertex3(0.5f,  0.0f,  0.5f);
+         // front
+         GL.Normal3( 0.0f,  0.0f, 1.0f);
+         GL.Vertex3( 0.5f,  0.0f, 0.5f);
+         GL.Vertex3( 0.5f,  1.0f, 0.5f);
+         GL.Vertex3(-0.5f,  1.0f, 0.5f);
+         GL.Vertex3( 0.5f,  0.0f, 0.5f);
+         GL.Vertex3(-0.5f,  1.0f, 0.5f);
+         GL.Vertex3(-0.5f,  0.0f, 0.5f);
+         // left
+         GL.Normal3(-1.0f,  0.0f,  0.0f);
+         GL.Vertex3(-0.5f,  0.0f,  0.5f);
+         GL.Vertex3(-0.5f,  1.0f,  0.5f);
+         GL.Vertex3(-0.5f,  1.0f, -0.5f);
+         GL.Vertex3(-0.5f,  0.0f,  0.5f);
+         GL.Vertex3(-0.5f,  1.0f, -0.5f);
+         GL.Vertex3(-0.5f,  0.0f, -0.5f);
+         // back
+         GL.Normal3( 0.0f,  0.0f, -1.0f);
+         GL.Vertex3( 0.5f,  1.0f, -0.5f);
+         GL.Vertex3( 0.5f,  0.0f, -0.5f);
+         GL.Vertex3(-0.5f,  0.0f, -0.5f);
+         GL.Vertex3( 0.5f,  1.0f, -0.5f);
+         GL.Vertex3(-0.5f,  0.0f, -0.5f);
+         GL.Vertex3(-0.5f,  1.0f, -0.5f);
          GL.End();
 
          if (wireframe)
@@ -193,6 +212,34 @@ namespace BlastCorpsEditor
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.PolygonOffsetLine);
          }
+      }
+
+      private void drawArrow(Color color)
+      {
+         //  +--+
+         //  |  |
+         //  |  |
+         // -+  +-
+         // \    /
+         //  \  /
+         //   \/
+         GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+         GL.Begin(PrimitiveType.Triangles);
+         GL.Color3(color);
+         GL.Normal3(0.0f, 0.0f, 1.0f);
+
+         GL.Vertex3(-0.5f,  1.0f, 0.0f);
+         GL.Vertex3( 0.5f,  1.0f, 0.0f);
+         GL.Vertex3(-0.5f, -0.5f, 0.0f);
+
+         GL.Vertex3( 0.5f,  1.0f, 0.0f);
+         GL.Vertex3( 0.5f, -0.5f, 0.0f);
+         GL.Vertex3(-0.5f, -0.5f, 0.0f);
+
+         GL.Vertex3(-1.0f, -0.5f, 0.0f);
+         GL.Vertex3( 1.0f, -0.5f, 0.0f);
+         GL.Vertex3( 0.0f, -1.0f, 0.0f);
+         GL.End();
       }
 
       // TODO: improve comm point rendering
@@ -232,6 +279,7 @@ namespace BlastCorpsEditor
          GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          GL.Begin(PrimitiveType.Triangles);
          GL.Color3(Color.Yellow);
+         GL.Normal3(0.0f, 1.0f, 0.0f);   // normal 'up' - good enough
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Front)
          GL.Color3(Color.Orange);
          GL.Vertex3(-1.0f, 0.0f, 1.0f);  // Left Of Triangle (Front)
@@ -427,31 +475,37 @@ namespace BlastCorpsEditor
 
          GL.Begin(PrimitiveType.Quads);
          // bottom
+         GL.Normal3(0.0f, -1.0f, 0.0f);
          GL.Vertex3(lbf);
          GL.Vertex3(rbf);
          GL.Vertex3(rbb);
          GL.Vertex3(lbb);
          // left
+         GL.Normal3(-1.0f, 0.0f, 0.0f);
          GL.Vertex3(lbf);
          GL.Vertex3(ltf);
          GL.Vertex3(ltb);
          GL.Vertex3(lbb);
          // right
+         GL.Normal3(1.0f, 0.0f, 0.0f);
          GL.Vertex3(rbf);
          GL.Vertex3(rtf);
          GL.Vertex3(rtb);
          GL.Vertex3(rbb);
          // front
+         GL.Normal3(0.0f, 0.0f, 1.0f);
          GL.Vertex3(lbf);
          GL.Vertex3(rbf);
          GL.Vertex3(rtf);
          GL.Vertex3(ltf);
          // back
+         GL.Normal3(0.0f, 0.0f, -1.0f);
          GL.Vertex3(lbb);
          GL.Vertex3(rbb);
          GL.Vertex3(rtb);
          GL.Vertex3(ltb);
          // top
+         GL.Normal3(0.0f, 1.0f, 0.0f);
          GL.Vertex3(ltf);
          GL.Vertex3(rtf);
          GL.Vertex3(rtb);
@@ -530,10 +584,10 @@ namespace BlastCorpsEditor
                {
                   switch (tri.b12)
                   {
-                     case 0x01: triColor = Color.Brown; break; // low traction / dirt
+                     case 0x01: triColor = Color.Yellow; break; // low traction / dirt
                      case 0x02: triColor = Color.DarkGray; break; // high traction, high speed / roads, rails
                      case 0x03: triColor = Color.ForestGreen; break; // high traction, medium speed / grass
-                     case 0x05: triColor = Color.Yellow; break; // slow speed / ponds
+                     case 0x05: triColor = Color.Red; break; // slow speed / ponds
                      case 0x67: triColor = Color.LightGray; break; // high traction, high speed / gravel lots (similar to roads?)
                   }
                }
@@ -735,8 +789,41 @@ namespace BlastCorpsEditor
             {
                drawPlatform(platform, Color.SaddleBrown);
             }
+            foreach (Object60 obj in level.object60s)
+            {
+               GL.PushMatrix();
+               GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
+               GL.Scale(4.0f, obj.h6, 4.0f);
+               drawCube(false, Color.Green);
+               GL.PopMatrix();
+            }
+            foreach (Object58 obj in level.object58s)
+            {
+               GL.PushMatrix();
+               GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
+               GL.Scale(10f, 10f, 10f);
+               drawCube(false, Color.Magenta);
+               GL.PopMatrix();
+            }
 
             // TODO: vehicles
+
+            if (selectedItem != null)
+            {
+               float arrowSize = 20f;
+               float arrowOffset = 2 * arrowSize;
+               if (selectedItem is Building)
+               {
+                  arrowOffset += 40.0f;
+               }
+               GL.PushMatrix();
+               GL.Translate((float)selectedItem.x, (float)selectedItem.y + arrowOffset, (float)selectedItem.z);
+               // billboard the arrow
+               GL.Rotate(90.0f - MathHelper.RadiansToDegrees(facing), 0.0f, 1.0f, 0.0f);
+               GL.Scale(arrowSize/2, arrowSize, arrowSize);
+               drawArrow(Color.Magenta);
+               GL.PopMatrix();
+            }
 
             if (level.carrier.distance != 0)
             {
