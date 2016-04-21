@@ -42,6 +42,8 @@
          this.checkBoxCollision24 = new System.Windows.Forms.CheckBox();
          this.checkBox44 = new System.Windows.Forms.CheckBox();
          this.checkBox40 = new System.Windows.Forms.CheckBox();
+         this.labelType = new System.Windows.Forms.Label();
+         this.labelIndex = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // glControlViewer
@@ -199,11 +201,31 @@
          this.checkBox40.UseVisualStyleBackColor = true;
          this.checkBox40.CheckedChanged += new System.EventHandler(this.settingCheckedChanged);
          // 
+         // labelType
+         // 
+         this.labelType.AutoSize = true;
+         this.labelType.Location = new System.Drawing.Point(726, 8);
+         this.labelType.Name = "labelType";
+         this.labelType.Size = new System.Drawing.Size(34, 13);
+         this.labelType.TabIndex = 15;
+         this.labelType.Text = "Type:";
+         // 
+         // labelIndex
+         // 
+         this.labelIndex.AutoSize = true;
+         this.labelIndex.Location = new System.Drawing.Point(729, 25);
+         this.labelIndex.Name = "labelIndex";
+         this.labelIndex.Size = new System.Drawing.Size(36, 13);
+         this.labelIndex.TabIndex = 16;
+         this.labelIndex.Text = "Index:";
+         // 
          // BlastCorps3DForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(914, 686);
+         this.Controls.Add(this.labelIndex);
+         this.Controls.Add(this.labelType);
          this.Controls.Add(this.checkBox44);
          this.Controls.Add(this.checkBox40);
          this.Controls.Add(this.checkBoxCollision24);
@@ -242,6 +264,8 @@
       private System.Windows.Forms.CheckBox checkBoxCollision24;
       private System.Windows.Forms.CheckBox checkBox44;
       private System.Windows.Forms.CheckBox checkBox40;
+      private System.Windows.Forms.Label labelType;
+      private System.Windows.Forms.Label labelIndex;
 
    }
 }

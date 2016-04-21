@@ -243,65 +243,86 @@ namespace BlastCorpsEditor
       }
 
       // TODO: improve comm point rendering
-      private void drawComm()
+      private void drawComm(Color color)
       {
+         Color c1, c2;
+         if (color == Color.Empty)
+         {
+            c1 = Color.Yellow;
+            c2 = Color.Goldenrod;
+         }
+         else
+         {
+            c1 = c2 = color;
+         }
          GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          GL.Begin(PrimitiveType.Triangles);
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3(0.0f, 1.0f, 0.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, 1.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(1.0f, 0.0f, 1.0f);
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3(0.0f, 1.0f, 0.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(1.0f, 0.0f, 1.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(1.0f, 0.0f, -1.0f);
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3(0.0f, 1.0f, 0.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(1.0f, 0.0f, -1.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, -1.0f);
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3(0.0f, 1.0f, 0.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, -1.0f);
-         GL.Color3(Color.Goldenrod);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, 1.0f);
          GL.End();
       }
 
-      private void drawRdu()
+      private void drawRdu(Color color)
       {
+         Color c1, c2, c3;
+         if (color == Color.Empty)
+         {
+            c1 = Color.Yellow;
+            c2 = Color.Orange;
+            c3 = Color.Brown;
+         }
+         else
+         {
+            c1 = c2 = c3 = color;
+         }
          GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          GL.Begin(PrimitiveType.Triangles);
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Normal3(0.0f, 1.0f, 0.0f);   // normal 'up' - good enough
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Front)
-         GL.Color3(Color.Orange);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, 1.0f);  // Left Of Triangle (Front)
-         GL.Color3(Color.Brown);
+         GL.Color3(c3);
          GL.Vertex3( 1.0f, 0.0f, 1.0f);  // Right Of Triangle (Front)
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Right)
-         GL.Color3(Color.Brown);
+         GL.Color3(c3);
          GL.Vertex3( 1.0f, 0.0f, 1.0f);  // Left Of Triangle (Right)
-         GL.Color3(Color.Orange);
+         GL.Color3(c2);
          GL.Vertex3( 1.0f, 0.0f, -1.0f); // Right Of Triangle (Right)
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Back)
-         GL.Color3(Color.Orange);
+         GL.Color3(c2);
          GL.Vertex3( 1.0f, 0.0f, -1.0f); // Left Of Triangle (Back)
-         GL.Color3(Color.Brown);
+         GL.Color3(c3);
          GL.Vertex3(-1.0f, 0.0f, -1.0f); // Right Of Triangle (Back)
-         GL.Color3(Color.Yellow);
+         GL.Color3(c1);
          GL.Vertex3( 0.0f, 1.0f, 0.0f);  // Top Of Triangle (Left)
-         GL.Color3(Color.Brown);
+         GL.Color3(c3);
          GL.Vertex3(-1.0f, 0.0f,-1.0f);  // Left Of Triangle (Left)
-         GL.Color3(Color.Orange);
+         GL.Color3(c2);
          GL.Vertex3(-1.0f, 0.0f, 1.0f);  // Right Of Triangle (Left)
          GL.End();
       }
@@ -649,6 +670,287 @@ namespace BlastCorpsEditor
          }
       }
 
+      private Color indexToColor(int type, int index)
+      {
+         int red = (index >> 8) & 0xFF;
+         int green = (index) & 0xFF;
+         int blue = type & 0xFF;
+         return Color.FromArgb(255, red, green, blue);
+      }
+
+      private void drawAllObjects(bool paintByNumber)
+      {
+         Color color = Color.MistyRose;
+         int index;
+         index = 0;
+         foreach (AmmoBox ammo in level.ammoBoxes)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)ammo.x, (float)ammo.y, (float)ammo.z);
+            GL.Scale(15f, 15f, 15f);
+            if (paintByNumber)
+            {
+               color = indexToColor(0x20, index);
+               index++;
+            }
+            else
+            {
+               switch (ammo.type)
+               {
+                  case 0: color = Color.Black; break;
+                  case 1: color = Color.CadetBlue; break;
+               }
+            }
+            drawCube(false, color);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (CommPoint comm in level.commPoints)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)comm.x, (float)comm.y, (float)comm.z);
+            GL.Scale(15f, 30f, 15f);
+            if (paintByNumber)
+            {
+               color = indexToColor(0x28, index);
+               index++;
+            }
+            else
+            {
+               color = Color.Empty;
+            }
+            drawComm(color);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (RDU rdu in level.rdus)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)rdu.x, (float)rdu.y, (float)rdu.z);
+            GL.Scale(5f, 5f, 5f);
+            if (paintByNumber)
+            {
+               color = indexToColor(0x34, index);
+               index++;
+            }
+            else
+            {
+               color = Color.Empty;
+            }
+            drawRdu(color);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (TNTCrate tnt in level.tntCrates)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)tnt.x, (float)tnt.y, (float)tnt.z);
+            GL.Scale(20f, 20f, 20f);
+            if (paintByNumber)
+            {
+               color = indexToColor(0x38, index);
+               index++;
+            }
+            else
+            {
+               color = Color.Black;
+            }
+            drawCube(false, color);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (SquareBlock block in level.squareBlocks)
+         {
+            if (block.type == SquareBlock.Type.Hole)
+            {
+               drawHole(block, Color.Magenta);
+            }
+            else
+            {
+               if (paintByNumber)
+               {
+                  color = indexToColor(0x3C, index);
+                  index++;
+               }
+               else
+               {
+                  color = Color.DarkSlateGray;
+               }
+               switch (block.shape)
+               {
+                  case SquareBlock.Shape.Square:
+                     GL.PushMatrix();
+                     GL.Translate((float)block.x, (float)block.y, (float)block.z);
+                     GL.Scale(50f, 20f, 50f);
+                     drawCube(false, color);
+                     GL.PopMatrix();
+                     break;
+                  case SquareBlock.Shape.Diamond1:
+                  case SquareBlock.Shape.Diamond2:
+                     GL.PushMatrix();
+                     GL.Rotate(MathHelper.PiOver4, 0.0f, 1.0f, 0.0f);
+                     GL.Translate((float)block.x, (float)block.y, (float)block.z);
+                     GL.Scale(50f, 20f, 50f);
+                     drawCube(false, color);
+                     GL.PopMatrix();
+                     break;
+               }
+            }
+         }
+         index = 0;
+         // TODO: vehicles 0x50
+         index = 0;
+         foreach (Building b in level.buildings)
+         {
+            if (paintByNumber)
+            {
+               color = indexToColor(0x5C, index);
+               index++;
+            }
+            else
+            {
+               color = Color.SandyBrown;
+            }
+            GL.PushMatrix();
+            GL.Translate((float)b.x, (float)b.y, (float)b.z);
+            GL.Scale(50f, 50f, 50f);
+            drawCube(false, color);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (TrainPlatform platform in level.trainPlatforms)
+         {
+            drawPlatform(platform, Color.SaddleBrown);
+         }
+         index = 0;
+         foreach (Object60 obj in level.object60s)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
+            GL.Scale(4.0f, obj.h6, 4.0f);
+            drawCube(false, Color.Green);
+            GL.PopMatrix();
+         }
+         index = 0;
+         foreach (Object58 obj in level.object58s)
+         {
+            GL.PushMatrix();
+            GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
+            GL.Scale(10f, 10f, 10f);
+            drawCube(false, Color.Magenta);
+            GL.PopMatrix();
+         }
+      }
+
+      private void paintByNumber()
+      {
+         // disable some caps (just want flat objects)
+         GL.PushAttrib(AttribMask.AllAttribBits);
+         GL.Disable(EnableCap.Fog);
+         GL.Disable(EnableCap.Texture2D);
+         GL.Disable(EnableCap.Dither);
+         GL.Disable(EnableCap.Lighting);
+         GL.Disable(EnableCap.LineStipple);
+         GL.Disable(EnableCap.PolygonStipple);
+         GL.Disable(EnableCap.CullFace);
+         GL.Disable(EnableCap.Blend);
+         GL.Disable(EnableCap.AlphaTest);
+
+         // clear buffer
+         GL.ClearColor(Color.White);
+         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+         GL.MatrixMode(MatrixMode.Modelview);
+         GL.LoadMatrix(ref cameraMatrix);
+         GL.PushMatrix();
+         GL.Scale(scale, scale, scale);
+
+         // draw objects
+         drawAllObjects(true);
+
+         GL.PopMatrix();
+
+         // restore caps
+         GL.PopAttrib();
+      }
+
+      private void doPicking(int mX, int mY)
+      {
+         // draw to back buffer
+         paintByNumber();
+
+         // read pixel color at mouse position mX,mY
+         byte[] pixel = new byte[3];
+         int[] viewport = new int[4];
+         // Y-axis flipped between OpenGL and window
+         GL.GetInteger(GetPName.Viewport, viewport);
+         GL.ReadPixels(mX, viewport[3] - mY - glControlViewer.Location.Y, 1, 1, PixelFormat.Rgb, PixelType.UnsignedByte, pixel);
+         // reverse color mapping from RGB to type/list index
+         int type = (int)pixel[2];
+         int index = (int)pixel[1] + (((int)pixel[0]) << 8);
+         BlastCorpsItem curItem = selectedItem;
+         if (index > -1)
+         {
+            labelType.Text = String.Format("Type: {0:X02}", type);
+            labelIndex.Text = String.Format("Index: {0:X04}", index);
+            switch (type)
+            {
+               case 0x20: // Ammo
+                  if (index < level.ammoBoxes.Count)
+                  {
+                     selectedItem = level.ammoBoxes[index];
+                  }
+                  break;
+               case 0x28: // Comm Pt.
+                  if (index < level.commPoints.Count)
+                  {
+                     selectedItem = level.commPoints[index];
+                  }
+                  break;
+               case 0x34: // RDU
+                  if (index < level.rdus.Count)
+                  {
+                     selectedItem = level.rdus[index];
+                  }
+                  break;
+               case 0x38: // TNT
+                  if (index < level.tntCrates.Count)
+                  {
+                     selectedItem = level.tntCrates[index];
+                  }
+                  break;
+               case 0x3C: // square blocks
+                  if (index < level.squareBlocks.Count)
+                  {
+                     selectedItem = level.squareBlocks[index];
+                  }
+                  break;
+               case 0x50: // vehicles
+                  if (index < level.vehicles.Count)
+                  {
+                     selectedItem = level.vehicles[index];
+                  }
+                  break;
+               case 0x54: // missile carrier
+                  selectedItem = level.carrier;
+                  break;
+               case 0x5C: // buildings
+                  if (index < level.buildings.Count)
+                  {
+                     selectedItem = level.buildings[index];
+                  }
+                  break;
+               case 0xFF: // nothing
+                  selectedItem = null;
+                  break;
+            }
+            if (curItem != selectedItem)
+            {
+               glControlViewer.Invalidate();
+            }
+         }
+      }
+
       private void glControlViewer_Paint(object sender, PaintEventArgs e)
       {
          if (!loaded) return;
@@ -709,117 +1011,24 @@ namespace BlastCorpsEditor
                }
             }
 
-            foreach (AmmoBox ammo in level.ammoBoxes)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)ammo.x, (float)ammo.y, (float)ammo.z);
-               GL.Scale(15f, 15f, 15f);
-               Color boxColor = Color.CornflowerBlue;
-               switch (ammo.type)
-               {
-                  case 0: boxColor = Color.Black; break;
-                  case 1: boxColor = Color.CadetBlue; break;
-               }
-               drawCube(false, boxColor);
-               GL.PopMatrix();
-            }
-            foreach (CommPoint comm in level.commPoints)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)comm.x, (float)comm.y, (float)comm.z);
-               GL.Scale(15f, 30f, 15f);
-               drawComm();
-               GL.PopMatrix();
-            }
-            foreach (RDU rdu in level.rdus)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)rdu.x, (float)rdu.y, (float)rdu.z);
-               GL.Scale(5f, 5f, 5f);
-               drawRdu();
-               GL.PopMatrix();
-            }
-            foreach (TNTCrate tnt in level.tntCrates)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)tnt.x, (float)tnt.y, (float)tnt.z);
-               GL.Scale(20f, 20f, 20f);
-               drawCube(false, Color.Black);
-               GL.PopMatrix();
-            }
-            foreach (SquareBlock block in level.squareBlocks)
-            {
-               if (block.type == SquareBlock.Type.Hole)
-               {
-                  drawHole(block, Color.Magenta);
-               }
-               else
-               {
-                  Color blockColor = Color.DarkGray;
-                  switch (block.shape)
-                  {
-                     case SquareBlock.Shape.Square:
-                        GL.PushMatrix();
-                        GL.Translate((float)block.x, (float)block.y, (float)block.z);
-                        GL.Scale(50f, 20f, 50f);
-                        drawCube(false, blockColor);
-                        GL.PopMatrix();
-                        break;
-                     case SquareBlock.Shape.Diamond1:
-                     case SquareBlock.Shape.Diamond2:
-                        GL.PushMatrix();
-                        GL.Rotate(MathHelper.PiOver4, 0.0f, 1.0f, 0.0f);
-                        GL.Translate((float)block.x, (float)block.y, (float)block.z);
-                        GL.Scale(50f, 20f, 50f);
-                        drawCube(false, blockColor);
-                        GL.PopMatrix();
-                        break;
-                  }
-               }
-            }
-            foreach (Building b in level.buildings)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)b.x, (float)b.y, (float)b.z);
-               GL.Scale(50f, 50f, 50f);
-               drawCube(false, Color.SandyBrown);
-               GL.PopMatrix();
-            }
-            foreach (TrainPlatform platform in level.trainPlatforms)
-            {
-               drawPlatform(platform, Color.SaddleBrown);
-            }
-            foreach (Object60 obj in level.object60s)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
-               GL.Scale(4.0f, obj.h6, 4.0f);
-               drawCube(false, Color.Green);
-               GL.PopMatrix();
-            }
-            foreach (Object58 obj in level.object58s)
-            {
-               GL.PushMatrix();
-               GL.Translate((float)obj.x, (float)obj.y, (float)obj.z);
-               GL.Scale(10f, 10f, 10f);
-               drawCube(false, Color.Magenta);
-               GL.PopMatrix();
-            }
-
-            // TODO: vehicles
+            drawAllObjects(false);
 
             if (selectedItem != null)
             {
                float arrowSize = 20f;
                float arrowOffset = 2 * arrowSize;
-               if (selectedItem is Building)
+               if (selectedItem is RDU)
+               {
+                  arrowOffset -= 10.0f;
+               }
+               else if (selectedItem is Building)
                {
                   arrowOffset += 40.0f;
                }
                GL.PushMatrix();
                GL.Translate((float)selectedItem.x, (float)selectedItem.y + arrowOffset, (float)selectedItem.z);
                // billboard the arrow
-               GL.Rotate(90.0f - MathHelper.RadiansToDegrees(facing), 0.0f, 1.0f, 0.0f);
+               GL.Rotate(270.0f - MathHelper.RadiansToDegrees(facing), 0.0f, 1.0f, 0.0f);
                GL.Scale(arrowSize/2, arrowSize, arrowSize);
                drawArrow(Color.Magenta);
                GL.PopMatrix();
@@ -891,16 +1100,21 @@ namespace BlastCorpsEditor
 
       private void glControlViewer_MouseDown(object sender, MouseEventArgs e)
       {
-         if (e.Button == System.Windows.Forms.MouseButtons.Left)
+         switch (e.Button)
          {
-            lastX = e.X;
-            lastY = e.Y;
+            case System.Windows.Forms.MouseButtons.Left:
+               doPicking(e.X, e.Y);
+               break;
+            case System.Windows.Forms.MouseButtons.Right:
+               lastX = e.X;
+               lastY = e.Y;
+               break;
          }
       }
 
       private void glControlViewer_MouseMove(object sender, MouseEventArgs e)
       {
-         if (e.Button == System.Windows.Forms.MouseButtons.Left)
+         if (e.Button == System.Windows.Forms.MouseButtons.Right)
          {
             int diffX = (e.X - lastX);
             int diffY = (e.Y - lastY);
