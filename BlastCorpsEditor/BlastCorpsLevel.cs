@@ -182,9 +182,10 @@ namespace BlastCorpsEditor
    {
       public byte texture;
       public byte timer;
-      public Int16 h8, hA; // TODO
+      public Int16 h8; // TODO
+      public UInt16 power;
 
-      public TNTCrate(Int16 x, Int16 y, Int16 z, byte texture, byte timer, Int16 h8, Int16 hA)
+      public TNTCrate(Int16 x, Int16 y, Int16 z, byte texture, byte timer, Int16 h8, UInt16 power)
       {
          this.x = x;
          this.y = y;
@@ -192,12 +193,12 @@ namespace BlastCorpsEditor
          this.texture = texture;
          this.timer = timer;
          this.h8 = h8;
-         this.hA = hA;
+         this.power = power;
       }
 
       public override string ToString()
       {
-         return base.ToString() + ", " + texture.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + hA.ToString("X4");
+         return base.ToString() + ", " + texture.ToString("X2") + ", " + timer.ToString("X2") + ", " + h8.ToString("X4") + ", " + power.ToString("X4");
       }
    }
 
@@ -810,13 +811,14 @@ namespace BlastCorpsEditor
          uint end = BE.U32(data, 0x3C);
          for (uint idx = start; idx < end; idx += 12)
          {
-            Int16 x, y, z, h8, hA;
+            Int16 x, y, z, h8;
+            UInt16 power;
             x = BE.I16(data, idx);
             y = BE.I16(data, idx + 2);
             z = BE.I16(data, idx + 4);
             h8 = BE.I16(data, idx + 8);
-            hA = BE.I16(data, idx + 0xA);
-            TNTCrate tnt = new TNTCrate(x, y, z, data[idx + 6], data[idx + 7], h8, hA);
+            power = BE.U16(data, idx + 0xA);
+            TNTCrate tnt = new TNTCrate(x, y, z, data[idx + 6], data[idx + 7], h8, power);
             tntCrates.Add(tnt);
          }
       }
@@ -1339,7 +1341,7 @@ namespace BlastCorpsEditor
             data[offset++] = tnt.texture;
             data[offset++] = tnt.timer;
             offset += BE.ToBytes(tnt.h8, data, offset);
-            offset += BE.ToBytes(tnt.hA, data, offset);
+            offset += BE.ToBytes(tnt.power, data, offset);
          }
 
          BE.ToBytes(offset, data, 0x3C);

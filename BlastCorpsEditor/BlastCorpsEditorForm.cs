@@ -48,8 +48,8 @@ namespace BlastCorpsEditor
       private NumericUpDown numericCommPtH6;
       // TNT
       private ComboBox comboBoxTntTexture;
-      private NumericUpDown numericTntTimer, numericTntH8, numericTntHA;
-      private Label labelTntTexture, labelTntTimer, labelTntHA, labelTntH8;
+      private NumericUpDown numericTntTimer, numericTntH8, numericTntPower;
+      private Label labelTntTexture, labelTntTimer, labelTntPower, labelTntH8;
       // Blocks
       private Label labelBlockType, labelBlockShape, labelBlockCount;
       private ComboBox comboBoxBlockType, comboBoxBlockShape;
@@ -199,14 +199,14 @@ namespace BlastCorpsEditor
          labelTntTexture = createLabel("Texture:");
          labelTntTimer = createLabel("Timer:");
          labelTntH8 = createLabel("I16_8:");
-         labelTntHA = createLabel("I16_A:");
+         labelTntPower = createLabel("Power:");
          comboBoxTntTexture = createComboBox(new object[] {
             "Normal",
             "Alternative",
             "Transparent"}, new System.EventHandler(this.comboBoxTntTexture_ValueChanged));
          numericTntTimer = createNumeric(0, 255, new System.EventHandler(this.numericTntTimer_ValueChanged));
          numericTntH8 = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntH8_ValueChanged));
-         numericTntHA = createNumeric(-32768, 32767, new System.EventHandler(this.numericTntHA_ValueChanged));
+         numericTntPower = createNumeric(0, 65535, new System.EventHandler(this.numericTntPower_ValueChanged));
 
          labelBlockType = createLabel("Type:");
          comboBoxBlockType = createComboBox(new object[] {
@@ -905,15 +905,15 @@ namespace BlastCorpsEditor
                   comboBoxTntTexture.SelectedIndex = tnt.texture;
                   numericTntTimer.Value = tnt.timer;
                   numericTntH8.Value = tnt.h8;
-                  numericTntHA.Value = tnt.hA;
+                  numericTntPower.Value = tnt.power;
                   tableLayoutProperties.Controls.Add(labelTntTexture, 2, row);
                   tableLayoutProperties.Controls.Add(comboBoxTntTexture, 3, row++);
                   tableLayoutProperties.Controls.Add(labelTntTimer, 2, row);
                   tableLayoutProperties.Controls.Add(numericTntTimer, 3, row++);
                   tableLayoutProperties.Controls.Add(labelTntH8, 2, row);
                   tableLayoutProperties.Controls.Add(numericTntH8, 3, row++);
-                  tableLayoutProperties.Controls.Add(labelTntHA, 2, row);
-                  tableLayoutProperties.Controls.Add(numericTntHA, 3, row++);
+                  tableLayoutProperties.Controls.Add(labelTntPower, 2, row);
+                  tableLayoutProperties.Controls.Add(numericTntPower, 3, row++);
                   SelectNode(treeNodeTnt, itemSel);
                }
                else if (itemSel is SquareBlock)
@@ -1358,12 +1358,12 @@ namespace BlastCorpsEditor
          }
       }
 
-      private void numericTntHA_ValueChanged(object sender, EventArgs e)
+      private void numericTntPower_ValueChanged(object sender, EventArgs e)
       {
          if (itemSel != null && itemSel is TNTCrate)
          {
             TNTCrate tnt = (TNTCrate)itemSel;
-            tnt.hA = (Int16)numericTntHA.Value;
+            tnt.power = (UInt16)numericTntPower.Value;
             NotifyViewers();
             updateTntNode(tnt);
          }
