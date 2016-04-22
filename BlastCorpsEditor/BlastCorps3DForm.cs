@@ -475,7 +475,6 @@ namespace BlastCorpsEditor
          GL.Disable(EnableCap.Blend);
       }
 
-      // TODO: deal with heading
       void drawMissileCarrier(Carrier carrier, int y, Color color)
       {
          GL.Enable(EnableCap.Blend);
@@ -483,16 +482,21 @@ namespace BlastCorpsEditor
          GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
          GL.Color4(color.R, color.G, color.B, (byte)64);
 
+         double angle = Math.PI * level.carrier.heading / 2048.0;
+         // sin/cos swapped so N = 0, W = 1024
+         int dx = (int)(level.carrier.distance * Math.Sin(angle));
+         int dz = (int)(level.carrier.distance * Math.Cos(angle));
+
          // front vertices
          Vector3 lbf = new Vector3(carrier.x - 30, y, carrier.z);
          Vector3 rbf = new Vector3(carrier.x + 30, y, carrier.z);
          Vector3 rtf = new Vector3(carrier.x + 30, y + 60, carrier.z);
          Vector3 ltf = new Vector3(carrier.x - 30, y + 60, carrier.z);
          // back vertices
-         Vector3 lbb = new Vector3(carrier.x - 30, y, carrier.z + carrier.distance);
-         Vector3 rbb = new Vector3(carrier.x + 30, y, carrier.z + carrier.distance);
-         Vector3 rtb = new Vector3(carrier.x + 30, y + 60, carrier.z + carrier.distance);
-         Vector3 ltb = new Vector3(carrier.x - 30, y + 60, carrier.z + carrier.distance);
+         Vector3 lbb = new Vector3(carrier.x - 30 + dx, y, carrier.z + dz);
+         Vector3 rbb = new Vector3(carrier.x + 30 + dx, y, carrier.z + dz);
+         Vector3 rtb = new Vector3(carrier.x + 30 + dx, y + 60, carrier.z + dz);
+         Vector3 ltb = new Vector3(carrier.x - 30 + dx, y + 60, carrier.z + dz);
 
          GL.Begin(PrimitiveType.Quads);
          // bottom
@@ -1036,12 +1040,20 @@ namespace BlastCorpsEditor
 
             if (level.carrier.distance != 0)
             {
-               int y = level.carrier.y;
-               int bouldingCount = level.buildings.Count;
-               // average of first and last building coordinates should be good enough
-               if (bouldingCount > 0)
+               int y = Int16.MinValue;
+               int buildingCount = level.buildings.Count;
+               foreach (Building b in level.buildings)
                {
-                  y = (level.buildings[0].y + level.buildings[bouldingCount - 1].y) / 2;
+                  if (b.type == 56) // semi
+                  {
+                     y = b.y;
+                     break;
+                  }
+               }
+               // if no semi found in level (such as end sequence), average of first and last building Y
+               if (y == Int16.MinValue && buildingCount > 0)
+               {
+                  y = (level.buildings[0].y + level.buildings[buildingCount - 1].y) / 2;
                }
                drawMissileCarrier(level.carrier, y, Color.Red);
             }
