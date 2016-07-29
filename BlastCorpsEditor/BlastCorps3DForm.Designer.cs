@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlastCorps3DForm));
          this.glControlViewer = new OpenTK.GLControl();
          this.labelX = new System.Windows.Forms.Label();
          this.labelY = new System.Windows.Forms.Label();
@@ -240,8 +241,8 @@
          this.Controls.Add(this.labelY);
          this.Controls.Add(this.labelX);
          this.Controls.Add(this.glControlViewer);
+         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
          this.Name = "BlastCorps3DForm";
-         this.ShowIcon = false;
          this.Text = "Blast Corps 3D Viewer";
          this.ResumeLayout(false);
          this.PerformLayout();
