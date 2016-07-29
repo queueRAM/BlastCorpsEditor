@@ -1,7 +1,16 @@
+0.0.5:
 Export "All" into one .obj
-Support (J) ROM
-DMA table to RAM
+Add .mtl for all collision, wall, and terrain types
 Align level end offsets
 3D Level Display
+Fix controls in 3D view
+ - numpad snap to faces, move
+ - m0, m1, m2
+ - quat?
+* Support (J) ROM
+* DMA table to RAM
+
+0.0.6:
 PropertyGrid for object properties?
 Vehicle / Building 3D preview & export
+Texture replacement?

@@ -35,6 +35,19 @@ namespace BlastCorpsEditor
          public Region region { get; set; }
       }
 
+      private struct RomPatch
+      {
+         public Region region { get; set; }
+         public Version version { get; set; }
+         public int textStart { get; set; }
+         public int textEnd { get; set; }
+         public int dataStart { get; set; }
+         public int dataEnd { get; set; }
+         public int patchStart { get; set; }
+         public int patchEnd { get; set; }
+         public UInt32[] patchData { get; set; }
+      }
+
       public struct LevelData
       {
          public byte[] levelDataGzip;
@@ -113,6 +126,222 @@ namespace BlastCorpsEditor
          new BlastCorpsLevelMeta { id = 57, dlLength = 0x001627, filename = "level57", name = "Ember Hamlet" },
          new BlastCorpsLevelMeta { id = 58, dlLength = 0x000A76, filename = "level58", name = "Cromlech Court" },
          new BlastCorpsLevelMeta { id = 59, dlLength = 0x000DB7, filename = "level59", name = "Lizard Island" },
+      };
+
+      private List<RomPatch> romPatches = new List<RomPatch>()
+      {
+         new RomPatch { region = Region.US,     version = Version.Ver1p0, textStart = 0x787FD0, textEnd = 0x7D74D7, dataStart = 0x7D74D7, dataEnd = 0x7E3BF0, patchStart = 0x119B4, patchEnd = 0x12274, patchData = PatchU0 },
+         new RomPatch { region = Region.US,     version = Version.Ver1p1, textStart = 0x787FD0, textEnd = 0x7D73B4, dataStart = 0x7D73B4, dataEnd = 0x7E3AD0, patchStart = 0x119B4, patchEnd = 0x12274, patchData = PatchU1 },
+         new RomPatch { region = Region.Japan,  version = Version.Ver1p0, textStart = 0x786490, textEnd = 0x7D5A54, dataStart = 0x7D5A54, dataEnd = 0x7E2050, patchStart = 0x119B4, patchEnd = 0x12274, patchData = PatchJ },
+         new RomPatch { region = Region.Europe, version = Version.Ver1p0, textStart = 0x788120, textEnd = 0x7D845C, dataStart = 0x7D845C, dataEnd = 0x7E4940, patchStart = 0x12DEC, patchEnd = 0x136AC, patchData = PatchE },
+      };
+
+      private static UInt32[] PatchU0 = new UInt32[] {
+         0x10200024,
+         0xafa60030,
+         0x3c048030,
+         0x34848af0,
+         0x0c0b59a4,
+         0x24050010,
+         0x8fa80028,
+         0x00084100,
+         0x3c07007f,
+         0x34e7c000,
+         0x00e83821,
+         0x3c098030,
+         0x35298af0,
+         0xafa90010,
+         0x240a0010,
+         0xafaa0014,
+         0x3c0b8031,
+         0x356b4ff0,
+         0xafab0018,
+         0x3c048037,
+         0x34840ba8,
+         0x24060000,
+         0x0c0b6890,
+         0x24050000,
+         0x3c048031,
+         0x34844ff0,
+         0x24050000,
+         0x0c0b5218,
+         0x24060001,
+         0x3c018030,
+         0x34218af0,
+         0x8c2e0000,
+         0xafae0024,
+         0x8c2f000c,
+         0x01ee7822,
+         0x8fac0030,
+         0xad8f0000,
+         0x240f000a,
+         0x24180001,
+         0xafb80014,
+         0xafaf0010,
+         0x8fa40024,
+         0x8fa5002c,
+         0x8fa60030,
+         0x0c0a2d31,
+         0x2407000c,
+         0x8fbf001c,
+         0x27bd0028,
+         0x03e00008
+      };
+
+      private static UInt32[] PatchU1 = new UInt32[] {
+         0x10200024,
+         0xafa60030,
+         0x3c048030,
+         0x34848ba0,
+         0x0c0b59d0,
+         0x24050010,
+         0x8fa80028,
+         0x00084100,
+         0x3c07007f,
+         0x34e7c000,
+         0x00e83821,
+         0x3c098030,
+         0x35298ba0,
+         0xafa90010,
+         0x240a0010,
+         0xafaa0014,
+         0x3c0b8031,
+         0x356b50a0,
+         0xafab0018,
+         0x3c048037,
+         0x34840c58,
+         0x24060000,
+         0x0c0b68bc,
+         0x24050000,
+         0x3c048031,
+         0x348450a0,
+         0x24050000,
+         0x0c0b5244,
+         0x24060001,
+         0x3c018030,
+         0x34218ba0,
+         0x8c2e0000,
+         0xafae0024,
+         0x8c2f000c,
+         0x01ee7822,
+         0x8fac0030,
+         0xad8f0000,
+         0x240f000a,
+         0x24180001,
+         0xafb80014,
+         0xafaf0010,
+         0x8fa40024,
+         0x8fa5002c,
+         0x8fa60030,
+         0x0c0a2d31,
+         0x2407000c,
+         0x8fbf001c,
+         0x27bd0028,
+         0x03e00008
+      };
+
+      private static UInt32[] PatchJ = new UInt32[] {
+         0x10200024,
+         0xafa60030,
+         0x3c048030,
+         0x34848e30,
+         0x0c0b5ac4,
+         0x24050010,
+         0x8fa80028,
+         0x00084100,
+         0x3c07007f,
+         0x34e7c000,
+         0x00e83821,
+         0x3c098030,
+         0x35298e30,
+         0xafa90010,
+         0x240a0010,
+         0xafaa0014,
+         0x3c0b8031,
+         0x356b5160,
+         0xafab0018,
+         0x3c048037,
+         0x34840d38,
+         0x24060000,
+         0x0c0b69b0,
+         0x24050000,
+         0x3c048031,
+         0x34845160,
+         0x24050000,
+         0x0c0b5338,
+         0x24060001,
+         0x3c018030,
+         0x34218e30,
+         0x8c2e0000,
+         0xafae0024,
+         0x8c2f000c,
+         0x01ee7822,
+         0x8fac0030,
+         0xad8f0000,
+         0x240f000a,
+         0x24180001,
+         0xafb80014,
+         0xafaf0010,
+         0x8fa40024,
+         0x8fa5002c,
+         0x8fa60030,
+         0x0c0a2e09,
+         0x2407000c,
+         0x8fbf001c,
+         0x27bd0028,
+         0x03e00008
+      };
+
+      private static UInt32[] PatchE = new UInt32[] {
+         0x10200024,
+         0xafa60030,
+         0x3c048030,
+         0x348485c0,
+         0x0c0b6470,
+         0x24050010,
+         0x8fa80028,
+         0x00084100,
+         0x3c07007f,
+         0x34e7c000,
+         0x00e83821,
+         0x3c098030,
+         0x352985c0,
+         0xafa90010,
+         0x240a0010,
+         0xafaa0014,
+         0x3c0b8031,
+         0x356b74f8,
+         0xafab0018,
+         0x3c048037,
+         0x34846618,
+         0x24060000,
+         0x0c0b731c,
+         0x24050000,
+         0x3c048031,
+         0x348474f8,
+         0x24050000,
+         0x0c0b5ca0,
+         0x24060001,
+         0x3c018030,
+         0x342185c0,
+         0x8c2e0000,
+         0xafae0024,
+         0x8c2f000c,
+         0x01ee7822,
+         0x8fac0030,
+         0xad8f0000,
+         0x240f000a,
+         0x24180001,
+         0xafb80014,
+         0xafaf0010,
+         0x8fa40024,
+         0x8fa5002c,
+         0x8fa60030,
+         0x0c0a3479,
+         0x2407000c,
+         0x8fbf001c,
+         0x27bd0028,
+         0x03e00008
       };
 
       const int LEVEL_TABLE_START = 0x7FC000;
@@ -341,59 +570,37 @@ namespace BlastCorpsEditor
          byte[] codeTextGzip;
          byte[] codeDataGzip;
 
-         // Only (U) 1.0, 1.1 and (J) ROMs supported
-         // TODO: support (E) ROM
-         if (type == RomType.Vanilla && (region == Region.US || region == Region.Japan))
+         // All ROM types (U) 1.0, 1.1, (J), (E) supported
+         if (type == RomType.Vanilla && (region == Region.US || region == Region.Japan || region == Region.Europe))
          {
             // 1. extract hd_code_text and save copy of hd_code_data
-            // TODO: move this to a table or combine with romMeta or use gzipFiles lookup table
-            int textStart = 0x787FD0;
-            int textEnd = 0x7D73B4;
-            int dataStart = 0x7D73B4;
-            int dataEnd = 0x7E3AD0;
-            if (region == Region.US && version == Version.Ver1p0)
+            RomPatch patch = romPatches[0];
+            foreach (RomPatch p in romPatches)
             {
-               textStart = 0x787FD0; textEnd = 0x7D74D7; dataStart = 0x7D74D7; dataEnd = 0x7E3BF0;
+               if (p.region == region && p.version == version)
+               {
+                  patch = p;
+               }
             }
-            else if (region == Region.US && version == Version.Ver1p1)
-            {
-               textStart = 0x787FD0; textEnd = 0x7D73B4; dataStart = 0x7D73B4; dataEnd = 0x7E3AD0;
-            }
-            else if (region == Region.Japan)
-            {
-               textStart = 0x786490; textEnd = 0x7D5A54; dataStart = 0x7D5A54; dataEnd = 0x7E2050;
-            }
-            codeTextGzip = new byte[textEnd - textStart];
-            Array.Copy(romData, textStart, codeTextGzip, 0, codeTextGzip.Length);
-            codeDataGzip = new byte[dataEnd - dataStart];
-            Array.Copy(romData, dataStart, codeDataGzip, 0, codeDataGzip.Length);
+
+            codeTextGzip = new byte[patch.textEnd - patch.textStart];
+            Array.Copy(romData, patch.textStart, codeTextGzip, 0, codeTextGzip.Length);
+            codeDataGzip = new byte[patch.dataEnd - patch.dataStart];
+            Array.Copy(romData, patch.dataStart, codeDataGzip, 0, codeDataGzip.Length);
 
             // 2. inflate hd_code_text
             byte[] codeText = GzipInflate(codeTextGzip);
 
             // 3. apply patch to hd_code_text
-            // start 0x119BC
-            // fill 0x12240-pc()
-            UInt32[] patch = new UInt32[] {
-               0x000E7100, // sll   t6, t6, 0x4    // each entry is four words
-               0x3C01B080, // lui   at, 0xB080     // %hi(0xB07FC000), 0xB0000000 = ROM
-               0x002E0821, // addu  at, at, t6
-               0x8C2EC000, // lw    t6, 0xC000(at) // %lo(0xB07FC000)
-               0xAFAE0024, // sw    t6, 0x24(sp)
-               0x8C2FC00C, // lw    t7, 0xC00C(at) // %lo(0xB07FC00C)
-               0x01EE7822, // sub   t7, t7, t6     // compute length
-               0x8FAC0030, // lw    t4, 0x30(sp)
-               0xAD8F0000, // sw    t7, 0x0(t4)
-               0x10000217  // b     0x12240        // skip over old code
-            };
-
-            int offset = 0x119BC;
-            foreach (UInt32 word in patch)
+            // start 0x119B4
+            // fill 0x12274-pc()
+            int offset = patch.patchStart;
+            foreach (UInt32 word in patch.patchData)
             {
                BE.ToBytes(word, codeText, offset);
                offset += 4;
             }
-            while (offset < 0x12240)
+            while (offset < patch.patchEnd)
             {
                BE.ToBytes(0x00U, codeText, offset);
                offset += 4;
@@ -406,8 +613,8 @@ namespace BlastCorpsEditor
             Array.Resize<byte>(ref romData, 12 * 1024 * 1024);
 
             // 6. copy hd_code_text and hd_code_data back into ROM
-            Array.Copy(codeTextGzip, 0, romData, textStart, codeTextGzip.Length);
-            Array.Copy(codeDataGzip, 0, romData, textStart + codeTextGzip.Length, codeDataGzip.Length);
+            Array.Copy(codeTextGzip, 0, romData, patch.textStart, codeTextGzip.Length);
+            Array.Copy(codeDataGzip, 0, romData, patch.textStart + codeTextGzip.Length, codeDataGzip.Length);
 
             // 7. copy all gziped levels into memory, to later be written to end of ROM or inflated and edited
             foreach (BlastCorpsLevelMeta level in levelMeta)
