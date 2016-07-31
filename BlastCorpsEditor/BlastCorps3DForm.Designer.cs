@@ -113,6 +113,8 @@
          // checkBoxCollision6C
          // 
          this.checkBoxCollision6C.AutoSize = true;
+         this.checkBoxCollision6C.Checked = true;
+         this.checkBoxCollision6C.CheckState = System.Windows.Forms.CheckState.Checked;
          this.checkBoxCollision6C.Location = new System.Drawing.Point(425, 5);
          this.checkBoxCollision6C.Name = "checkBoxCollision6C";
          this.checkBoxCollision6C.Size = new System.Drawing.Size(138, 17);
@@ -124,6 +126,8 @@
          // checkBoxTerrain
          // 
          this.checkBoxTerrain.AutoSize = true;
+         this.checkBoxTerrain.Checked = true;
+         this.checkBoxTerrain.CheckState = System.Windows.Forms.CheckState.Checked;
          this.checkBoxTerrain.Location = new System.Drawing.Point(192, 21);
          this.checkBoxTerrain.Name = "checkBoxTerrain";
          this.checkBoxTerrain.Size = new System.Drawing.Size(121, 17);
@@ -135,8 +139,6 @@
          // checkBoxDisplay
          // 
          this.checkBoxDisplay.AutoSize = true;
-         this.checkBoxDisplay.Checked = true;
-         this.checkBoxDisplay.CheckState = System.Windows.Forms.CheckState.Checked;
          this.checkBoxDisplay.Location = new System.Drawing.Point(569, 23);
          this.checkBoxDisplay.Name = "checkBoxDisplay";
          this.checkBoxDisplay.Size = new System.Drawing.Size(109, 17);

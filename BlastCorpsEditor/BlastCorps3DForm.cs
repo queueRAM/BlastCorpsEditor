@@ -612,8 +612,13 @@ namespace BlastCorpsEditor
                      case 0x01: triColor = Color.Yellow; break; // low traction / dirt
                      case 0x02: triColor = Color.DarkGray; break; // high traction, high speed / roads, rails
                      case 0x03: triColor = Color.ForestGreen; break; // high traction, medium speed / grass
+                     case 0x04: triColor = Color.OrangeRed; break; // slow speed / rough terrain
                      case 0x05: triColor = Color.Red; break; // slow speed / ponds
+                     case 0x64: triColor = Color.Aquamarine; break; // water
+                     case 0x65: triColor = Color.DarkSeaGreen; break; // inaccessible tunnel
+                     case 0x66: triColor = Color.OliveDrab; break; // death water
                      case 0x67: triColor = Color.LightGray; break; // high traction, high speed / gravel lots (similar to roads?)
+                     default:   triColor = Color.Magenta; break; // should never get here, but just in case
                   }
                }
                GL.Color3(triColor);
