@@ -21,7 +21,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x + ", " + y + ", " + z + ")";
+         return String.Format("({0,4},{1,4},{2,4})", x, y, x);
       }
    }
 
@@ -66,7 +66,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ")";
+         return String.Format("({0,4},{1,4},{2,4}) ({3,4},{4,4},{5,4}) ({6,4},{7,4},{8,4}) {9:X04}", x1, y1, z1, x2, y2, z2, x3, y3, z3, type);
       }
    }
 
@@ -119,7 +119,7 @@ namespace BlastCorpsEditor
                indexStr += String.Format(", {0:X8}", textureIndexes[i]);
             }
          }
-         return String.Format("{0:X8} {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2} [{9}]",
+         return String.Format("{0:X8} {1:X02} {2:X02} {3:X02} {4:X02} {5:X02} {6:X02} {7:X02} {8:X02} [{9}]",
             w0, (textureIndexes.Length + 1), b5, b6, b7, b8, b9, bA, bB, indexStr);
       }
    }
@@ -149,7 +149,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ") " + b12 + ":" + b13;
+         return String.Format("({0,4},{1,4},{2,4}) ({3,4},{4,4},{5,4}) ({6,4},{7,4},{8,4}) {9:X02}:{10:X02}", x1, y1, z1, x2, y2, z2, x3, y3, z3, b12, b13);
       }
    }
 
@@ -164,7 +164,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + ", " + z1 + "), (" + x2 + ", " + z2 + ")";
+         return String.Format("({0,4},{1,4}) ({2,4},{3,4})", x1, z1, x2, z2);
       }
    }
 
@@ -230,7 +230,7 @@ namespace BlastCorpsEditor
          public override string ToString()
          {
             string byteStr = string.Format("{0:X02} {1:X02} {2:X02} {3:X02}", other[0], other[1], other[2], other[3]);
-            return string.Format("({0}, {1}, {2}), ({3}, {4}, {5}), ({6}, {7}, {8}), {9}", x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2], byteStr);
+            return string.Format("({0,4},{1,4},{2,4}) ({3,4},{4,4},{5,4}) ({6,4},{7,4},{8}) {9}", x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2], byteStr);
          }
       }
       public List<Node> nodes = new List<Node>();
@@ -401,7 +401,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + ", " + z1 + "), (" + x2 + ", " + z2 + "), " + todo;
+         return String.Format("({0,4},{1,4}) ({2,4},{3,4}) {4:X04}", x1, z1, x2, z2, todo);
       }
    }
 
@@ -419,7 +419,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + h6;
+         return base.ToString() + " " + h6.ToString("X04");
       }
    }
 
@@ -506,7 +506,12 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return base.ToString() + ", " + h6 + ", " + b8 + ", " + values.Length + ", " + values + ", " + lastTwo;
+         string valStr = "";
+         foreach (byte val in values)
+         {
+            valStr += " " + val.ToString("X02");
+         }
+         return base.ToString() + String.Format(" {0:X04} {1:X02} [{2}]: ({3}) ({4:X02} {5:X02})", h6, b8, values.Length, valStr, lastTwo[0], lastTwo[1]);
       }
    }
 
@@ -533,7 +538,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + "," + y1 + "," + z1 + ") (" + x2 + "," + y2 + "," + z2 + ") (" + x3 + "," + y3 + "," + z3 + ") " + type;
+         return String.Format("({0,4},{1,4},{2,4}) ({3,4},{4,4},{5,4}) ({6,4},{7,4},{8,4}) {9:X04}", x1, y1, z1, x2, y2, z2, x3, y3, z3, type);
       }
    }
 
@@ -598,7 +603,7 @@ namespace BlastCorpsEditor
 
       public override string ToString()
       {
-         return "(" + x1 + "," + y1 + "," + z1 + "), (" + x2 + "," + y2 + "," + z2 + "), (" + x3 + "," + y3 + "," + z3 + "), " + h12 + ", " + b14 + ", " + b15;
+         return String.Format("({0,4},{1,4},{2,4}) ({3,4},{4,4},{5,4}) ({6,4},{7,4},{8,4}) {9:X04} {10:X02} {11:X02}", x1, y1, z1, x2, y2, z2, x3, y3, z3, h12, b14, b15);
       }
    }
 
@@ -1653,78 +1658,199 @@ namespace BlastCorpsEditor
          offset = 0;
          foreach (UInt16 val in header.u16s)
          {
-            writer.WriteLine("{0:X2}: {1:X}", offset, val);
+            writer.WriteLine("{0:X02}: {1:X}", offset, val);
             offset += 2;
          }
-         writer.WriteLine("{0:X2}: {1}", offset, header.gravity);
+         writer.WriteLine("{0:X02}: {1} (gravity)", offset, header.gravity);
          offset += 4;
-         writer.WriteLine("{0:X2}: {1}", offset, header.u1C);
+         writer.WriteLine("{0:X02}: {1}", offset, header.u1C);
          offset += 4;
          foreach (UInt32 val in header.offsets)
          {
-            writer.WriteLine("{0:X2}: {1:X}", offset, val);
+            writer.WriteLine("{0:X02}: {1:X}", offset, val);
             offset += 4;
          }
          writer.WriteLine();
 
-
-         writer.WriteLine("Carrier: {0}", carrier);
-         writer.WriteLine();
-
-         writer.WriteLine("Ammo [{0}]:", ammoBoxes.Count);
+         writer.WriteLine("0x20 Ammo [{0}]:", ammoBoxes.Count);
          foreach (AmmoBox ammo in ammoBoxes)
          {
             writer.WriteLine(ammo);
          }
          writer.WriteLine();
 
-         writer.WriteLine("Communication Points [{0}]:", commPoints.Count);
+         writer.WriteLine("0x28 Communication Points [{0}]:", commPoints.Count);
          foreach (CommPoint comm in commPoints)
          {
             writer.WriteLine(comm);
          }
          writer.WriteLine();
 
-         writer.WriteLine("Animated Textures [{0}]:", animatedTextures.Count);
+         writer.WriteLine("0x2C Animated Textures [{0}]:", animatedTextures.Count);
          foreach (AnimatedTexture anim in animatedTextures)
          {
             writer.WriteLine(anim);
          }
          writer.WriteLine();
 
-         writer.WriteLine("RDUs [{0}]:", rdus.Count);
+         writer.WriteLine("0x34 RDUs [{0}]:", rdus.Count);
          foreach (RDU rdu in rdus)
          {
             writer.WriteLine(rdu);
          }
          writer.WriteLine();
 
-         writer.WriteLine("TNT Crates [{0}]:", tntCrates.Count);
+         writer.WriteLine("0x38 TNT Crates [{0}]:", tntCrates.Count);
          foreach (TNTCrate tnt in tntCrates)
          {
             writer.WriteLine(tnt);
          }
          writer.WriteLine();
 
-         writer.WriteLine("Square Blocks [{0}]:", squareBlocks.Count);
+         writer.WriteLine("0x3C Square Blocks [{0}]:", squareBlocks.Count);
          foreach (SquareBlock block in squareBlocks)
          {
             writer.WriteLine(block.ToStringFull());
          }
          writer.WriteLine();
 
-         writer.WriteLine("Vehicles [{0}]:", vehicles.Count);
+         writer.WriteLine("0x50 Vehicles [{0}]:", vehicles.Count);
          foreach (Vehicle vehicle in vehicles)
          {
             writer.WriteLine(vehicle);
          }
          writer.WriteLine();
 
-         writer.WriteLine("Buildings [{0}]:", buildings.Count);
+         writer.WriteLine("0x54 Carrier: {0}", carrier);
+         writer.WriteLine();
+
+         writer.WriteLine("0x5C Buildings [{0}]:", buildings.Count);
          foreach (Building building in buildings)
          {
             writer.WriteLine(building);
          }
+         writer.WriteLine();
+
+         writer.WriteLine("0x24 Collision Fixes [{0}]:", collision24.Count);
+         foreach (Collision24 col in collision24)
+         {
+            writer.WriteLine(col);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x30 Terrain [{0}]:", terrainGroups.Count);
+         foreach (TerrainGroup tg in terrainGroups)
+         {
+            writer.WriteLine("[{0}]:", tg.triangles.Count);
+            foreach (TerrainTri tri in tg.triangles)
+            {
+               writer.WriteLine(tri);
+            }
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x40 Bounding Boxes [{0}]:", bounds40.Count);
+         foreach (Bounds b in bounds40)
+         {
+            writer.WriteLine(b);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x44 Bounding Boxes [{0}]:", bounds44.Count);
+         foreach (Bounds b in bounds40)
+         {
+            writer.WriteLine(b);
+         }
+         writer.WriteLine();
+
+         writer.Write("0x48 TODO [{0}]:", copy48.Length);
+         for (int i = 0; i < copy48.Length; i++)
+         {
+            if (i % 16 == 0)
+            {
+               writer.WriteLine();
+               writer.Write(String.Format("{0:X02}: {1:X02}", i, copy48[i]));
+            }
+            else
+            {
+               writer.Write(String.Format(" {0:X02}", copy48[i]));
+            }
+         }
+         writer.WriteLine();
+         writer.WriteLine();
+
+         writer.WriteLine("0x4C Level Bounds:");
+         writer.WriteLine(bounds);
+         writer.WriteLine();
+
+         writer.WriteLine("0x58 TODO Objects58 [{0}]:", object58s.Count);
+         foreach (Object58 obj in object58s)
+         {
+            writer.WriteLine(obj);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x60 TODO Objects60 [{0}]:", object60s.Count);
+         foreach (Object60 obj in object60s)
+         {
+            writer.WriteLine(obj);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x64 Walls [{0}]:", wallGroups.Count);
+         foreach (WallGroup wg in wallGroups)
+         {
+            writer.WriteLine("[{0}]:", wg.walls.Count);
+            foreach (Wall wall in wg.walls)
+            {
+               writer.WriteLine(wall);
+            }
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x68 Train Platform [{0}]:", trainPlatforms.Count);
+         foreach (TrainPlatform platform in trainPlatforms)
+         {
+            writer.WriteLine(platform);
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x6C Collision [{0}]:", collision6C.Count);
+         foreach (CollisionGroup cg in collision6C)
+         {
+            writer.WriteLine("[{0}]:", cg.triangles.Count);
+            foreach (CollisionTri tri in cg.triangles)
+            {
+               writer.WriteLine(tri);
+            }
+         }
+         writer.WriteLine();
+
+         writer.WriteLine("0x70 Player Collision [{0}]:", collision70.Count);
+         foreach (CollisionGroup cg in collision70)
+         {
+            writer.WriteLine("[{0}]:", cg.triangles.Count);
+            foreach (CollisionTri tri in cg.triangles)
+            {
+               writer.WriteLine(tri);
+            }
+         }
+         writer.WriteLine();
+
+         writer.Write("0x74 TODO [{0}]:", copy74.Length);
+         for (int i = 0; i < copy74.Length; i++)
+         {
+            if (i % 16 == 0)
+            {
+               writer.WriteLine();
+               writer.Write(String.Format("{0:X3}: {1:X02}", i, copy74[i]));
+            }
+            else
+            {
+               writer.Write(String.Format(" {0:X02}", copy74[i]));
+            }
+         }
+         writer.WriteLine();
          writer.WriteLine();
       }
 
