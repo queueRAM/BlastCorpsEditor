@@ -15,14 +15,14 @@ namespace BlastCorpsEditor
    public partial class ExportDialog : Form
    {
       public string FileName { get; internal set; }
-      public float ScaleFactor { get; internal set; }
+      public float ScaleFactor { get; set; }
       public ExportType DataType { get; internal set; }
 
       public ExportDialog()
       {
          InitializeComponent();
-         ScaleFactor = (float)numericScale.Value;
          comboBoxExport.SelectedIndex = 0;
+         DataBindings.Add("ScaleFactor", numericScale, "Value");
       }
 
       private void buttonChoose_Click(object sender, EventArgs e)
